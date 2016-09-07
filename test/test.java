@@ -1,5 +1,7 @@
 package test;
 
+import classes.ConnectSQLS;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -19,5 +21,5 @@ public class test {
         float f = ((float)((int)(t*100))) / 100;
         System.out.println(f);
         System.out.println(Math.floor(t));
-    }
+    }  
 }
