@@ -37,7 +37,9 @@ public class Book {
         this.quantity = quantity;
     }
 
-    public Book(String isbn, Publisher publisher, Author author, String title, String subtitle, Date date, String picture, String summary, String idiom, float price, Tax tax, int quantity, String pages, String print, int weight) {
+    public Book(String isbn, Publisher publisher, String title,
+            String subtitle, Date date, String picture, String summary, String idiom,
+            float price, Tax tax, int quantity, String pages, String print, int weight) {
         this.isbn = isbn;
         this.publisher = publisher;
         this.title = title;
@@ -71,7 +73,6 @@ public class Book {
         this.publisher = publisher;
     }
 
-
     public String getTitle() {
         return title;
     }
@@ -92,7 +93,7 @@ public class Book {
         return date;
     }
 
-    public void setDate(Date date) {     
+    public void setDate(Date date) {
         this.date = date;
     }
 
@@ -172,7 +173,6 @@ public class Book {
         this.weight = weight;
     }
 
-
     //m
     public float calculateInclTax() {
         float tPrice;
@@ -180,5 +180,9 @@ public class Book {
         //troncate to xx,xx
         tPrice = ((float) ((int) (tPrice * 100))) / 100;
         return tPrice;
+    }
+
+    public String toString() {
+        return title;
     }
 }

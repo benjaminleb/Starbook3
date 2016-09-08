@@ -14,7 +14,13 @@ public class ConnectSQLS {
 
     public ConnectSQLS() {
     }
+
     
+    public Connection getConnexion() {
+        return connexion;
+    }
+    
+ 
     public void connectDatabase (){
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
