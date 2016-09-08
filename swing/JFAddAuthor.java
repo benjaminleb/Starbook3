@@ -1,8 +1,12 @@
 package swing;
 
+import classes.Author;
 import classes.ConnectSQLS;
+import classes.Helpers;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -14,6 +18,8 @@ public class JFAddAuthor extends javax.swing.JFrame {
     public JFAddAuthor() {
         initComponents();
     }
+    
+   
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -35,6 +41,7 @@ public class JFAddAuthor extends javax.swing.JFrame {
         jMenu2 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
         setSize(new java.awt.Dimension(600, 550));
 
         Nom.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
@@ -61,7 +68,7 @@ public class JFAddAuthor extends javax.swing.JFrame {
         jLabel1.setText("Auteur");
 
         jLabel2.setFont(new java.awt.Font("Calibri", 2, 12)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(204, 204, 204));
+        jLabel2.setForeground(new java.awt.Color(102, 102, 102));
         jLabel2.setText("* Champs obligatoires");
 
         jMenu1.setText("File");
@@ -140,35 +147,14 @@ public class JFAddAuthor extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void AjouterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AjouterActionPerformed
-
-        ConnectSQLS co = new ConnectSQLS();
-            
-        co.connectDatabase();
-            
+        
         try {
-            
-            
-            String query = "INSERT INTO starbook VALUES ("
-                    + "?,"
-                    + "?,"
-                    + "?,"
-                    + "?)";
-            PreparedStatement pstmt = co.getConnexion().prepareStatement(query);
-            pstmt.setString(1, NOM.getText());
-            pstmt.setString(2, PRENOM.getText());
-            pstmt.setString(3, DATENAISSANCE.getText());
-            pstmt.setString(4, DATEDECES.getText());
-            
-            int result = pstmt.executeUpdate();
-            System.out.println("result:" + result);
-            pstmt.close();
-            
-            
-        } catch (SQLException ex) {
+           Author at = new Author(0,NOM.getText(), PRENOM.getText(), Helpers.convertStringToDate(DATENAISSANCE.getText()),Helpers.convertStringToDate(DATEDECES.getText()));
+           at.insertAuthor();
+        } catch (ParseException ex) {
             Logger.getLogger(JFAddAuthor.class.getName()).log(Level.SEVERE, null, ex);
         }
-
-        co.closeConnectionDatabase();
+             
     }//GEN-LAST:event_AjouterActionPerformed
 
     /**
