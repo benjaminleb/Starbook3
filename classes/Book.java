@@ -37,7 +37,7 @@ public class Book {
         this.quantity = quantity;
     }
 
-    public Book(String isbn, Publisher publisher, Author author, String title,
+    public Book(String isbn, Publisher publisher, String title,
             String subtitle, Date date, String picture, String summary, String idiom,
             float price, Tax tax, int quantity, String pages, String print, int weight) {
         this.isbn = isbn;

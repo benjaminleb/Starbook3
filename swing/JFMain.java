@@ -61,7 +61,7 @@ public class JFMain extends javax.swing.JFrame {
             ResultSet rs = stmt.executeQuery(query);
             while (rs.next()) {
                 v.add(new Book(rs.getString("book_isbn"),
-                        new Publisher(rs.getString("publisher_isbn"), rs.getString("publisher_name"), null),
+                        new Publisher(rs.getString("publisher_isbn"), rs.getString("publisher_name")),
                         rs.getString("book_title"),
                         rs.getString("book_subtitle"),
                         rs.getDate("book_date"),
@@ -73,7 +73,7 @@ public class JFMain extends javax.swing.JFrame {
                         rs.getInt("book_quantity"),
                         rs.getString("book_pages"),
                         rs.getString("book_print"),
-                        rs.getInt("book_weight"), null));
+                        rs.getInt("book_weight")));
             }
 
         } catch (SQLException ex) {
