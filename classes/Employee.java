@@ -11,29 +11,26 @@ public class Employee {
     private String pwd;
     private String mail;
     private String phone;
-    private Status status;
 
         // constructeur par défaut
     public Employee() {
     }
 
         // constructeur avec les champs obligatoires
-    public Employee(String surname, String firstname, String pwd, String mail, Status status) {
+    public Employee(String surname, String firstname, String pwd, String mail) {
         this.surname = surname;
         this.firstname = firstname;
         this.pwd = pwd;
         this.mail = mail;
-        this.status = status;
     }
 
         // surcharge du constructeur avec l'ajout des champs non obligatoires
-    public Employee(String surname, String firstname, String pwd, String mail, String phone, Status status) {
+    public Employee(String surname, String firstname, String pwd, String mail, String phone) {
         this.surname = surname;
         this.firstname = firstname;
         this.pwd = pwd;
         this.mail = mail;
         this.phone = phone;
-        this.status = status;
     }
 
     //g&s
@@ -77,14 +74,6 @@ public class Employee {
         this.phone = phone;
     }
 
-    public Status getStatus() {
-        return status;
-    }
-
-    public void setStatus(Status status) {
-        if ((status.getNumber() > 500) && (status.getNumber() < 600)) {
-            this.status = status;
-        }
-    }
+    
 
 }

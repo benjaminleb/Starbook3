@@ -13,27 +13,24 @@ public class Order {
     private Date date;
     private String ipAddress;
     private String comments;
-    private Status status;
 
     // constructeur par défaut
     public Order() {
     }
 
     // constructeur avec les champs obligatoires
-    public Order(Customer customer, Date date, String ipAddress, Status status) {
+    public Order(Customer customer, Date date, String ipAddress) {
         this.customer = customer;
         this.date = date;
         this.ipAddress = ipAddress;
-        this.status = status;
     }
 
     // surcharge du constructeur avec l'ajout des champs non obligatoires
-    public Order(Customer customer, Date date, String ipAddress, String comments, Status status) {
+    public Order(Customer customer, Date date, String ipAddress, String comments) {
         this.customer = customer;
         this.date = date;
         this.ipAddress = ipAddress;
         this.comments = comments;
-        this.status = status;
     }
 
     //g&s
@@ -69,14 +66,6 @@ public class Order {
         this.comments = comments;
     }
 
-    public Status getStatus() {
-        return status;
-    }
-
-    public void setStatus(Status status) {
-        if ((status.getNumber() > 100) && (status.getNumber() < 200)) {
-            this.status = status;
-        }
-    }
+    
 
 }
