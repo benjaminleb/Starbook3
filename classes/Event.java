@@ -6,7 +6,7 @@ import java.util.*;
 /*
 ben
  */
-public class Event { //à garder ?
+public class Event { 
     //p
     private String name;
     private Date start;

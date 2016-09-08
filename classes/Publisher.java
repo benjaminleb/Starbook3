@@ -9,16 +9,14 @@ public class Publisher {
 
     private String code;
     private String name;
-    private Status status;
 
     //c
     public Publisher() {
     }
 
-    public Publisher(String code, String name, Status status) {
+    public Publisher(String code, String name) {
         this.code = code;
         this.name = name;
-        this.status = status;
     }
 
     //g&s
@@ -38,14 +36,6 @@ public class Publisher {
         this.name = name;
     }
 
-    public Status getStatus() {
-        return status;
-    }
-
-    public void setStatus(Status status) {
-        if ((status.getNumber() > 400) && (status.getNumber() < 500)) {
-            this.status = status;
-        }
-    }
+ 
 
 }
