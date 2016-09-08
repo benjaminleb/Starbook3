@@ -1,27 +1,26 @@
-
 package classes;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.*; 
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import swing.JFAddAuthor;
 
 /*
-ben
+ ben
  */
-
 public class Author {
+
     //p
     private int id;
     private String surname;
     private String firstname;
     private Date dob;
     private Date dod;
-    
+
     //c
-    public Author() {    
+    public Author() {
     }
 
     public Author(int id, String surname) {
@@ -35,10 +34,8 @@ public class Author {
         this.dob = dob;
         this.dod = dod;
     }
-    
 
     //g&s
-
     public int getId() {
         return id;
     }
@@ -46,7 +43,7 @@ public class Author {
     public void setId(int id) {
         this.id = id;
     }
-    
+
     public String getSurname() {
         return surname;
     }
@@ -78,36 +75,35 @@ public class Author {
     public void setDod(Date dod) {
         this.dod = dod;
     }
-    
+
     //m
-    
-    public void updateAuthor(String surname, String firstname, String dod, String dob) {
+    public void updateAuthor(String surname, String firstname, String dod, String dob, int id) {
+        ConnectSQLS co = new ConnectSQLS();
+        co.connectDatabase();
         try {
-                String query = "INSERT INTO contact VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
-                PreparedStatement stmt = conn.prepareStatement(query);
-                stmt.setString(1, surname);
-                stmt.setString(2, firstname);
-                stmt.setString(3, dod);
-                stmt.setString(4, dob);
-                stmt.close();
-            } catch (SQLException ex) {
-                System.err.println("Oops : SQL Connexion : " + ex.getMessage());
-                return;
-            }
-        
-        
-        
+
+            String query = "UPDATE author SET VALUES(?, ?, ?, ?) WHERE ID = " + id;
+            PreparedStatement stmt = co.getConnexion().prepareStatement(query);
+            stmt.setString(1, surname);
+            stmt.setString(2, firstname);
+            stmt.setString(3, dod);
+            stmt.setString(4, dob);
+            stmt.close();
+        } catch (SQLException ex) {
+            System.err.println("Oops : SQL Connexion : " + ex.getMessage());
+            return;
+
+        }
     }
 
     public void insertAuthor() {
-    
-    ConnectSQLS co = new ConnectSQLS();
-            
+
+        ConnectSQLS co = new ConnectSQLS();
+
         co.connectDatabase();
-            
+
         try {
-            
-            
+
             String query = "INSERT INTO starbook VALUES ("
                     + "?,"
                     + "?,"
@@ -118,19 +114,16 @@ public class Author {
             pstmt.setString(2, firstname);
             pstmt.setDate(3, (java.sql.Date) dob);
             pstmt.setDate(4, (java.sql.Date) dod);
-            
+
             int result = pstmt.executeUpdate();
             System.out.println("result:" + result);
             pstmt.close();
-            
-            
+
         } catch (SQLException ex) {
             Logger.getLogger(JFAddAuthor.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         co.closeConnectionDatabase();
-    }                                       
+    }
 
-    
-    
 }
