@@ -9,6 +9,7 @@ import java.sql.*;
 import java.util.*;
 import javax.swing.*;
 import classes.*;
+import java.awt.Color;
 
 /*
  ben
@@ -33,11 +34,12 @@ public class JFCustomer extends javax.swing.JFrame {
         String query;
         jCBCustomerSearch.removeAllItems();
         if (jRBMail.isSelected()) {
+            //customer_email -> customer_mail !
             query = "SELECT * FROM sb_Customer WHERE customer_email LIKE '" + jTFMailSearch.getText() + "%'";
         } else {
             query = "SELECT * FROM sb_Customer "
-                    + "WHERE customer_surname LIKE '%" + jTFNameSearch1.getText() + "%'"
-                    + "AND customer_firstname LIKE '%" + jTFNameSearch2.getText() + "%'";
+                    + "WHERE customer_firstname LIKE '%" + jTFNameSearch1.getText() + "%'"
+                    + "AND customer_surname LIKE '%" + jTFNameSearch2.getText() + "%'";
         }
 
         try {
@@ -76,15 +78,14 @@ public class JFCustomer extends javax.swing.JFrame {
 
         jDialogSearch = new javax.swing.JDialog();
         jLabel2 = new javax.swing.JLabel();
-        jRBName = new javax.swing.JRadioButton();
-        jRBMail = new javax.swing.JRadioButton();
-        jLabel3 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jCBCustomerSearch = new javax.swing.JComboBox();
         jButton2 = new javax.swing.JButton();
-        jTFMailSearch = new javax.swing.JTextField();
-        jTFNameSearch1 = new javax.swing.JTextField();
         jTFNameSearch2 = new javax.swing.JTextField();
+        jTFNameSearch1 = new javax.swing.JTextField();
+        jTFMailSearch = new javax.swing.JTextField();
+        jRBMail = new javax.swing.JRadioButton();
+        jRBName = new javax.swing.JRadioButton();
         jDialogStatus = new javax.swing.JDialog();
         buttonGroupSearch = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
@@ -95,6 +96,14 @@ public class JFCustomer extends javax.swing.JFrame {
         jLLand = new javax.swing.JLabel();
         jLBirth = new javax.swing.JLabel();
         jLCell = new javax.swing.JLabel();
+        jLID = new javax.swing.JLabel();
+        jLNameV = new javax.swing.JLabel();
+        jLMailV = new javax.swing.JLabel();
+        jLBirthV = new javax.swing.JLabel();
+        jLCellV = new javax.swing.JLabel();
+        jLLandV = new javax.swing.JLabel();
+        jLIDV = new javax.swing.JLabel();
+        jLStatusV = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
@@ -110,16 +119,74 @@ public class JFCustomer extends javax.swing.JFrame {
             }
         });
 
-        jLabel2.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Calibri", 0, 13)); // NOI18N
         jLabel2.setText("Rechercher un client par");
 
-        buttonGroupSearch.add(jRBName);
-        jRBName.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
-        jRBName.setSelected(true);
-        jRBName.setText("Nom");
-        jRBName.addActionListener(new java.awt.event.ActionListener() {
+        jButton1.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
+        jButton1.setText("OK");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jRBNameActionPerformed(evt);
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jCBCustomerSearch.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
+        jCBCustomerSearch.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Sélectionner un client" }));
+        jCBCustomerSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCBCustomerSearchActionPerformed(evt);
+            }
+        });
+
+        jButton2.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
+        jButton2.setText("Sélectionner");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        jTFNameSearch2.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
+        jTFNameSearch2.setText("Nom");
+        jTFNameSearch2.setToolTipText("Nom");
+        jTFNameSearch2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTFNameSearch2MouseClicked(evt);
+            }
+        });
+        jTFNameSearch2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTFNameSearch2ActionPerformed(evt);
+            }
+        });
+
+        jTFNameSearch1.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
+        jTFNameSearch1.setText("Prénom");
+        jTFNameSearch1.setToolTipText("Prénom");
+        jTFNameSearch1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTFNameSearch1MouseClicked(evt);
+            }
+        });
+        jTFNameSearch1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTFNameSearch1ActionPerformed(evt);
+            }
+        });
+
+        jTFMailSearch.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
+        jTFMailSearch.setText("Mail");
+        jTFMailSearch.setToolTipText("Mail");
+        jTFMailSearch.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        jTFMailSearch.setEnabled(false);
+        jTFMailSearch.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTFMailSearchMouseClicked(evt);
+            }
+        });
+        jTFMailSearch.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTFMailSearchActionPerformed(evt);
             }
         });
 
@@ -132,49 +199,13 @@ public class JFCustomer extends javax.swing.JFrame {
             }
         });
 
-        jLabel3.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
-        jLabel3.setText("Sélectionner un client");
-
-        jButton1.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
-        jButton1.setText("OK");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        buttonGroupSearch.add(jRBName);
+        jRBName.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
+        jRBName.setSelected(true);
+        jRBName.setText("Nom");
+        jRBName.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-
-        jCBCustomerSearch.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
-        jCBCustomerSearch.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jCBCustomerSearch.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCBCustomerSearchActionPerformed(evt);
-            }
-        });
-
-        jButton2.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
-        jButton2.setText("Sélectionner");
-
-        jTFMailSearch.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
-        jTFMailSearch.setText("Mail");
-        jTFMailSearch.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
-        jTFMailSearch.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTFMailSearchActionPerformed(evt);
-            }
-        });
-
-        jTFNameSearch1.setText("Prénom");
-        jTFNameSearch1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTFNameSearch1ActionPerformed(evt);
-            }
-        });
-
-        jTFNameSearch2.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
-        jTFNameSearch2.setText("Nom");
-        jTFNameSearch2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTFNameSearch2ActionPerformed(evt);
+                jRBNameActionPerformed(evt);
             }
         });
 
@@ -182,61 +213,52 @@ public class JFCustomer extends javax.swing.JFrame {
         jDialogSearch.getContentPane().setLayout(jDialogSearchLayout);
         jDialogSearchLayout.setHorizontalGroup(
             jDialogSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jDialogSearchLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(185, 185, 185))
             .addGroup(jDialogSearchLayout.createSequentialGroup()
+                .addGap(25, 25, 25)
                 .addGroup(jDialogSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jCBCustomerSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jDialogSearchLayout.createSequentialGroup()
-                        .addGap(49, 49, 49)
-                        .addComponent(jRBName, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(21, 21, 21)
-                        .addComponent(jRBMail, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(180, 180, 180)
+                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jDialogSearchLayout.createSequentialGroup()
-                        .addGap(50, 50, 50)
+                        .addGroup(jDialogSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jRBName, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jRBMail, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
                         .addGroup(jDialogSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTFNameSearch1, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTFMailSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(30, 30, 30)
-                        .addComponent(jTFNameSearch2, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jDialogSearchLayout.createSequentialGroup()
-                        .addGap(171, 171, 171)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jDialogSearchLayout.createSequentialGroup()
-                        .addGap(25, 25, 25)
-                        .addGroup(jDialogSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jDialogSearchLayout.createSequentialGroup()
-                        .addGap(48, 48, 48)
-                        .addComponent(jCBCustomerSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jDialogSearchLayout.createSequentialGroup()
-                        .addGap(155, 155, 155)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(90, Short.MAX_VALUE))
+                            .addGroup(jDialogSearchLayout.createSequentialGroup()
+                                .addComponent(jTFNameSearch1, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jTFNameSearch2, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jTFMailSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(38, Short.MAX_VALUE))
         );
         jDialogSearchLayout.setVerticalGroup(
             jDialogSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jDialogSearchLayout.createSequentialGroup()
                 .addGap(20, 20, 20)
                 .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(6, 6, 6)
-                .addGroup(jDialogSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jDialogSearchLayout.createSequentialGroup()
-                        .addGap(1, 1, 1)
-                        .addComponent(jRBName, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jRBMail, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(16, 16, 16)
-                .addGroup(jDialogSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jTFNameSearch2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addComponent(jTFMailSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                    .addComponent(jTFNameSearch1))
                 .addGap(18, 18, 18)
+                .addGroup(jDialogSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jRBName, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTFNameSearch1)
+                    .addComponent(jTFNameSearch2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(jDialogSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jRBMail, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTFMailSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(27, 27, 27)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
                 .addComponent(jCBCustomerSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(33, 33, 33)
+                .addGap(27, 27, 27)
                 .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(44, Short.MAX_VALUE))
+                .addGap(57, 57, 57))
         );
 
         javax.swing.GroupLayout jDialogStatusLayout = new javax.swing.GroupLayout(jDialogStatus.getContentPane());
@@ -260,22 +282,38 @@ public class JFCustomer extends javax.swing.JFrame {
         });
 
         jLName.setFont(new java.awt.Font("Calibri", 0, 13)); // NOI18N
-        jLName.setText("Prénom NOM");
+        jLName.setText("Nom :");
 
         jLMail.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
-        jLMail.setText("mail@mail.net");
+        jLMail.setText("Mail :");
 
         jLStatus.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
-        jLStatus.setText("Statut");
+        jLStatus.setText("Statut :");
 
         jLLand.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
-        jLLand.setText("Tel02");
+        jLLand.setText("Tel. Fixe :");
 
         jLBirth.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
-        jLBirth.setText("01/02/1903");
+        jLBirth.setText("Date de naissance :");
 
         jLCell.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
-        jLCell.setText("Tel06");
+        jLCell.setText("Tel. Mobile :");
+
+        jLID.setText("Ref :");
+
+        jLNameV.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
+
+        jLMailV.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
+
+        jLBirthV.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
+
+        jLCellV.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
+
+        jLLandV.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
+
+        jLIDV.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
+
+        jLStatusV.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -284,32 +322,67 @@ public class JFCustomer extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jButtonSearch)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jLMail)
-                        .addComponent(jLName)
-                        .addComponent(jLCell)
-                        .addComponent(jLLand)
-                        .addComponent(jLBirth)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 127, Short.MAX_VALUE)
-                .addComponent(jLStatus)
-                .addGap(158, 158, 158))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addComponent(jLMail)
+                            .addGap(18, 18, 18)
+                            .addComponent(jLMailV, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addComponent(jLName)
+                            .addGap(18, 18, 18)
+                            .addComponent(jLNameV, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addComponent(jLBirth)
+                            .addGap(18, 18, 18)
+                            .addComponent(jLBirthV, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(jPanel1Layout.createSequentialGroup()
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLCell)
+                                .addComponent(jLLand))
+                            .addGap(18, 18, 18)
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLCellV, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLLandV, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLStatus)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLStatusV, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLID)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLIDV, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(28, 28, 28))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jButtonSearch)
                 .addGap(22, 22, 22)
-                .addComponent(jLName)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLName)
+                    .addComponent(jLID)
+                    .addComponent(jLNameV)
+                    .addComponent(jLIDV))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLMail)
-                    .addComponent(jLStatus))
+                    .addComponent(jLStatus)
+                    .addComponent(jLMailV)
+                    .addComponent(jLStatusV))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLBirth)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLBirth)
+                    .addComponent(jLBirthV))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLCell)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLCell)
+                    .addComponent(jLCellV))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLLand)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLLand)
+                    .addComponent(jLLandV))
                 .addGap(58, 58, 58))
         );
 
@@ -364,47 +437,79 @@ public class JFCustomer extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        setBounds(0, 0, 440, 582);
+        setBounds(0, 0, 555, 582);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jRBMailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRBMailActionPerformed
-        // TODO add your handling code here:
-        jTFMailSearch.setVisible(true);
-        jTFNameSearch1.setVisible(false);
-        jTFNameSearch2.setVisible(false);
-    }//GEN-LAST:event_jRBMailActionPerformed
-
-    private void jTFNameSearch2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTFNameSearch2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTFNameSearch2ActionPerformed
-
-    private void jTFNameSearch1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTFNameSearch1ActionPerformed
-        // TODO add your handling code here:
-
-    }//GEN-LAST:event_jTFNameSearch1ActionPerformed
 
     private void jButtonSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSearchActionPerformed
         // TODO add your handling code here:
         jDialogSearch.setVisible(true);
     }//GEN-LAST:event_jButtonSearchActionPerformed
 
+    private void jDialogSearchWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_jDialogSearchWindowOpened
+        // TODO add your handling code here:
+        //        jTFMailSearch.setVisible(false);
+        //        jTFNameSearch1.setVisible(true);
+        //        jTFNameSearch2.setVisible(true);
+    }//GEN-LAST:event_jDialogSearchWindowOpened
+
     private void jRBNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRBNameActionPerformed
         // TODO add your handling code here:
-        jTFMailSearch.setVisible(false);
-        jTFNameSearch1.setVisible(true);
-        jTFNameSearch2.setVisible(true);
+        jTFMailSearch.setEnabled(false);
+        jTFNameSearch1.setEnabled(true);
+        jTFNameSearch2.setEnabled(true);
     }//GEN-LAST:event_jRBNameActionPerformed
+
+    private void jRBMailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRBMailActionPerformed
+        // TODO add your handling code here:
+        jTFMailSearch.setEnabled(true);
+        jTFNameSearch1.setEnabled(false);
+        jTFNameSearch2.setEnabled(false);
+    }//GEN-LAST:event_jRBMailActionPerformed
 
     private void jTFMailSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTFMailSearchActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTFMailSearchActionPerformed
 
-    private void jDialogSearchWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_jDialogSearchWindowOpened
+    private void jTFMailSearchMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTFMailSearchMouseClicked
         // TODO add your handling code here:
-        jTFMailSearch.setVisible(false);
-        jTFNameSearch1.setVisible(true);
-        jTFNameSearch2.setVisible(true);
-    }//GEN-LAST:event_jDialogSearchWindowOpened
+        jTFMailSearch.setText("");
+        jTFMailSearch.setForeground(Color.black);
+    }//GEN-LAST:event_jTFMailSearchMouseClicked
+
+    private void jTFNameSearch1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTFNameSearch1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTFNameSearch1ActionPerformed
+
+    private void jTFNameSearch1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTFNameSearch1MouseClicked
+        // TODO add your handling code here:
+        jTFNameSearch1.setText("");
+        jTFNameSearch1.setForeground(Color.black);
+    }//GEN-LAST:event_jTFNameSearch1MouseClicked
+
+    private void jTFNameSearch2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTFNameSearch2ActionPerformed
+        // TODO add your handling code here:
+
+    }//GEN-LAST:event_jTFNameSearch2ActionPerformed
+
+    private void jTFNameSearch2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTFNameSearch2MouseClicked
+        // TODO add your handling code here:
+        jTFNameSearch2.setText("");
+        jTFNameSearch2.setForeground(Color.black);
+    }//GEN-LAST:event_jTFNameSearch2MouseClicked
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        Customer selectC = (Customer) jCBCustomerSearch.getSelectedItem();
+        jDialogSearch.dispose();
+
+        jLNameV.setText(selectC.getFirstname()+" "+selectC.getSurname().toUpperCase());
+        jLMailV.setText(selectC.getMail());
+        jLBirthV.setText("");
+        jLCellV.setText(selectC.getCell());
+        jLLandV.setText(selectC.getLandline());
+        jLIDV.setText(Integer.toString(selectC.getId()));
+        jLStatusV.setText("");
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jCBCustomerSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCBCustomerSearchActionPerformed
         // TODO add your handling code here:
@@ -459,14 +564,21 @@ public class JFCustomer extends javax.swing.JFrame {
     private javax.swing.JDialog jDialogSearch;
     private javax.swing.JDialog jDialogStatus;
     private javax.swing.JLabel jLBirth;
+    private javax.swing.JLabel jLBirthV;
     private javax.swing.JLabel jLCell;
+    private javax.swing.JLabel jLCellV;
+    private javax.swing.JLabel jLID;
+    private javax.swing.JLabel jLIDV;
     private javax.swing.JLabel jLLand;
+    private javax.swing.JLabel jLLandV;
     private javax.swing.JLabel jLMail;
+    private javax.swing.JLabel jLMailV;
     private javax.swing.JLabel jLName;
+    private javax.swing.JLabel jLNameV;
     private javax.swing.JLabel jLStatus;
+    private javax.swing.JLabel jLStatusV;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
