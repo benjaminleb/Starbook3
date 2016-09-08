@@ -82,6 +82,11 @@ public class JF05ModifyAuthor extends javax.swing.JFrame {
 
         jButton1.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
         jButton1.setText("Sauvegarder");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jMenu1.setText("File");
         jMenuBar1.add(jMenu1);
@@ -151,6 +156,17 @@ public class JF05ModifyAuthor extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // Récupérer l'objet auteur de Sebastien pour le modifier
+//        Author aut = 
+//        
+//        aut.setSurname(jTextField1.getText());
+//        aut.setFirstname(jTextField2.getText());
+//        aut.setDob(jTextField3.getText());
+//        aut.setDod(jTextField4.getText());
+      
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
