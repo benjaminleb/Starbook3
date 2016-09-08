@@ -153,7 +153,7 @@ public class JFAddAuthor extends javax.swing.JFrame {
                     + "?,"
                     + "?,"
                     + "?)";
-            PreparedStatement pstmt = co.prepareStatement(query);
+            PreparedStatement pstmt = co.getConnexion().prepareStatement(query);
             pstmt.setString(1, NOM.getText());
             pstmt.setString(2, PRENOM.getText());
             pstmt.setString(3, DATENAISSANCE.getText());

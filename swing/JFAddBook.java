@@ -294,7 +294,7 @@ public class JFAddBook extends javax.swing.JFrame {
                     + "?,"
                     + "?,"
                     + "?)";
-            PreparedStatement pstmt = co.prepareStatement(query);
+            PreparedStatement pstmt = co.getConnexion().prepareStatement(query);
             pstmt.setString(1, jTextField1.getText());
             pstmt.setString(2, jTextField2.getText());
             pstmt.setString(3, jTextField3.getText());
