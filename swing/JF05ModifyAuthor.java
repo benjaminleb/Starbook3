@@ -5,6 +5,9 @@
  */
 package swing;
 
+import classes.Author;
+import classes.Helpers;
+
 /**
  *
  * @author cdi315
@@ -18,6 +21,17 @@ public class JF05ModifyAuthor extends javax.swing.JFrame {
         initComponents();
     }
 
+    
+    public void fillAuthor(Author aut) {
+        jTextField1.setText(aut.getSurname());
+        jTextField2.setText(aut.getFirstname());
+        String dobstr = Helpers.convertStringToDate(aut.getDob());
+        jTextField3.setText(dobstr);
+        String dodstr = Helpers.convertStringToDate(aut.getDod());
+        jTextField4.setText(dodstr);
+    }
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
