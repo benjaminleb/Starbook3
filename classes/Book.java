@@ -22,13 +22,12 @@ public class Book {
     private String pages;
     private String print;
     private int weight;
-    private Status status;
 
     //c
     public Book() {
     }
 
-    public Book(String isbn, Publisher publisher, String title, Date date, float price, Tax tax, int quantity, Status status) {
+    public Book(String isbn, Publisher publisher, String title, Date date, float price, Tax tax, int quantity) {
         this.isbn = isbn;
         this.publisher = publisher;
         this.title = title;
@@ -36,10 +35,9 @@ public class Book {
         this.price = price;
         this.tax = tax;
         this.quantity = quantity;
-        this.status = status;
     }
 
-    public Book(String isbn, Publisher publisher, Author author, String title, String subtitle, Date date, String picture, String summary, String idiom, float price, Tax tax, int quantity, String pages, String print, int weight, Status status) {
+    public Book(String isbn, Publisher publisher, Author author, String title, String subtitle, Date date, String picture, String summary, String idiom, float price, Tax tax, int quantity, String pages, String print, int weight) {
         this.isbn = isbn;
         this.publisher = publisher;
         this.title = title;
@@ -54,7 +52,6 @@ public class Book {
         this.pages = pages;
         this.print = print;
         this.weight = weight;
-        this.status = status;
     }
     //g&s
 
@@ -175,15 +172,6 @@ public class Book {
         this.weight = weight;
     }
 
-    public Status getStatus() {
-        return status;
-    }
-
-    public void setStatus(Status status) {
-        if (status.getNumber() > 300 && status.getNumber() < 400) {
-            this.status = status;
-        }
-    }
 
     //m
     public float calculateInclTax() {

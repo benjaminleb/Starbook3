@@ -12,20 +12,18 @@ public class OrderLine {
     private float unitPrice;
     private float taxRate;
     private float discountRate;
-    private Status status;
     
     //c
     public OrderLine() {
     }
 
-    public OrderLine(Order order, Book book, int itemQty, float unitPrice, float taxRate, float discountRate, Status status) {
+    public OrderLine(Order order, Book book, int itemQty, float unitPrice, float taxRate, float discountRate) {
         this.order = order;
         this.book = book;
         this.itemQty = itemQty;
         this.unitPrice = unitPrice;
         this.taxRate = taxRate;
         this.discountRate = discountRate;
-        this.status = status;
     }
     //g&s
 
@@ -77,13 +75,6 @@ public class OrderLine {
         this.discountRate = discountRate;
     }
 
-    public Status getStatus() {
-        return status;
-    }
-
-    public void setStatus(Status status) {
-        this.status = status;
-    }
     
     //m
     public float calculateExclTax(){

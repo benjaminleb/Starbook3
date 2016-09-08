@@ -16,26 +16,24 @@ public class Customer {
     private String cell;
     private String landline;
     private Date dob;
-    private Status status;
 
         // constructeur par défaut
     public Customer() {
     }
 
         // constructeur  avec les champs obligatoires
-    public Customer(String surname, String firstname, String pwd, String mail, String cell, Date dob, Status status) {
+    public Customer(String surname, String firstname, String pwd, String mail, String cell, Date dob) {
         this.surname = surname;
         this.firstname = firstname;
         this.pwd = pwd;
         this.mail = mail;
         this.cell = cell;
         this.dob = dob;
-        this.status = status;
     }
 
         // surcharge du constructeur avec l'ajout des champs non obligatoires
         // ajout de landline
-    public Customer(String surname, String firstname, String pwd, String mail, String cell, String landline, Date dob, Status status) {
+    public Customer(String surname, String firstname, String pwd, String mail, String cell, String landline, Date dob) {
         this.surname = surname;
         this.firstname = firstname;
         this.pwd = pwd;
@@ -43,7 +41,6 @@ public class Customer {
         this.cell = cell;
         this.landline = landline;
         this.dob = dob;
-        this.status = status;
     }
 
         //g&s
@@ -104,14 +101,5 @@ public class Customer {
         this.dob = dob;
     }
 
-    public Status getStatus() {
-        return status;
-    }
-
-    public void setStatus(Status status) {
-        if ((status.getNumber() > 600) && (status.getNumber() < 700)) {
-            this.status = status;
-        }
-    }
 
 }
