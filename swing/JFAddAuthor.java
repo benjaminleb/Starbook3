@@ -37,14 +37,19 @@ public class JFAddAuthor extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setSize(new java.awt.Dimension(600, 550));
 
+        Nom.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
         Nom.setText("Nom:*");
 
+        Prénom.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
         Prénom.setText("Prénom:*");
 
+        DateNaissance.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
         DateNaissance.setText("Date de Naissance:");
 
+        DateDécès.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
         DateDécès.setText("Date de Décès:");
 
+        Ajouter.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
         Ajouter.setText("Ajouter");
         Ajouter.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -52,6 +57,7 @@ public class JFAddAuthor extends javax.swing.JFrame {
             }
         });
 
+        jLabel1.setFont(new java.awt.Font("Cambria", 0, 13)); // NOI18N
         jLabel1.setText("Auteur");
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 2, 11)); // NOI18N
@@ -100,7 +106,7 @@ public class JFAddAuthor extends javax.swing.JFrame {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(DATEDECES, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(DATENAISSANCE, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE))))))
-                .addContainerGap(115, Short.MAX_VALUE))
+                .addContainerGap(102, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -123,7 +129,7 @@ public class JFAddAuthor extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(DATEDECES, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(DateDécès))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 61, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 57, Short.MAX_VALUE)
                 .addComponent(Ajouter)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel2)
