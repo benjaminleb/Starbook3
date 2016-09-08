@@ -4,6 +4,9 @@ package classes;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.*; 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import swing.JFAddAuthor;
 
 /*
 ben
@@ -96,7 +99,38 @@ public class Author {
         
     }
 
+    public void insertAuthor() {
     
+    ConnectSQLS co = new ConnectSQLS();
+            
+        co.connectDatabase();
+            
+        try {
+            
+            
+            String query = "INSERT INTO starbook VALUES ("
+                    + "?,"
+                    + "?,"
+                    + "?,"
+                    + "?)";
+            PreparedStatement pstmt = co.getConnexion().prepareStatement(query);
+            pstmt.setString(1, surname);
+            pstmt.setString(2, firstname);
+            pstmt.setDate(3, (java.sql.Date) dob);
+            pstmt.setDate(4, (java.sql.Date) dod);
+            
+            int result = pstmt.executeUpdate();
+            System.out.println("result:" + result);
+            pstmt.close();
+            
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(JFAddAuthor.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        co.closeConnectionDatabase();
+    }                                       
+
     
     
 }
