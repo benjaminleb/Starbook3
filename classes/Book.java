@@ -195,4 +195,8 @@ public class Book {
         tPrice = ((float) ((int) (tPrice * 100))) / 100;
         return tPrice;
     }
+    
+    public String toString(){
+        return title;
+    }
 }

@@ -126,7 +126,6 @@
                                   <Component id="jLabel14" max="32767" attributes="0"/>
                                   <Component id="jLabel15" max="32767" attributes="0"/>
                                   <Component id="jLabel16" max="32767" attributes="0"/>
-                                  <Component id="jLabel17" max="32767" attributes="0"/>
                               </Group>
                           </Group>
                       </Group>
@@ -194,7 +193,6 @@
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Component id="jLabel7" pref="32" max="32767" attributes="0"/>
                           <Component id="jLabel12" max="32767" attributes="0"/>
-                          <Component id="jLabel17" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="80" max="-2" attributes="0"/>
                       <Component id="jButton3" min="-2" pref="48" max="-2" attributes="0"/>
@@ -245,6 +243,9 @@
               <Properties>
                 <Property name="text" type="java.lang.String" value="Ok"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JSeparator" name="jSeparator1">
             </Component>
@@ -259,6 +260,9 @@
                   </StringArray>
                 </Property>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jComboBox1ActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel2">
               <Properties>
@@ -341,11 +345,6 @@
             <Component class="javax.swing.JLabel" name="jLabel16">
               <Properties>
                 <Property name="text" type="java.lang.String" value="Weight"/>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JLabel" name="jLabel17">
-              <Properties>
-                <Property name="text" type="java.lang.String" value="Status"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JButton" name="jButton3">
