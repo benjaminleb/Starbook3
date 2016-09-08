@@ -13,14 +13,11 @@ import java.util.Date;
  * @author cdi315
  */
 public class Helpers {
-    public static String convertStringToDate(Date indate) {
+    public static String convertDateToString(Date indate) {
        String dateString = null;
-       SimpleDateFormat sdfr = new SimpleDateFormat("dd/MMM/yyyy");
-       /*you can also use DateFormat reference instead of SimpleDateFormat 
-        * like this: DateFormat df = new SimpleDateFormat("dd/MMM/yyyy");
-        */
+       SimpleDateFormat sdfr = new SimpleDateFormat("dd/MM/yyyy");
        try{
-            dateString = sdfr.format( indate );
+            dateString = sdfr.format(indate);
        }catch (Exception ex ){
             System.out.println(ex);
        }
