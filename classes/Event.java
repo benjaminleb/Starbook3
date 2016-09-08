@@ -1,6 +1,8 @@
 
 package classes;
 
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.*;
 
 /*
@@ -83,5 +85,23 @@ public class Event {
     }
     
     //m
+    
+    public void updateEvent(String name, Date startdate, Date enddate, Float discountrate, int id) {
+        ConnectSQLS co = new ConnectSQLS();
+        co.connectDatabase();
+        try {
+
+            String query = "UPDATE event SET VALUES(?, ?, ?, ?) WHERE ID = " + id;
+            PreparedStatement stmt = co.getConnexion().prepareStatement(query);
+            stmt.setString(1, name);
+            stmt.setDate(2, startdate);
+            stmt.setDate(3, enddate);
+            stmt.setFloat(4, discountrate);
+            stmt.close();
+        } catch (SQLException ex) {
+            System.err.println("Oops : SQL Connexion : " + ex.getMessage());
+            return;
+        }
+    }
     
 }
