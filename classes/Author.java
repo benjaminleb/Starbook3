@@ -78,25 +78,22 @@ public class Author {
     
     //m
     
-    public void updateAuthor(String surname, String firstname, String dod, String dob) {
-        try {
-                String query = "INSERT INTO contact VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
-                PreparedStatement stmt = conn.prepareStatement(query);
+    public void updateAuthor(String surname, String firstname, String dod, String dob, int id) {
+        ConnectSQLS co = new ConnectSQLS();
+        co.connectDatabase();
+        try {   
+                
+                String query = "UPDATE author SET VALUES(?, ?, ?, ?) WHERE ID = " + id;
+                PreparedStatement stmt = co.getConnexion().prepareStatement(query);
                 stmt.setString(1, surname);
                 stmt.setString(2, firstname);
                 stmt.setString(3, dod);
                 stmt.setString(4, dob);
-                stmt.close();
+                stmt.close();     
             } catch (SQLException ex) {
                 System.err.println("Oops : SQL Connexion : " + ex.getMessage());
                 return;
-            }
-        
-        
-        
-    }
-
-    
-    
-    
+            }    
+        co.closeConnectionDatabase();
+    } 
 }

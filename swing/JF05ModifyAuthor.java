@@ -19,16 +19,18 @@ public class JF05ModifyAuthor extends javax.swing.JFrame {
      */
     public JF05ModifyAuthor() {
         initComponents();
+        jTextField5.setVisible(false);
     }
 
     
     public void fillAuthor(Author aut) {
         jTextField1.setText(aut.getSurname());
         jTextField2.setText(aut.getFirstname());
-        String dobstr = Helpers.convertStringToDate(aut.getDob());
+        String dobstr = Helpers.convertDateToString(aut.getDob());
         jTextField3.setText(dobstr);
-        String dodstr = Helpers.convertStringToDate(aut.getDod());
+        String dodstr = Helpers.convertDateToString(aut.getDod());
         jTextField4.setText(dodstr);
+        jTextField5.setText(""+aut.getId());
     }
     
     
@@ -51,6 +53,7 @@ public class JF05ModifyAuthor extends javax.swing.JFrame {
         jTextField4 = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
+        jTextField5 = new javax.swing.JTextField();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
@@ -88,6 +91,8 @@ public class JF05ModifyAuthor extends javax.swing.JFrame {
             }
         });
 
+        jTextField5.setText("jTextField5");
+
         jMenu1.setText("File");
         jMenuBar1.add(jMenu1);
 
@@ -115,25 +120,33 @@ public class JF05ModifyAuthor extends javax.swing.JFrame {
                                 .addContainerGap()
                                 .addComponent(jLabel3)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 151, Short.MAX_VALUE)
+                                .addComponent(jTextField2)
+                                .addComponent(jTextField3)
+                                .addComponent(jTextField4))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(19, 19, 19)
-                                .addComponent(jLabel5))
-                            .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 151, Short.MAX_VALUE)
-                            .addComponent(jTextField2)
-                            .addComponent(jTextField3)
-                            .addComponent(jTextField4)))
+                                .addComponent(jLabel5)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 76, Short.MAX_VALUE)
+                                .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(142, 142, 142)
                         .addComponent(jButton1)))
-                .addContainerGap(97, Short.MAX_VALUE))
+                .addGap(76, 76, 76))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel5)
-                .addGap(32, 32, 32)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel5)
+                        .addGap(32, 32, 32))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)))
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel1))
@@ -158,14 +171,8 @@ public class JF05ModifyAuthor extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // Récupérer l'objet auteur de Sebastien pour le modifier
-//        Author aut = 
-//        
-//        aut.setSurname(jTextField1.getText());
-//        aut.setFirstname(jTextField2.getText());
-//        aut.setDob(jTextField3.getText());
-//        aut.setDod(jTextField4.getText());
-      
+        Author aut = new Author();
+        aut.updateAuthor(jTextField1.getText(), jTextField2.getText(), jTextField3.getText(), jTextField4.getText(), Integer.parseInt(jTextField5.getText()));
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
@@ -217,5 +224,6 @@ public class JF05ModifyAuthor extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
+    private javax.swing.JTextField jTextField5;
     // End of variables declaration//GEN-END:variables
 }
