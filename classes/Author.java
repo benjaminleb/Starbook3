@@ -1,6 +1,8 @@
 
 package classes;
 
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.*; 
 
 /*
@@ -75,6 +77,24 @@ public class Author {
     }
     
     //m
+    
+    public void updateAuthor(String surname, String firstname, String dod, String dob) {
+        try {
+                String query = "INSERT INTO contact VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                PreparedStatement stmt = conn.prepareStatement(query);
+                stmt.setString(1, surname);
+                stmt.setString(2, firstname);
+                stmt.setString(3, dod);
+                stmt.setString(4, dob);
+                stmt.close();
+            } catch (SQLException ex) {
+                System.err.println("Oops : SQL Connexion : " + ex.getMessage());
+                return;
+            }
+        
+        
+        
+    }
 
     
     
