@@ -32,16 +32,21 @@ public class JFCustomer extends javax.swing.JFrame {
         String query;
 
         if(jRBMail.isSelected()){
-            query = "SELECT * FROM sb_Customer WHERE customer_mail LIKE '%"+jTFMailSearch.getText()+"%'";
+            query = "SELECT * FROM sb_Customer WHERE customer_mail LIKE '"+jTFMailSearch.getText()+"%'";
+        }
+        else{
+            query = "SELECT * FROM sb_Customer "
+                    + "WHERE customer_surname LIKE '%"+jTFNameSearch1.getText()+"%'"
+                    + "AND customer_firstname LIKE '%"+jTFNameSearch2.getText()+"%'";
         }
         
         
         try {
-            Statement stmt = connexion.createStatement();
+            Statement stmt = co.getConnexion().createStatement();
             ResultSet rs = stmt.executeQuery(query);
 
             while (rs.next()) {
-                v.add(new Pays(rs.getString("Pays"),
+                customerResults.add(new Customer(rs.getString("Pays"),
                         rs.getString("A2"),
                         rs.getString("A3"),
                         rs.getInt("Number")));
