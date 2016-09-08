@@ -5,7 +5,13 @@
  */
 package swing;
 
+import classes.Book;
 import classes.ConnectSQLS;
+import classes.Publisher;
+import classes.Tax;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import java.util.Vector;
 
 /**
  *
@@ -19,9 +25,38 @@ public class JFMain extends javax.swing.JFrame {
     public JFMain() {
         initComponents();
     }
-    
-    public void initVectorAuteur(){
-        ConnectSQLS co = new ConnectSQLS()
+
+    public void initVectorAuteur() {
+        Vector v = new Vector();
+        ConnectSQLS co = new ConnectSQLS();
+        co.connectDatabase();
+        String query = "SELECT sb_book.* FROM sb_book, sb_writer, sb_author "
+                + "WHERE sb_author.author_id = sb_writer.author_id "
+                + "AND sb_book.book_isbn = sb_writer.book_isbn "
+                + "AND sb_book.publisher_isbn = sb_publisher.publisher_isbn"
+                + "AND sb_author.author_surname = '"+ jTextField1.getText()
+                +"'";
+        Statement stmt = co.getConnexion().createStatement();
+        ResultSet rs  = stmt.executeQuery(query);
+        while (rs.next()){
+            v.add(new Book(rs.getString("book_isbn"),
+                    new Publisher(rs.getString("publisher_ibn"), 
+                    rs.getString("publisher_name"), null),
+                    rs.getString("book_title"),
+                    rs.getString("book_subtitle"), 
+                    rs.getDate("book_date"), 
+                    rs.getString("book_picture"), 
+                    rs.getString("book_summary"), 
+                    rs.getString("book_idiom"), 
+                    rs.getFloat("book_price"), 
+                    new Tax(rs.getString("tax_name"), rs.getFloat("tax_rate")), 
+                    rs.getInt("book_quantity"), 
+                    rs.getString("book_pages"), 
+                    rs.getString("book_print"), 
+                    rs.getInt("book_weight"), WIDTH));
+        }
+        
+        co.closeConnectionDatabase();
     }
 
     /**
@@ -125,6 +160,11 @@ public class JFMain extends javax.swing.JFrame {
         jLabel17.setText("Status");
 
         jButton3.setText("Modifier");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -163,12 +203,11 @@ public class JFMain extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE)
-                                .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(jLabel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE)
+                            .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel13, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE)
@@ -256,6 +295,11 @@ public class JFMain extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments

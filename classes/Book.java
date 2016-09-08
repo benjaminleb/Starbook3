@@ -39,7 +39,9 @@ public class Book {
         this.status = status;
     }
 
-    public Book(String isbn, Publisher publisher, Author author, String title, String subtitle, Date date, String picture, String summary, String idiom, float price, Tax tax, int quantity, String pages, String print, int weight, Status status) {
+    public Book(String isbn, Publisher publisher, String title, String subtitle, 
+            Date date, String picture, String summary, String idiom, float price,
+            Tax tax, int quantity, String pages, String print, int weight, Status status) {
         this.isbn = isbn;
         this.publisher = publisher;
         this.title = title;
