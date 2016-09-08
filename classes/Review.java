@@ -8,7 +8,7 @@ import java.util.*;
 public class Review {
 
     //p
-
+    private int id;
     private Book book;
     private Customer customer;
     private OrderLine orderLine;
@@ -20,7 +20,8 @@ public class Review {
     public Review() {
     }
 
-    public Review(Book book, Customer customer, OrderLine orderLine, int rating, Date date) {
+    public Review(int id, Book book, Customer customer, OrderLine orderLine, int rating, Date date) {
+        this.id = id;
         this.book = book;
         this.customer = customer;
         this.orderLine = orderLine;
@@ -28,16 +29,21 @@ public class Review {
         this.date = date;
     }
 
-    public Review(Book book, Customer customer, OrderLine orderLine, String comment, int rating, Date date) {
-        this.book = book;
-        this.customer = customer;
-        this.orderLine = orderLine;
+    public Review(int id, Book book, Customer customer, OrderLine orderLine, String comment, int rating, Date date) {
+        this(id, book, customer, orderLine, rating, date);
         this.comment = comment;
-        this.rating = rating;
-        this.date = date;
     }
 
     //g&s
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+    
     public Book getBook() {
         return book;
     }

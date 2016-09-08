@@ -6,6 +6,7 @@ package classes;
 public class Employee {
 
         //p
+    private int id;
     private String surname;
     private String firstname;
     private String pwd;
@@ -17,7 +18,8 @@ public class Employee {
     }
 
         // constructeur avec les champs obligatoires
-    public Employee(String surname, String firstname, String pwd, String mail) {
+    public Employee(int id, String surname, String firstname, String pwd, String mail) {
+        this.id = id;
         this.surname = surname;
         this.firstname = firstname;
         this.pwd = pwd;
@@ -25,15 +27,21 @@ public class Employee {
     }
 
         // surcharge du constructeur avec l'ajout des champs non obligatoires
-    public Employee(String surname, String firstname, String pwd, String mail, String phone) {
-        this.surname = surname;
-        this.firstname = firstname;
-        this.pwd = pwd;
-        this.mail = mail;
+    public Employee(int id, String surname, String firstname, String pwd, String mail, String phone) {
+        this(id, surname, firstname, pwd, mail);
         this.phone = phone;
     }
 
     //g&s
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+    
     public String getSurname() {
         return surname;
     }

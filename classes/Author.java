@@ -9,6 +9,7 @@ ben
 
 public class Author {
     //p
+    private int id;
     private String surname;
     private String firstname;
     private Date dob;
@@ -18,12 +19,13 @@ public class Author {
     public Author() {    
     }
 
-    public Author(String surname) {
+    public Author(int id, String surname) {
+        this.id = id;
         this.surname = surname;
     }
 
-    public Author(String surname, String firstname, Date dob, Date dod) {
-        this.surname = surname;
+    public Author(int id, String surname, String firstname, Date dob, Date dod) {
+        this(id, surname);
         this.firstname = firstname;
         this.dob = dob;
         this.dod = dod;
@@ -31,6 +33,15 @@ public class Author {
     
 
     //g&s
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+    
     public String getSurname() {
         return surname;
     }

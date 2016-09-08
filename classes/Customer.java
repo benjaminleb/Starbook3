@@ -9,6 +9,7 @@ import java.util.*; // ATTENTION A GERER LA DATE ET AJUSTER LE TYPE DATE
 public class Customer {
 
         //p
+    private int id;
     private String surname;
     private String firstname;
     private String pwd;
@@ -22,7 +23,8 @@ public class Customer {
     }
 
         // constructeur  avec les champs obligatoires
-    public Customer(String surname, String firstname, String pwd, String mail, String cell, Date dob) {
+    public Customer(int id, String surname, String firstname, String pwd, String mail, String cell, Date dob) {
+        this.id = id;
         this.surname = surname;
         this.firstname = firstname;
         this.pwd = pwd;
@@ -33,17 +35,22 @@ public class Customer {
 
         // surcharge du constructeur avec l'ajout des champs non obligatoires
         // ajout de landline
-    public Customer(String surname, String firstname, String pwd, String mail, String cell, String landline, Date dob) {
-        this.surname = surname;
-        this.firstname = firstname;
-        this.pwd = pwd;
-        this.mail = mail;
-        this.cell = cell;
+    public Customer(int id, String surname, String firstname, String pwd, String mail, String cell, String landline, Date dob) {
+        this(id, surname, firstname, pwd, mail, cell, dob);
         this.landline = landline;
-        this.dob = dob;
+
+    }
+    
+    //g&s
+    
+    public int getId() {
+        return id;
     }
 
-        //g&s
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public String getSurname() {
         return surname;
     }
