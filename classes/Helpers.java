@@ -5,6 +5,8 @@
  */
 package classes;
 
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -13,14 +15,27 @@ import java.util.Date;
  * @author cdi315
  */
 public class Helpers {
+
     public static String convertDateToString(Date indate) {
-       String dateString = null;
-       SimpleDateFormat sdfr = new SimpleDateFormat("dd/MM/yyyy");
-       try{
+        String dateString = null;
+        SimpleDateFormat sdfr = new SimpleDateFormat("dd/MM/yyyy");
+        try {
             dateString = sdfr.format(indate);
-       }catch (Exception ex ){
+        } catch (Exception ex) {
             System.out.println(ex);
-       }
-       return dateString;
+        }
+        return dateString;
+    }
+
+    public static Date convertStringToDate(String dateString) throws ParseException {
+        Date date = null;
+        DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
+        try {
+            date = df.parse(dateString);
+              
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
+        return date ;
     }
 }
