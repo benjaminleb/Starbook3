@@ -53,8 +53,6 @@ public class JFLog extends javax.swing.JFrame {
 
         jLabel2.setText("Mot de passe:");
 
-        jTextField1.setText("Identifiant");
-
         jTextField2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField2ActionPerformed(evt);
