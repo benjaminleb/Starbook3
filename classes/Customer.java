@@ -107,6 +107,13 @@ public class Customer {
        //AJOUTER CONTRAINTE DOB > 1900 
         this.dob = dob;
     }
+    
+    //m
+    @Override
+    public String toString() {
+        String info = firstname+" "+surname.toUpperCase()+" - Ref "+id;
+        return info;
+    }
 
 
 }

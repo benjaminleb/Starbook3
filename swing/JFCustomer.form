@@ -144,6 +144,9 @@
             </Property>
             <Property name="text" type="java.lang.String" value="OK"/>
           </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
+          </Events>
         </Component>
         <Component class="javax.swing.JComboBox" name="jCBCustomerSearch">
           <Properties>
@@ -309,9 +312,7 @@
                   </Group>
                   <EmptySpace pref="127" max="32767" attributes="0"/>
                   <Component id="jLStatus" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace min="-2" pref="103" max="-2" attributes="0"/>
-                  <Component id="jButtonStatus" min="-2" max="-2" attributes="0"/>
-                  <EmptySpace max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="158" max="-2" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
@@ -325,7 +326,6 @@
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jLMail" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="jLStatus" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jButtonStatus" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace max="32767" attributes="0"/>
                   <Component id="jLBirth" min="-2" max="-2" attributes="0"/>
@@ -394,14 +394,6 @@
             </Property>
             <Property name="text" type="java.lang.String" value="Tel06"/>
           </Properties>
-        </Component>
-        <Component class="javax.swing.JButton" name="jButtonStatus">
-          <Properties>
-            <Property name="text" type="java.lang.String" value="..."/>
-          </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonStatusActionPerformed"/>
-          </Events>
         </Component>
       </SubComponents>
     </Container>
