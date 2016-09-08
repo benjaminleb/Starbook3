@@ -9,7 +9,7 @@ Gab
 public class Address {
     
     //p
-    
+    private int id;
     private String street; 
     private String other;
     private String zipcode;
@@ -24,7 +24,8 @@ public class Address {
     
     // constructeur avec les champs obligatoires
 
-    public Address(String zipcode, String city, String country) {
+    public Address(int id, String zipcode, String city, String country) {
+        this.id = id;
         this.zipcode = zipcode;
         this.city = city;
         this.country = country;
@@ -33,15 +34,21 @@ public class Address {
     // surcharge du constructeur avec l'ajout des champs non obligatoires
 
     
-    public Address(String street, String other, String zipcode, String city, String country) {
+    public Address(int id, String street, String other, String zipcode, String city, String country) {
+        this(id, zipcode, city, country);
         this.street = street;
         this.other = other;
-        this.zipcode = zipcode;
-        this.city = city;
-        this.country = country;
     }
     
     //g&s
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getStreet() {
         return street;

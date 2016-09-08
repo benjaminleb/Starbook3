@@ -6,6 +6,7 @@ package classes;
 public class Tax {
 
     //p
+    private int id;
     private String name;
     private float rate;
 
@@ -13,12 +14,22 @@ public class Tax {
     public Tax() {
     }
 
-    public Tax(String name, float rate) {
+    public Tax(int id, String name, float rate) {
+        this.id = id;
         this.name = name;
         this.rate = rate;
     }
 
     //g&s
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+    
     public String getName() {
         return name;
     }

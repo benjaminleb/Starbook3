@@ -53,8 +53,8 @@ public class JFMain extends javax.swing.JFrame {
         if (jRadioButton3.isSelected()) {
             query = query + "AND sb_book.book_isbn = '";
         }
-        query = query + jTextField1.getText()+"'";
-                 
+        query = query + jTextField1.getText() + "'";
+
         try {
 
             Statement stmt = co.getConnexion().createStatement();
@@ -69,7 +69,7 @@ public class JFMain extends javax.swing.JFrame {
                         rs.getString("book_summary"),
                         rs.getString("book_idiom"),
                         rs.getFloat("book_price"),
-                        new Tax(rs.getString("tax_name"), rs.getFloat("tax_rate")),
+                        new Tax(rs.getInt("tax_id"),rs.getString("tax_name"), rs.getFloat("tax_rate")),
                         rs.getInt("book_quantity"),
                         rs.getString("book_pages"),
                         rs.getString("book_print"),
@@ -336,7 +336,7 @@ public class JFMain extends javax.swing.JFrame {
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
         // TODO add your handling code here:
-        Book bk = (Book)jComboBox1.getSelectedItem();
+        Book bk = (Book) jComboBox1.getSelectedItem();
         jLabel3.setText(bk.getIsbn());
         jLabel4.setText(bk.getIsbn());
         jLabel5.setText(bk.getIsbn());
@@ -351,7 +351,7 @@ public class JFMain extends javax.swing.JFrame {
         jLabel3.setText(bk.getIsbn());
         jLabel3.setText(bk.getIsbn());
         jLabel3.setText(bk.getIsbn());
-        
+
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
     /**

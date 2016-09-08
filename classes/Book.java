@@ -40,21 +40,17 @@ public class Book {
     public Book(String isbn, Publisher publisher, String title,
             String subtitle, Date date, String picture, String summary, String idiom,
             float price, Tax tax, int quantity, String pages, String print, int weight) {
-        this.isbn = isbn;
-        this.publisher = publisher;
-        this.title = title;
+        this(isbn, publisher, title, date, price, tax, quantity);
         this.subtitle = subtitle;
         this.date = date;
         this.picture = picture;
         this.summary = summary;
         this.idiom = idiom;
-        this.price = price;
-        this.tax = tax;
-        this.quantity = quantity;
         this.pages = pages;
         this.print = print;
         this.weight = weight;
     }
+    
     //g&s
 
     public String getIsbn() {
@@ -184,5 +180,9 @@ public class Book {
 
     public String toString() {
         return title;
+    }
+    
+    public void insertBooktoDatabase(){
+        
     }
 }

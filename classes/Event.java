@@ -8,6 +8,7 @@ ben
  */
 public class Event { 
     //p
+    private int id;
     private String name;
     private Date start;
     private Date end;
@@ -18,20 +19,28 @@ public class Event {
     public Event() {
     }
 
-    public Event(String name, float discountRate) {
+    public Event(int id, String name, float discountRate) {
+        this.id = id;
         this.name = name;
         this.discountRate = discountRate;
     }
 
-    public Event(String name, Date start, Date end, float discountRate, String picture) {
-        this.name = name;
+    public Event(int id, String name, Date start, Date end, float discountRate, String picture) {
+        this(id, name, discountRate);
         this.start = start;
         this.end = end;
-        this.discountRate = discountRate;
         this.picture = picture;
     }
     
     //g&s
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;

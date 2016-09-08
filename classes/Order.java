@@ -9,6 +9,7 @@ import java.util.Date;  // ATTENTION A GERER LA DATE ET AJUSTER LE TYPE DATE
 public class Order {
 
     //p
+    private int id;
     private Customer customer;
     private Date date;
     private String ipAddress;
@@ -19,21 +20,29 @@ public class Order {
     }
 
     // constructeur avec les champs obligatoires
-    public Order(Customer customer, Date date, String ipAddress) {
+    public Order(int id, Customer customer, Date date, String ipAddress) {
+        this.id = id;
         this.customer = customer;
         this.date = date;
         this.ipAddress = ipAddress;
     }
 
     // surcharge du constructeur avec l'ajout des champs non obligatoires
-    public Order(Customer customer, Date date, String ipAddress, String comments) {
-        this.customer = customer;
-        this.date = date;
-        this.ipAddress = ipAddress;
+    public Order(int id, Customer customer, Date date, String ipAddress, String comments) {
+        this(id, customer, date, ipAddress);
         this.comments = comments;
     }
 
     //g&s
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+    
     public Customer getCustomer() {
         return customer;
     }
