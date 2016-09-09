@@ -1,5 +1,8 @@
 package classes;
 
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
 /*
  Gab 
  */
@@ -82,6 +85,39 @@ public class Employee {
         this.phone = phone;
     }
 
+    //m
     
+    
+    public void insertEmployee() {
 
+        ConnectSQLS co = new ConnectSQLS();
+
+        co.connectDatabase();
+
+        try {
+            String query = "INSERT INTO sb_employee VALUES ("
+                    + "?,?,?,?,?)";
+
+            PreparedStatement pstmt = co.getConnexion().prepareStatement(query);
+            pstmt.setString(1, surname);
+            pstmt.setString(2, firstname);
+            pstmt.setString(3, pwd);
+            pstmt.setString(4, mail);
+            pstmt.setString(5, phone);
+            
+
+            int result = pstmt.executeUpdate();
+            System.out.println("result:" + result);
+            pstmt.close();
+
+        } catch (SQLException ex) {
+            System.err.println("error: sql exception: " +ex.getMessage());
+        }
+        
+        co.closeConnectionDatabase();
+
+    }
 }
+
+
+

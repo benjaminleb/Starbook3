@@ -104,10 +104,7 @@ public class Author {
         try {
 
             String query = "INSERT INTO sb_author VALUES ("
-                    + "?,"
-                    + "?,"
-                    + "?,"
-                    + "?)";
+                    + "?,?,?,?)";
             PreparedStatement pstmt = co.getConnexion().prepareStatement(query);
             pstmt.setString(1, surname);
             pstmt.setString(2, firstname);

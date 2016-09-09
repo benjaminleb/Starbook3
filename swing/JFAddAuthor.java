@@ -18,8 +18,6 @@ public class JFAddAuthor extends javax.swing.JFrame {
     public JFAddAuthor() {
         initComponents();
     }
-    
-   
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -152,14 +150,16 @@ public class JFAddAuthor extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void AjouterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AjouterActionPerformed
-        
+
         try {
-           Author at = new Author(0,NOM.getText(), PRENOM.getText(), Helpers.convertStringToDate(DATENAISSANCE.getText()),Helpers.convertStringToDate(DATEDECES.getText()));
-           at.insertAuthor();
+            Author at = new Author(0, NOM.getText(), PRENOM.getText(),
+                    Helpers.convertStringToDate(DATENAISSANCE.getText()),
+                    Helpers.convertStringToDate(DATEDECES.getText()));
+            at.insertAuthor();
         } catch (ParseException ex) {
             Logger.getLogger(JFAddAuthor.class.getName()).log(Level.SEVERE, null, ex);
         }
-             
+
     }//GEN-LAST:event_AjouterActionPerformed
 
     /**

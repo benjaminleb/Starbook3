@@ -1,6 +1,11 @@
 package classes;
 
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import swing.JFAddAuthor;
 
 /*
  ben
@@ -50,9 +55,8 @@ public class Book {
         this.print = print;
         this.weight = weight;
     }
-    
-    //g&s
 
+    //g&s
     public String getIsbn() {
         return isbn;
     }
@@ -181,8 +185,42 @@ public class Book {
     public String toString() {
         return title;
     }
-    
-    public void insertBooktoDatabase(){
+
+    public void insertBook() {
+
+        ConnectSQLS co = new ConnectSQLS();
+
+        co.connectDatabase();
+
+        try {
+            String query = "INSERT INTO sb_book VALUES ("
+                    + "?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+
+            PreparedStatement pstmt = co.getConnexion().prepareStatement(query);
+            pstmt.setString(1, isbn);
+            pstmt.setString(2, publisher.getCode());
+            pstmt.setString(3, title);
+            pstmt.setString(4, subtitle);
+            pstmt.setDate(5, (java.sql.Date) date);
+            pstmt.setString(6, picture);
+            pstmt.setString(7, summary);
+            pstmt.setString(8, idiom);
+            pstmt.setFloat(9, price);
+            pstmt.setFloat(10, tax.getRate());
+            pstmt.setInt(11, quantity);
+            pstmt.setString(12, pages);
+            pstmt.setString(13, print);
+            pstmt.setInt(14, weight);
+
+            int result = pstmt.executeUpdate();
+            System.out.println("result:" + result);
+            pstmt.close();
+
+        } catch (SQLException ex) {
+            System.err.println("error: sql exception: " +ex.getMessage());
+        }
         
+        co.closeConnectionDatabase();
+
     }
 }

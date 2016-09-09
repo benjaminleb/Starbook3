@@ -1,10 +1,14 @@
 package swing;
 
 import classes.ConnectSQLS;
+import classes.Event;
+import classes.Helpers;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JTextField;
 
 /*
  Gab
@@ -34,6 +38,7 @@ public class JFAddEvent extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
         setSize(new java.awt.Dimension(600, 550));
 
         jLabel1.setFont(new java.awt.Font("Cambria", 0, 13)); // NOI18N
@@ -73,7 +78,7 @@ public class JFAddEvent extends javax.swing.JFrame {
         });
 
         jLabel7.setFont(new java.awt.Font("Calibri", 2, 12)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(204, 204, 204));
+        jLabel7.setForeground(new java.awt.Color(102, 102, 102));
         jLabel7.setText("* Champs obigatoires");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -142,34 +147,21 @@ public class JFAddEvent extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void AjouterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AjouterActionPerformed
-        ConnectSQLS co = new ConnectSQLS();
-
-        co.connectDatabase();
+    
+        Event evnt;
 
         try {
-            String query = "INSERT INTO starbook VALUES ("
-                    + "?,"
-                    + "?,"
-                    + "?,"
-                    + "?,"
-                    + "?)";
-            PreparedStatement pstmt = co.getConnexion().prepareStatement(query);
-            pstmt.setString(1, jTextField1.getText());
-            pstmt.setString(2, jTextField2.getText());
-            pstmt.setString(3, jTextField3.getText());
-            pstmt.setString(4, jTextField4.getText());
-            pstmt.setString(5, jTextField5.getText());
+            evnt = new Event(0, jTextField1.getText(),
+                    Helpers.convertStringToDate(jTextField2.getText()),
+                    Helpers.convertStringToDate(jTextField3.getText()),
+                    Float.valueOf(jTextField4.getText()),
+                    jTextField5.getText());
 
-            int result = pstmt.executeUpdate();
-            System.out.println("result:" + result);
-            pstmt.close();
+            evnt.insertEvent();
 
-        } catch (SQLException ex) {
-            Logger.getLogger(JFAddAuthor.class.getName()).log(Level.SEVERE, null, ex);
-
+        } catch (ParseException ex) {
+            Logger.getLogger(JFAddEvent.class.getName()).log(Level.SEVERE, null, ex);
         }
-        co.closeConnectionDatabase();
-
 
     }//GEN-LAST:event_AjouterActionPerformed
 
@@ -187,16 +179,21 @@ public class JFAddEvent extends javax.swing.JFrame {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
+
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(JFAddEvent.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(JFAddEvent.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(JFAddEvent.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(JFAddEvent.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(JFAddEvent.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(JFAddEvent.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(JFAddEvent.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(JFAddEvent.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 

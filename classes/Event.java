@@ -1,22 +1,26 @@
-
 package classes;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import swing.JFAddAuthor;
 
 /*
-ben
+ ben
  */
-public class Event { 
+public class Event {
+
     //p
+
     private int id;
     private String name;
     private Date start;
     private Date end;
     private float discountRate;
     private String picture;
-    
+
     //c
     public Event() {
     }
@@ -33,9 +37,8 @@ public class Event {
         this.end = end;
         this.picture = picture;
     }
-    
-    //g&s
 
+    //g&s
     public int getId() {
         return id;
     }
@@ -83,9 +86,8 @@ public class Event {
     public void setPicture(String picture) {
         this.picture = picture;
     }
-    
+
     //m
-    
     public void updateEvent(String name, Date startdate, Date enddate, Float discountrate, int id) {
         ConnectSQLS co = new ConnectSQLS();
         co.connectDatabase();
@@ -94,8 +96,8 @@ public class Event {
             String query = "UPDATE event SET VALUES(?, ?, ?, ?) WHERE ID = " + id;
             PreparedStatement stmt = co.getConnexion().prepareStatement(query);
             stmt.setString(1, name);
-            stmt.setDate(2, startdate);
-            stmt.setDate(3, enddate);
+            stmt.setDate(2, (java.sql.Date) startdate);
+            stmt.setDate(3, (java.sql.Date) enddate);
             stmt.setFloat(4, discountrate);
             stmt.close();
         } catch (SQLException ex) {
@@ -103,5 +105,33 @@ public class Event {
             return;
         }
     }
-    
+
+    public void insertEvent() {
+        ConnectSQLS co = new ConnectSQLS();
+
+        co.connectDatabase();
+
+        try {
+            String query = "INSERT INTO sb_event VALUES ("
+                    + "?,?,?,?,?)";
+            PreparedStatement pstmt = co.getConnexion().prepareStatement(query);
+            pstmt.setString(1, name);
+            pstmt.setDate(2, (java.sql.Date) start);
+            pstmt.setDate(3, (java.sql.Date) end);
+            pstmt.setFloat(4, discountRate);
+            pstmt.setString(5, picture);
+
+            int result = pstmt.executeUpdate();
+            System.out.println("result:" + result);
+            pstmt.close();
+
+         } catch (SQLException ex) {
+            System.err.println("error: sql exception: " +ex.getMessage());
+        }
+        co.closeConnectionDatabase();
+
+    }
+
 }
+
+

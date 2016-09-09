@@ -1,10 +1,19 @@
 package swing;
 
+import classes.Book;
 import classes.ConnectSQLS;
+import classes.Helpers;
+import classes.Publisher;
+import classes.Tax;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.text.ParseException;
+import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JTextField;
 
 /*
@@ -16,6 +25,29 @@ public class JFAddBook extends javax.swing.JFrame {
         initComponents();
     }
 
+    private DefaultComboBoxModel initComboBox() {
+        return new DefaultComboBoxModel(initVector());
+    }
+
+    public Vector initVector() {
+        Vector v = new Vector();
+        try {
+            ConnectSQLS co = new ConnectSQLS();
+            co.connectDatabase();
+
+            String query = "SELECT * from sb_publisher";
+            Statement stmt = co.getConnexion().createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+
+            while (rs.next()) {
+                v.add(new Publisher(rs.getString("publisher_isbn"), rs.getString("publisher_name")));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(JFAddBook.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return v;
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -24,7 +56,6 @@ public class JFAddBook extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
         jTextField3 = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
@@ -51,11 +82,14 @@ public class JFAddBook extends javax.swing.JFrame {
         jTextField14 = new javax.swing.JTextField();
         Ajouter = new javax.swing.JButton();
         jLabel16 = new javax.swing.JLabel();
+        jComboBox1 = new javax.swing.JComboBox();
+        AjouterEditeur = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
         setSize(new java.awt.Dimension(650, 650));
 
         jLabel1.setFont(new java.awt.Font("Cambria", 0, 13)); // NOI18N
@@ -68,8 +102,6 @@ public class JFAddBook extends javax.swing.JFrame {
 
         jLabel3.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
         jLabel3.setText("Editeur:*");
-
-        jTextField2.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
 
         jLabel4.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
         jLabel4.setText("Titre:*");
@@ -140,8 +172,23 @@ public class JFAddBook extends javax.swing.JFrame {
         });
 
         jLabel16.setFont(new java.awt.Font("Calibri", 2, 12)); // NOI18N
-        jLabel16.setForeground(new java.awt.Color(204, 204, 204));
+        jLabel16.setForeground(new java.awt.Color(102, 102, 102));
         jLabel16.setText("* Champs obligatoires");
+
+        jComboBox1.setModel(initComboBox());
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox1ActionPerformed(evt);
+            }
+        });
+
+        AjouterEditeur.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
+        AjouterEditeur.setText("Ajouter Editeur");
+        AjouterEditeur.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AjouterEditeurActionPerformed(evt);
+            }
+        });
 
         jMenu1.setText("File");
         jMenuBar1.add(jMenu1);
@@ -156,9 +203,17 @@ public class JFAddBook extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(33, 33, 33)
+                .addContainerGap(24, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel16)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jLabel16)
+                        .addGap(83, 83, 83))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(Ajouter)
+                        .addGap(247, 247, 247))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(274, 274, 274))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2)
@@ -187,20 +242,14 @@ public class JFAddBook extends javax.swing.JFrame {
                             .addComponent(jTextField11)
                             .addComponent(jTextField12)
                             .addComponent(jTextField13)
-                            .addComponent(jTextField1)
-                            .addComponent(jTextField2)
                             .addComponent(jTextField3)
-                            .addComponent(jTextField14))))
-                .addContainerGap(76, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(282, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(Ajouter)
-                        .addGap(247, 247, 247))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(274, 274, 274))))
+                            .addComponent(jTextField14)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(AjouterEditeur, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jTextField1))
+                        .addGap(75, 75, 75))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -213,8 +262,9 @@ public class JFAddBook extends javax.swing.JFrame {
                     .addComponent(jLabel2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3))
+                    .addComponent(jLabel3)
+                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(AjouterEditeur))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel4)
@@ -263,65 +313,50 @@ public class JFAddBook extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextField14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel15))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
                 .addComponent(Ajouter)
                 .addGap(14, 14, 14)
                 .addComponent(jLabel16)
                 .addContainerGap())
         );
 
-        setBounds(0, 0, 616, 588);
+        setBounds(0, 0, 606, 588);
     }// </editor-fold>//GEN-END:initComponents
 
     private void AjouterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AjouterActionPerformed
-        ConnectSQLS co = new ConnectSQLS();
+      
 
-        co.connectDatabase();
-
+        Book bk;
         try {
-            String query = "INSERT INTO starbook VALUES ("
-                    + "?,"
-                    + "?,"
-                    + "?,"
-                    + "?,"
-                    + "?,"
-                    + "?,"
-                    + "?,"
-                    + "?,"
-                    + "?,"
-                    + "?,"
-                    + "?,"
-                    + "?,"
-                    + "?,"
-                    + "?)";
-            PreparedStatement pstmt = co.getConnexion().prepareStatement(query);
-            pstmt.setString(1, jTextField1.getText());
-            pstmt.setString(2, jTextField2.getText());
-            pstmt.setString(3, jTextField3.getText());
-            pstmt.setString(4, jTextField4.getText());
-            pstmt.setString(5, jTextField5.getText());
-            pstmt.setString(6, jTextField6.getText());
-            pstmt.setString(7, jTextField7.getText());
-            pstmt.setString(8, jTextField8.getText());
-            pstmt.setString(9, jTextField9.getText());
-            pstmt.setString(10, jTextField10.getText());
-            pstmt.setString(11, jTextField11.getText());
-            pstmt.setString(12, jTextField12.getText());
-            pstmt.setString(13, jTextField13.getText());
-            pstmt.setString(14, jTextField14.getText());
-
-            int result = pstmt.executeUpdate();
-            System.out.println("result:" + result);
-            pstmt.close();
-
-        } catch (SQLException ex) {
-            Logger.getLogger(JFAddAuthor.class.getName()).log(Level.SEVERE, null, ex);
-        
+            bk = new Book(jTextField1.getText(),
+                    (Publisher) jComboBox1.getSelectedItem(),
+                    jTextField3.getText(),
+                    jTextField4.getText(),
+                    Helpers.convertStringToDate(jTextField5.getText()),
+                    jTextField6.getText(),
+                    jTextField7.getText(),
+                    jTextField8.getText(),
+                    Float.valueOf(jTextField9.getText()),
+                    new Tax(0, "tva", Float.valueOf(jTextField10.getText())),
+                    Integer.valueOf(jTextField11.getText()),
+                    jTextField12.getText(),
+                    jTextField13.getText(),
+                    Integer.valueOf(jTextField14.getText()));
+            bk.insertBook();
+        } catch (ParseException ex) {
+            Logger.getLogger(JFAddBook.class.getName()).log(Level.SEVERE, null, ex);
         }
-        co.closeConnectionDatabase();
-
 
     }//GEN-LAST:event_AjouterActionPerformed
+
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBox1ActionPerformed
+
+    private void AjouterEditeurActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AjouterEditeurActionPerformed
+     JFAddPublisher japb = new JFAddPublisher();
+     japb.setVisible(true);
+    }//GEN-LAST:event_AjouterEditeurActionPerformed
 
     /**
      * @param args the command line arguments
@@ -365,6 +400,8 @@ public class JFAddBook extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Ajouter;
+    private javax.swing.JButton AjouterEditeur;
+    private javax.swing.JComboBox jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -390,7 +427,6 @@ public class JFAddBook extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField12;
     private javax.swing.JTextField jTextField13;
     private javax.swing.JTextField jTextField14;
-    private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField jTextField5;
