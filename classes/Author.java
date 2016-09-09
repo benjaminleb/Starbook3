@@ -77,7 +77,7 @@ public class Author {
     }
 
     //m
-    public void updateAuthor(String surname, String firstname, Date dod, Date dob, int id) {
+    public void updateAuthor(String surname, String firstname, Date dob, Date dod, int id) {
         ConnectSQLS co = new ConnectSQLS();
         co.connectDatabase();
         try {
@@ -86,9 +86,8 @@ public class Author {
             PreparedStatement stmt = co.getConnexion().prepareStatement(query);
             stmt.setString(1, surname);
             stmt.setString(2, firstname);
-            //>>>>>>>>>>>>>>>>>>>> PROBLEME DE DATE
-            stmt.setDate(3, dod);
-            stmt.setDate(4, dob);
+            stmt.setDate(3, (java.sql.Date) dob);
+            stmt.setDate(4, (java.sql.Date) dod);
             stmt.close();
         } catch (SQLException ex) {
             System.err.println("Oops : SQL Connexion : " + ex.getMessage());
