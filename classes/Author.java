@@ -103,7 +103,7 @@ public class Author {
 
         try {
 
-            String query = "INSERT INTO starbook VALUES ("
+            String query = "INSERT INTO sb_author VALUES ("
                     + "?,"
                     + "?,"
                     + "?,"
@@ -119,7 +119,7 @@ public class Author {
             pstmt.close();
 
         } catch (SQLException ex) {
-            Logger.getLogger(JFAddAuthor.class.getName()).log(Level.SEVERE, null, ex);
+            System.err.println("error: sql exception: " +ex.getMessage());
         }
 
         co.closeConnectionDatabase();
