@@ -126,4 +126,11 @@ public class Author {
         co.closeConnectionDatabase();
     }
 
+    @Override
+    public String toString() {
+        return  surname + " " + firstname ;
+    }
+    
+    
+    
 }
