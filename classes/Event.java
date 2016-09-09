@@ -94,8 +94,8 @@ public class Event {
             String query = "UPDATE event SET VALUES(?, ?, ?, ?) WHERE ID = " + id;
             PreparedStatement stmt = co.getConnexion().prepareStatement(query);
             stmt.setString(1, name);
-            stmt.setDate(2, startdate);
-            stmt.setDate(3, enddate);
+            stmt.setDate(2, (java.sql.Date) startdate);
+            stmt.setDate(3, (java.sql.Date) enddate);
             stmt.setFloat(4, discountrate);
             stmt.close();
         } catch (SQLException ex) {

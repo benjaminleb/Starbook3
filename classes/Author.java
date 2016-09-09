@@ -87,8 +87,8 @@ public class Author {
             stmt.setString(1, surname);
             stmt.setString(2, firstname);
             //>>>>>>>>>>>>>>>>>>>> PROBLEME DE DATE
-            stmt.setDate(3, dod);
-            stmt.setDate(4, dob);
+            stmt.setDate(3, (java.sql.Date) dod);
+            stmt.setDate(4, (java.sql.Date) dob);
             stmt.close();
         } catch (SQLException ex) {
             System.err.println("Oops : SQL Connexion : " + ex.getMessage());
