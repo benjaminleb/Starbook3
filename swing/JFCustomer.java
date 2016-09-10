@@ -35,7 +35,7 @@ public class JFCustomer extends javax.swing.JFrame {
         jCBCustomerSearch.removeAllItems();
         if (jRBMail.isSelected()) {
             //customer_email -> customer_mail !
-            query = "SELECT * FROM sb_Customer WHERE customer_email LIKE '" + jTFMailSearch.getText() + "%'";
+            query = "SELECT * FROM sb_Customer WHERE customer_mail LIKE '" + jTFMailSearch.getText() + "%'";
         } else {
             query = "SELECT * FROM sb_Customer "
                     + "WHERE customer_firstname LIKE '%" + jTFNameSearch1.getText() + "%'"
@@ -111,6 +111,7 @@ public class JFCustomer extends javax.swing.JFrame {
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
 
+        jDialogSearch.setModal(true);
         jDialogSearch.setPreferredSize(new java.awt.Dimension(470, 335));
         jDialogSearch.setSize(new java.awt.Dimension(470, 335));
         jDialogSearch.addWindowListener(new java.awt.event.WindowAdapter() {
@@ -261,6 +262,8 @@ public class JFCustomer extends javax.swing.JFrame {
                 .addGap(57, 57, 57))
         );
 
+        jDialogStatus.setModal(true);
+
         javax.swing.GroupLayout jDialogStatusLayout = new javax.swing.GroupLayout(jDialogStatus.getContentPane());
         jDialogStatus.getContentPane().setLayout(jDialogStatusLayout);
         jDialogStatusLayout.setHorizontalGroup(
@@ -386,6 +389,7 @@ public class JFCustomer extends javax.swing.JFrame {
                 .addGap(58, 58, 58))
         );
 
+        jLabel1.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
         jLabel1.setText("Historique");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -402,7 +406,7 @@ public class JFCustomer extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
-                .addContainerGap(273, Short.MAX_VALUE))
+                .addContainerGap(270, Short.MAX_VALUE))
         );
 
         jMenu1.setText("File");
@@ -473,7 +477,6 @@ public class JFCustomer extends javax.swing.JFrame {
     private void jTFMailSearchMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTFMailSearchMouseClicked
         // TODO add your handling code here:
         jTFMailSearch.setText("");
-        jTFMailSearch.setForeground(Color.black);
     }//GEN-LAST:event_jTFMailSearchMouseClicked
 
     private void jTFNameSearch1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTFNameSearch1ActionPerformed
@@ -483,7 +486,6 @@ public class JFCustomer extends javax.swing.JFrame {
     private void jTFNameSearch1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTFNameSearch1MouseClicked
         // TODO add your handling code here:
         jTFNameSearch1.setText("");
-        jTFNameSearch1.setForeground(Color.black);
     }//GEN-LAST:event_jTFNameSearch1MouseClicked
 
     private void jTFNameSearch2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTFNameSearch2ActionPerformed
@@ -494,7 +496,6 @@ public class JFCustomer extends javax.swing.JFrame {
     private void jTFNameSearch2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTFNameSearch2MouseClicked
         // TODO add your handling code here:
         jTFNameSearch2.setText("");
-        jTFNameSearch2.setForeground(Color.black);
     }//GEN-LAST:event_jTFNameSearch2MouseClicked
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -508,7 +509,7 @@ public class JFCustomer extends javax.swing.JFrame {
         jLCellV.setText(selectC.getCell());
         jLLandV.setText(selectC.getLandline());
         jLIDV.setText(Integer.toString(selectC.getId()));
-        jLStatusV.setText("");
+        jLStatusV.setText(selectC.getCurrentStatus());
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jCBCustomerSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCBCustomerSearchActionPerformed

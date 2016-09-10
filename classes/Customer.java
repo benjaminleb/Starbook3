@@ -3,6 +3,9 @@ package classes;
 /*
  Gab
  */
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.*; // ATTENTION A GERER LA DATE ET AJUSTER LE TYPE DATE 
 // OU DATETIME
 
@@ -113,6 +116,56 @@ public class Customer {
     public String toString() {
         String info = firstname+" "+surname.toUpperCase()+" - Ref "+id;
         return info;
+    }
+    
+    public String getCurrentStatus(){
+        String currentStatus = "Statut inconnu";
+        int statusNumber = getStatusNumber();
+        ConnectSQLS co = new ConnectSQLS();
+        co.connectDatabase();
+        String query = "SELECT * FROM sb_Status WHERE status_number LIKE '" + statusNumber + "'";
+        try {
+            Statement stmt = co.getConnexion().createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+
+            while (rs.next()) {
+               currentStatus = rs.getString("status_name");
+            }
+            rs.close();
+            stmt.close();
+        } catch (SQLException ex) {
+            System.err.println("Oops:SQL:" + ex.getErrorCode() + ":" + ex.getMessage());
+            return currentStatus;
+        }
+
+        co.closeConnectionDatabase();
+        return currentStatus;
+    }
+    
+    public int getStatusNumber (){
+        
+        int statusNumber = 601;
+        ConnectSQLS co = new ConnectSQLS();
+        co.connectDatabase();
+        String query = "SELECT * FROM sb_CustomerStatus WHERE customer_id LIKE '" + id + "'";
+        try {
+            Statement stmt = co.getConnexion().createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+
+            while (rs.next()) {
+               statusNumber = rs.getInt("status_number");
+            }
+            rs.close();
+            stmt.close();
+        } catch (SQLException ex) {
+            System.err.println("Oops:SQL:" + ex.getErrorCode() + ":" + ex.getMessage());
+            return statusNumber;
+        }
+
+        co.closeConnectionDatabase();
+        
+        
+        return statusNumber;
     }
 
 
