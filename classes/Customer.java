@@ -118,6 +118,39 @@ public class Customer {
         return info;
     }
     
+    
+    //  METHODES EN CHANTIER/MEDITATION /!\
+    /* 
+    public ArrayList getStatusList(){
+        ArrayList statusList = new ArrayList();
+        ConnectSQLS co = new ConnectSQLS();
+        co.connectDatabase();
+        String query = "SELECT * FROM sb_Status WHERE status_number LIKE '" + id + "'";
+        try {
+            Statement stmt = co.getConnexion().createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+
+            while (rs.next()) {
+                statusList.add(new Customer(rs.getInt("customer_id"),
+                        rs.getString("customer_surname"),
+                        rs.getString("customer_firstname"),
+                        rs.getString("customer_pwd"),
+                        rs.getString("customer_email"),
+                        rs.getString("customer_cell"),
+                        rs.getString("customer_landline"),
+                        rs.getDate("customer_dob")));
+            }
+            rs.close();
+            stmt.close();
+        } catch (SQLException ex) {
+            System.err.println("Oops:SQL:" + ex.getErrorCode() + ":" + ex.getMessage());
+            return statusList;
+        }
+
+        co.closeConnectionDatabase();
+        return statusList;
+    }
+    
     public String getCurrentStatus(){
         String currentStatus = "Statut inconnu";
         int statusNumber = getStatusNumber();
@@ -167,6 +200,6 @@ public class Customer {
         
         return statusNumber;
     }
-
+*/
 
 }

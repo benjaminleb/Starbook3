@@ -502,14 +502,13 @@ public class JFCustomer extends javax.swing.JFrame {
         // TODO add your handling code here:
         Customer selectC = (Customer) jCBCustomerSearch.getSelectedItem();
         jDialogSearch.dispose();
-
         jLNameV.setText(selectC.getFirstname()+" "+selectC.getSurname().toUpperCase());
         jLMailV.setText(selectC.getMail());
         jLBirthV.setText("");
         jLCellV.setText(selectC.getCell());
         jLLandV.setText(selectC.getLandline());
         jLIDV.setText(Integer.toString(selectC.getId()));
-        jLStatusV.setText(selectC.getCurrentStatus());
+//        jLStatusV.setText(selectC.getCurrentStatus());
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jCBCustomerSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCBCustomerSearchActionPerformed
