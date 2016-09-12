@@ -2,10 +2,15 @@ package swing;
 
 import classes.ConnectSQLS;
 import classes.Employee;
+import classes.Status;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.DefaultComboBoxModel;
 
 /*
  Gab
@@ -16,6 +21,32 @@ public class JFAddEmployee extends javax.swing.JFrame {
         initComponents();
     }
 
+    private DefaultComboBoxModel initComboBox1() {
+        return new DefaultComboBoxModel(initVector());
+    }
+
+    public Vector initVector() {
+        Vector v = new Vector();
+        try {
+            ConnectSQLS co = new ConnectSQLS();
+            co.connectDatabase();
+
+            String query = "SELECT * from sb_status where sb_status.status_number LIKE '5%'";
+            Statement stmt = co.getConnexion().createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+
+            while (rs.next()) {
+                v.add(new Status(rs.getInt("status_number"), rs.getString("status_name")));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(JFAddEmployee.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return v;
+    }
+    
+    
+    
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -83,7 +114,12 @@ public class JFAddEmployee extends javax.swing.JFrame {
             }
         });
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox1.setModel(initComboBox1());
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox1ActionPerformed(evt);
+            }
+        });
 
         jLabel8.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
         jLabel8.setText("Statut:*");
@@ -192,6 +228,10 @@ public class JFAddEmployee extends javax.swing.JFrame {
 
 
     }//GEN-LAST:event_AjouterActionPerformed
+
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBox1ActionPerformed
 
     /**
      * @param args the command line arguments
