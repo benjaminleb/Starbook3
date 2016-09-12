@@ -39,10 +39,20 @@ public class Helpers {
         return date ;
     }
     
-    //A revoir - (Marie-Laure)
-//    public static java.sql.Date convertUtiltoSQLDate (java.util.Date inDate) {
-//        java.sql.Date SQLDate = new java.sql.Date(inDate.getTime());
-//        return SQLDate;
-//    }
+  
+    public static java.sql.Date convertUtiltoSQLDate (java.util.Date inDate) {
+        java.sql.Date SQLDate = new java.sql.Date(inDate.getTime());
+        return SQLDate;
+    }
     
+    public static java.util.Date convertSQLtoUtilDate (java.sql.Date inDate) {
+        java.util.Date utilDate = new java.util.Date(inDate.getTime());
+        return utilDate;
+    }
+    
+    private static DateFormat dateFormat (java.util.Date uDate) {
+        DateFormat df = new SimpleDateFormat("dd/MM/YYYY");
+        return df;
+    }
+
 }

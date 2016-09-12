@@ -110,6 +110,11 @@ public class JF11ModifyEmployee extends javax.swing.JFrame {
         jTextField4.setText("jTextField4");
 
         jButton1.setText("Sauvegarder");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jLabel5.setText("Email");
 
@@ -204,6 +209,13 @@ public class JF11ModifyEmployee extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // Update Employee table
+        
+        
+        // Add a row to EmployeeStatus
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments

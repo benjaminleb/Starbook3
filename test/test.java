@@ -21,5 +21,11 @@ public class test {
         float f = ((float)((int)(t*100))) / 100;
         System.out.println(f);
         System.out.println(Math.floor(t));
+        
+        
+        java.util.Date newdate = new java.util.Date();
+        
+        
+        
     }  
 }
