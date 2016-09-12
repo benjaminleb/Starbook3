@@ -1,6 +1,7 @@
 package classes;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /*
@@ -115,7 +116,27 @@ public class Employee {
         }
         
         co.closeConnectionDatabase();
-
+    }
+    
+    // Récupérer le statut actuel de l'employé
+    public int getEmployeeStatusNumber (int employee_id) {
+        ConnectSQLS co = new ConnectSQLS();
+        co.connectDatabase();
+        int status = -1;
+        try {
+            String query = "SELECT sb_employeeStatus.status_number FROM employeeStatus WHERE sb_employeeStatus.employee_id = " + employee_id;
+            PreparedStatement stmt = co.getConnexion().prepareStatement(query);
+            ResultSet rs = stmt.executeQuery(query);
+            
+            while (rs.next()) {
+                status = rs.getInt("status_number");
+            }
+           
+            stmt.close();
+        } catch (SQLException ex) {
+            System.err.println("Oops : SQL Connexion : " + ex.getMessage());
+        }
+        return status;
     }
 }
 
