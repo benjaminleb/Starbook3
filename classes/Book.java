@@ -219,13 +219,14 @@ public class Book {
             pstmt.close();
 
         } catch (SQLException ex) {
-            System.err.println("error: sql exception: " +ex.getMessage());
+            System.err.println("error: sql exception: " + ex.getMessage());
         }
-        
+
         co.closeConnectionDatabase();
 
     }
-    public Vector getStatusList(){
+
+    public Vector getStatusList() {
         Vector statusList = new Vector();
         ConnectSQLS co = new ConnectSQLS();
         co.connectDatabase();
@@ -248,5 +249,31 @@ public class Book {
 
         co.closeConnectionDatabase();
         return statusList;
+    }
+
+    public void insertBookStatus(Status status) {
+
+        ConnectSQLS co = new ConnectSQLS();
+
+        co.connectDatabase();
+
+        try {
+            String query = "INSERT INTO sb_bookStatus VALUES ("
+                    + "?,?,?)";
+
+            PreparedStatement pstmt = co.getConnexion().prepareStatement(query);
+            pstmt.setInt(1, status.getNumber());
+            pstmt.setString(2, isbn);
+            pstmt.setDate(3, (java.sql.Date)getDate());
+
+            int result = pstmt.executeUpdate();
+            System.out.println("result:" + result);
+            pstmt.close();
+
+        } catch (SQLException ex) {
+            System.err.println("error: sql exception: " + ex.getMessage());
+        }
+
+        co.closeConnectionDatabase();
     }
 }
