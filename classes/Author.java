@@ -77,7 +77,7 @@ public class Author {
     }
 
     //m
-    public void updateAuthor(String surname, String firstname, Date dod, Date dob, int id) {
+    public void updateAuthor(String surname, String firstname, Date dob, Date dod, int id) {
         ConnectSQLS co = new ConnectSQLS();
         co.connectDatabase();
         try {
@@ -86,9 +86,8 @@ public class Author {
             PreparedStatement stmt = co.getConnexion().prepareStatement(query);
             stmt.setString(1, surname);
             stmt.setString(2, firstname);
-            //>>>>>>>>>>>>>>>>>>>> PROBLEME DE DATE
-            stmt.setDate(3, (java.sql.Date) dod);
-            stmt.setDate(4, (java.sql.Date) dob);
+            stmt.setDate(3, (java.sql.Date) dob);
+            stmt.setDate(4, (java.sql.Date) dod);
             stmt.close();
         } catch (SQLException ex) {
             System.err.println("Oops : SQL Connexion : " + ex.getMessage());
@@ -104,11 +103,8 @@ public class Author {
 
         try {
 
-            String query = "INSERT INTO starbook VALUES ("
-                    + "?,"
-                    + "?,"
-                    + "?,"
-                    + "?)";
+            String query = "INSERT INTO sb_author VALUES ("
+                    + "?,?,?,?)";
             PreparedStatement pstmt = co.getConnexion().prepareStatement(query);
             pstmt.setString(1, surname);
             pstmt.setString(2, firstname);
@@ -120,14 +116,16 @@ public class Author {
             pstmt.close();
 
         } catch (SQLException ex) {
-            Logger.getLogger(JFAddAuthor.class.getName()).log(Level.SEVERE, null, ex);
+            System.err.println("error: sql exception: " +ex.getMessage());
         }
 
         co.closeConnectionDatabase();
     }
 
+
     @Override
     public String toString() {
         return  surname + " " + firstname ;
     }
+
 }

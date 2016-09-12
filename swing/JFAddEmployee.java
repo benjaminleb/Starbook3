@@ -1,23 +1,21 @@
-
 package swing;
 
 import classes.ConnectSQLS;
+import classes.Employee;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /*
-Gab
+ Gab
  */
 public class JFAddEmployee extends javax.swing.JFrame {
 
-  
     public JFAddEmployee() {
         initComponents();
     }
 
-    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -37,6 +35,7 @@ public class JFAddEmployee extends javax.swing.JFrame {
         Ajouter = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
         setSize(new java.awt.Dimension(600, 550));
 
         jLabel1.setFont(new java.awt.Font("Cambria", 0, 13)); // NOI18N
@@ -68,7 +67,7 @@ public class JFAddEmployee extends javax.swing.JFrame {
         jTextField5.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
 
         jLabel7.setFont(new java.awt.Font("Calibri", 2, 12)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(204, 204, 204));
+        jLabel7.setForeground(new java.awt.Color(102, 102, 102));
         jLabel7.setText("* Champs obligatoires");
 
         Ajouter.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
@@ -146,36 +145,17 @@ public class JFAddEmployee extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void AjouterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AjouterActionPerformed
-        ConnectSQLS co = new ConnectSQLS();
 
-        co.connectDatabase();
+        Employee emp;
 
-        try {
-            String query = "INSERT INTO starbook VALUES ("
-                    + "?,"
-                    + "?,"
-                    + "?,"
-                    + "?,"
-                    + "?)";
-            PreparedStatement pstmt = co.getConnexion().prepareStatement(query);
-            pstmt.setString(1, jTextField1.getText());
-            pstmt.setString(2, jTextField2.getText());
-            pstmt.setString(3, jTextField3.getText());
-            pstmt.setString(4, jTextField4.getText());
-            pstmt.setString(5, jTextField5.getText());
+        emp = new Employee(0, jTextField1.getText(),
+                jTextField2.getText(),
+                jTextField3.getText(),
+                jTextField4.getText(),
+                jTextField5.getText());
 
-            int result = pstmt.executeUpdate();
-            System.out.println("result:" + result);
-            pstmt.close();
+        emp.insertEmployee();
 
-        } catch (SQLException ex) {
-            Logger.getLogger(JFAddAuthor.class.getName()).log(Level.SEVERE, null, ex);
-
-        }
-        co.closeConnectionDatabase();
-
-
-                                         
 
     }//GEN-LAST:event_AjouterActionPerformed
 
