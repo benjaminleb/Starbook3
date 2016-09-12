@@ -10,6 +10,7 @@ import java.util.*;
 import javax.swing.*;
 import classes.*;
 import java.awt.Color;
+import javax.swing.table.*;
 
 /*
  ben
@@ -22,47 +23,55 @@ public class JFCustomer extends javax.swing.JFrame {
     public JFCustomer() {
         initComponents();
     }
-    
-    
-    
-    private void initOrderList(){
+
+    private ListModel initOrderList() {
+        ListModel lm;
         DefaultListModel orders = new DefaultListModel();
+        Customer selectC = (Customer) jCBCustomerSearch.getSelectedItem();
         ConnectSQLS co = new ConnectSQLS();
         co.connectDatabase();
         orderList.removeAll();
-        String query = "";
+        String query = "SELECT * FROM sb_order WHERE customer_id LIKE '" + selectC.getId() + "'";
         try {
             Statement stmt = co.getConnexion().createStatement();
             ResultSet rs = stmt.executeQuery(query);
 
             while (rs.next()) {
-                orders.addElement(new Order(rs.getInt("customer_id"),
-                        rs.getString("customer_surname"),
-                        rs.getString("customer_firstname"),
-                        rs.getString("customer_pwd"),
-                        rs.getString("customer_email"),
-                        rs.getString("customer_cell"),
-                        rs.getString("customer_landline"),
-                        rs.getDate("customer_dob")));
+                orders.addElement(new Order(rs.getInt("order_id"),
+                        selectC,
+                        rs.getDate("order_Date"),
+                        rs.getString("order_ipAddress")));
             }
             rs.close();
             stmt.close();
         } catch (SQLException ex) {
             System.err.println("Oops:SQL:" + ex.getErrorCode() + ":" + ex.getMessage());
-           
+
         }
 
         co.closeConnectionDatabase();
-        
-                
-        
-        
+        lm = orders;
+        return lm;
     }
+    
+    /* EN CHANTIER :(
+    private TableModel initOrderTable(Order SelectO) {
+        TableModel tm;
+        Vector v = new Vector();
+        v.add("Livre");
+        v.add("ISBN");
+        v.add("Prix unitaire TTC");
+        v.add("Quantité");
+        v.add("Prix total TTC");
+
+        tm = new javax.swing.table.DefaultTableModel(SelectO.getOrderLines(), v);
+        return tm;
+    }
+    */
     private DefaultComboBoxModel initModelCustomerResults() {
         return new DefaultComboBoxModel(initVectorCustomerResults());
     }
-    
-    
+
     private Vector initVectorCustomerResults() {
         Vector customerResults = new Vector();
         ConnectSQLS co = new ConnectSQLS();
@@ -71,7 +80,7 @@ public class JFCustomer extends javax.swing.JFrame {
         jCBCustomerSearch.removeAllItems();
         if (jRBMail.isSelected()) {
             //customer_email -> customer_mail !
-            query = "SELECT * FROM sb_Customer WHERE customer_email LIKE '" + jTFMailSearch.getText() + "%'";
+            query = "SELECT * FROM sb_Customer WHERE customer_mail LIKE '" + jTFMailSearch.getText() + "%'";
         } else {
             query = "SELECT * FROM sb_Customer "
                     + "WHERE customer_firstname LIKE '%" + jTFNameSearch1.getText() + "%'"
@@ -87,7 +96,7 @@ public class JFCustomer extends javax.swing.JFrame {
                         rs.getString("customer_surname"),
                         rs.getString("customer_firstname"),
                         rs.getString("customer_pwd"),
-                        rs.getString("customer_email"),
+                        rs.getString("customer_mail"),
                         rs.getString("customer_cell"),
                         rs.getString("customer_landline"),
                         rs.getDate("customer_dob")));
@@ -463,6 +472,11 @@ public class JFCustomer extends javax.swing.JFrame {
         orderTable.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(orderTable);
 
+        orderList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                orderListValueChanged(evt);
+            }
+        });
         jScrollPane2.setViewportView(orderList);
 
         jLabel3.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
@@ -647,14 +661,15 @@ public class JFCustomer extends javax.swing.JFrame {
         Customer selectC = (Customer) jCBCustomerSearch.getSelectedItem();
         jDialogSearch.dispose();
 
-        jLNameV.setText(selectC.getFirstname()+" "+selectC.getSurname().toUpperCase());
+        jLNameV.setText(selectC.getFirstname() + " " + selectC.getSurname().toUpperCase());
         jLMailV.setText(selectC.getMail());
         jLBirthV.setText(Helpers.convertDateToString(selectC.getDob()));
         jLCellV.setText(selectC.getCell());
         jLLandV.setText(selectC.getLandline());
         jLIDV.setText(Integer.toString(selectC.getId()));
         jLStatusV.setText(selectC.getStatusList().lastElement().toString());
-        
+        orderList.setModel(initOrderList());
+
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jCBCustomerSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCBCustomerSearchActionPerformed
@@ -665,6 +680,10 @@ public class JFCustomer extends javax.swing.JFrame {
         // TODO add your handling code here:
         jCBCustomerSearch.setModel(initModelCustomerResults());
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void orderListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_orderListValueChanged
+        // TODO add your handling code here:
+    }//GEN-LAST:event_orderListValueChanged
 
     /**
      * @param args the command line arguments
