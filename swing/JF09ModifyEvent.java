@@ -183,13 +183,16 @@ public class JF09ModifyEvent extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField1ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+        // Update event table
         Event event = new Event();
         try {
             event.updateEvent(jTextField1.getText(), Helpers.convertStringToDate(jTextField2.getText()), Helpers.convertStringToDate(jTextField3.getText()), Float.parseFloat(jTextField4.getText()), Integer.parseInt(jTextField5.getText()));
         } catch (ParseException ex) {
             Logger.getLogger(JF09ModifyEvent.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        // Update bookevent table?
+        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
