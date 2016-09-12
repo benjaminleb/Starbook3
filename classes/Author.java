@@ -130,7 +130,4 @@ public class Author {
     public String toString() {
         return  surname + " " + firstname ;
     }
-    
-    
-    
 }
