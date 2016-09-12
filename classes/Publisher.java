@@ -1,7 +1,10 @@
 package classes;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -73,6 +76,30 @@ public class Publisher {
 
         co.closeConnectionDatabase();
 
+    }
+    public Vector getStatusList(){
+        Vector statusList = new Vector();
+        ConnectSQLS co = new ConnectSQLS();
+        co.connectDatabase();
+        String query = "SELECT * FROM sb_publisherStatus WHERE publisher_isbn LIKE '" + code + "'";
+        try {
+            Statement stmt = co.getConnexion().createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+
+            while (rs.next()) {
+                statusList.add(new BookStatus(rs.getString("publisher_isbn"),
+                        rs.getInt("status_number"),
+                        rs.getDate("status_date")));
+            }
+            rs.close();
+            stmt.close();
+        } catch (SQLException ex) {
+            System.err.println("Oops:SQL:" + ex.getErrorCode() + ":" + ex.getMessage());
+            return statusList;
+        }
+
+        co.closeConnectionDatabase();
+        return statusList;
     }
 
 }
