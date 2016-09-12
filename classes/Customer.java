@@ -118,27 +118,20 @@ public class Customer {
         return info;
     }
     
-    
-    //  METHODES EN CHANTIER/MEDITATION /!\
-    /* 
-    public ArrayList getStatusList(){
-        ArrayList statusList = new ArrayList();
+   
+    public Vector getStatusList(){
+        Vector statusList = new Vector();
         ConnectSQLS co = new ConnectSQLS();
         co.connectDatabase();
-        String query = "SELECT * FROM sb_Status WHERE status_number LIKE '" + id + "'";
+        String query = "SELECT * FROM sb_customerStatus WHERE customer_id LIKE '" + id + "'";
         try {
             Statement stmt = co.getConnexion().createStatement();
             ResultSet rs = stmt.executeQuery(query);
 
             while (rs.next()) {
-                statusList.add(new Customer(rs.getInt("customer_id"),
-                        rs.getString("customer_surname"),
-                        rs.getString("customer_firstname"),
-                        rs.getString("customer_pwd"),
-                        rs.getString("customer_email"),
-                        rs.getString("customer_cell"),
-                        rs.getString("customer_landline"),
-                        rs.getDate("customer_dob")));
+                statusList.add(new ItemStatus(rs.getInt("customer_id"),
+                        rs.getInt("status_number"),
+                        rs.getDate("status_date")));
             }
             rs.close();
             stmt.close();
@@ -150,56 +143,7 @@ public class Customer {
         co.closeConnectionDatabase();
         return statusList;
     }
-    
-    public String getCurrentStatus(){
-        String currentStatus = "Statut inconnu";
-        int statusNumber = getStatusNumber();
-        ConnectSQLS co = new ConnectSQLS();
-        co.connectDatabase();
-        String query = "SELECT * FROM sb_Status WHERE status_number LIKE '" + statusNumber + "'";
-        try {
-            Statement stmt = co.getConnexion().createStatement();
-            ResultSet rs = stmt.executeQuery(query);
+   
 
-            while (rs.next()) {
-               currentStatus = rs.getString("status_name");
-            }
-            rs.close();
-            stmt.close();
-        } catch (SQLException ex) {
-            System.err.println("Oops:SQL:" + ex.getErrorCode() + ":" + ex.getMessage());
-            return currentStatus;
-        }
-
-        co.closeConnectionDatabase();
-        return currentStatus;
-    }
-    
-    public int getStatusNumber (){
-        
-        int statusNumber = 601;
-        ConnectSQLS co = new ConnectSQLS();
-        co.connectDatabase();
-        String query = "SELECT * FROM sb_CustomerStatus WHERE customer_id LIKE '" + id + "'";
-        try {
-            Statement stmt = co.getConnexion().createStatement();
-            ResultSet rs = stmt.executeQuery(query);
-
-            while (rs.next()) {
-               statusNumber = rs.getInt("status_number");
-            }
-            rs.close();
-            stmt.close();
-        } catch (SQLException ex) {
-            System.err.println("Oops:SQL:" + ex.getErrorCode() + ":" + ex.getMessage());
-            return statusNumber;
-        }
-
-        co.closeConnectionDatabase();
-        
-        
-        return statusNumber;
-    }
-*/
 
 }
