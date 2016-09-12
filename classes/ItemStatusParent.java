@@ -34,7 +34,8 @@ public abstract class ItemStatusParent {
     }
 
     //m
-    public String getStatusName(){
+    @Override
+    public String toString(){
         String statusName = "";
         ConnectSQLS co = new ConnectSQLS();
         co.connectDatabase();

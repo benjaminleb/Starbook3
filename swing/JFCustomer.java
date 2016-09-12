@@ -455,6 +455,7 @@ public class JFCustomer extends javax.swing.JFrame {
     private void jRBNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRBNameActionPerformed
         // TODO add your handling code here:
         jTFMailSearch.setEnabled(false);
+        jTFMailSearch.setText("Mail");
         jTFNameSearch1.setEnabled(true);
         jTFNameSearch2.setEnabled(true);
     }//GEN-LAST:event_jRBNameActionPerformed
@@ -463,7 +464,9 @@ public class JFCustomer extends javax.swing.JFrame {
         // TODO add your handling code here:
         jTFMailSearch.setEnabled(true);
         jTFNameSearch1.setEnabled(false);
+        jTFNameSearch1.setText("Prénom");
         jTFNameSearch2.setEnabled(false);
+        jTFNameSearch2.setText("Nom");
     }//GEN-LAST:event_jRBMailActionPerformed
 
     private void jTFMailSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTFMailSearchActionPerformed
@@ -508,7 +511,7 @@ public class JFCustomer extends javax.swing.JFrame {
         jLCellV.setText(selectC.getCell());
         jLLandV.setText(selectC.getLandline());
         jLIDV.setText(Integer.toString(selectC.getId()));
-        jLStatusV.setText("");
+        jLStatusV.setText(selectC.getStatusList().lastElement().toString());
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jCBCustomerSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCBCustomerSearchActionPerformed
