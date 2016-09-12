@@ -30,7 +30,7 @@ public class JFAddBook extends javax.swing.JFrame {
     }
 
     public Vector initVector() {
-        Vector v = new Vector();
+        Vector v01 = new Vector();
         try {
             ConnectSQLS co = new ConnectSQLS();
             co.connectDatabase();
@@ -40,12 +40,12 @@ public class JFAddBook extends javax.swing.JFrame {
             ResultSet rs = stmt.executeQuery(query);
 
             while (rs.next()) {
-                v.add(new Publisher(rs.getString("publisher_isbn"), rs.getString("publisher_name")));
+                v01.add(new Publisher(rs.getString("publisher_isbn"), rs.getString("publisher_name")));
             }
         } catch (SQLException ex) {
             Logger.getLogger(JFAddBook.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return v;
+        return v01;
     }
 
     @SuppressWarnings("unchecked")
