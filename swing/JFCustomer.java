@@ -22,11 +22,47 @@ public class JFCustomer extends javax.swing.JFrame {
     public JFCustomer() {
         initComponents();
     }
+    
+    
+    
+    private void initOrderList(){
+        DefaultListModel orders = new DefaultListModel();
+        ConnectSQLS co = new ConnectSQLS();
+        co.connectDatabase();
+        orderList.removeAll();
+        String query = "";
+        try {
+            Statement stmt = co.getConnexion().createStatement();
+            ResultSet rs = stmt.executeQuery(query);
 
+            while (rs.next()) {
+                orders.addElement(new Order(rs.getInt("customer_id"),
+                        rs.getString("customer_surname"),
+                        rs.getString("customer_firstname"),
+                        rs.getString("customer_pwd"),
+                        rs.getString("customer_email"),
+                        rs.getString("customer_cell"),
+                        rs.getString("customer_landline"),
+                        rs.getDate("customer_dob")));
+            }
+            rs.close();
+            stmt.close();
+        } catch (SQLException ex) {
+            System.err.println("Oops:SQL:" + ex.getErrorCode() + ":" + ex.getMessage());
+           
+        }
+
+        co.closeConnectionDatabase();
+        
+                
+        
+        
+    }
     private DefaultComboBoxModel initModelCustomerResults() {
         return new DefaultComboBoxModel(initVectorCustomerResults());
     }
-
+    
+    
     private Vector initVectorCustomerResults() {
         Vector customerResults = new Vector();
         ConnectSQLS co = new ConnectSQLS();
@@ -106,6 +142,18 @@ public class JFCustomer extends javax.swing.JFrame {
         jLStatusV = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        orderTable = new javax.swing.JTable();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        orderList = new javax.swing.JList();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLOref = new javax.swing.JLabel();
+        jLOprice = new javax.swing.JLabel();
+        jLOdate = new javax.swing.JLabel();
+        jLOstatus = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
@@ -386,7 +434,56 @@ public class JFCustomer extends javax.swing.JFrame {
                 .addGap(58, 58, 58))
         );
 
+        jLabel1.setFont(new java.awt.Font("Calibri", 0, 13)); // NOI18N
         jLabel1.setText("Historique");
+
+        orderTable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Livre", "ISBN", "Prix unitaire TTC", "Quantité", "Prix total TTC"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.Float.class, java.lang.Integer.class, java.lang.Float.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        orderTable.getTableHeader().setReorderingAllowed(false);
+        jScrollPane1.setViewportView(orderTable);
+
+        jScrollPane2.setViewportView(orderList);
+
+        jLabel3.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
+        jLabel3.setText("Ref commande :");
+
+        jLabel4.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
+        jLabel4.setText("Date :");
+
+        jLabel5.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
+        jLabel5.setText("Statut :");
+
+        jLabel6.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
+        jLabel6.setText("Prix TTC :");
+
+        jLOref.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
+
+        jLOprice.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
+
+        jLOdate.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
+
+        jLOstatus.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -394,15 +491,59 @@ public class JFCustomer extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 374, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel6)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLOprice))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel3)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLOref)))
+                        .addGap(138, 138, 138)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel5)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLOstatus))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(jLabel4)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jLOdate)))
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel1)
-                .addContainerGap(273, Short.MAX_VALUE))
+                .addGap(22, 22, 22)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel4)
+                    .addComponent(jLOref)
+                    .addComponent(jLOdate))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6)
+                    .addComponent(jLabel5)
+                    .addComponent(jLOprice)
+                    .addComponent(jLOstatus))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 56, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
 
         jMenu1.setText("File");
@@ -437,11 +578,12 @@ public class JFCustomer extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        setBounds(0, 0, 555, 582);
+        setBounds(0, 0, 555, 658);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSearchActionPerformed
         // TODO add your handling code here:
+        jDialogSearch.setModal(true);
         jDialogSearch.setVisible(true);
     }//GEN-LAST:event_jButtonSearchActionPerformed
 
@@ -507,11 +649,12 @@ public class JFCustomer extends javax.swing.JFrame {
 
         jLNameV.setText(selectC.getFirstname()+" "+selectC.getSurname().toUpperCase());
         jLMailV.setText(selectC.getMail());
-        jLBirthV.setText("");
+        jLBirthV.setText(Helpers.convertDateToString(selectC.getDob()));
         jLCellV.setText(selectC.getCell());
         jLLandV.setText(selectC.getLandline());
         jLIDV.setText(Integer.toString(selectC.getId()));
         jLStatusV.setText(selectC.getStatusList().lastElement().toString());
+        
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jCBCustomerSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCBCustomerSearchActionPerformed
@@ -578,10 +721,18 @@ public class JFCustomer extends javax.swing.JFrame {
     private javax.swing.JLabel jLMailV;
     private javax.swing.JLabel jLName;
     private javax.swing.JLabel jLNameV;
+    private javax.swing.JLabel jLOdate;
+    private javax.swing.JLabel jLOprice;
+    private javax.swing.JLabel jLOref;
+    private javax.swing.JLabel jLOstatus;
     private javax.swing.JLabel jLStatus;
     private javax.swing.JLabel jLStatusV;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
@@ -589,9 +740,13 @@ public class JFCustomer extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JRadioButton jRBMail;
     private javax.swing.JRadioButton jRBName;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTextField jTFMailSearch;
     private javax.swing.JTextField jTFNameSearch1;
     private javax.swing.JTextField jTFNameSearch2;
+    private javax.swing.JList orderList;
+    private javax.swing.JTable orderTable;
     // End of variables declaration//GEN-END:variables
 }
