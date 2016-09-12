@@ -39,9 +39,10 @@ public class Helpers {
         return date ;
     }
     
-    public static java.sql.Date convertUtiltoSQLDate (java.util.Date inDate) {
-        java.sql.Date SQLDate = new java.sql.Date(inDate.getTime());
-        return SQLDate;
-    }
+    //A revoir - (Marie-Laure)
+//    public static java.sql.Date convertUtiltoSQLDate (java.util.Date inDate) {
+//        java.sql.Date SQLDate = new java.sql.Date(inDate.getTime());
+//        return SQLDate;
+//    }
     
 }

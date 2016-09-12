@@ -7,6 +7,9 @@ package swing;
 
 import classes.Author;
 import classes.Helpers;
+import java.text.ParseException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -171,8 +174,12 @@ public class JF05ModifyAuthor extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        Author aut = new Author();
-        aut.updateAuthor(jTextField1.getText(), jTextField2.getText(), jTextField3.getText(), jTextField4.getText(), Integer.parseInt(jTextField5.getText()));
+        try {
+            Author aut = new Author();
+            aut.updateAuthor(jTextField1.getText(), jTextField2.getText(), Helpers.convertStringToDate(jTextField3.getText()), Helpers.convertStringToDate(jTextField4.getText()), Integer.parseInt(jTextField5.getText()));
+        } catch (ParseException ex) {
+            Logger.getLogger(JF05ModifyAuthor.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
