@@ -3,6 +3,8 @@ package classes;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.Vector;
 
 /*
  Gab 
@@ -118,26 +120,32 @@ public class Employee {
         co.closeConnectionDatabase();
     }
     
-    // Récupérer le statut actuel de l'employé
-    public int getEmployeeStatusNumber (int employee_id) {
+    public Vector getStatusList(){
+        Vector statusList = new Vector();
         ConnectSQLS co = new ConnectSQLS();
         co.connectDatabase();
-        int status = -1;
+        String query = "SELECT * FROM sb_employeeStatus WHERE employee_id LIKE '" + id + "'";
         try {
-            String query = "SELECT sb_employeeStatus.status_number FROM employeeStatus WHERE sb_employeeStatus.employee_id = " + employee_id;
-            PreparedStatement stmt = co.getConnexion().prepareStatement(query);
+            Statement stmt = co.getConnexion().createStatement();
             ResultSet rs = stmt.executeQuery(query);
-            
+
             while (rs.next()) {
-                status = rs.getInt("status_number");
+                statusList.add(new ItemStatus(rs.getInt("employee_id"),
+                        rs.getInt("status_number"),
+                        rs.getDate("status_date")));
             }
-           
+            rs.close();
             stmt.close();
         } catch (SQLException ex) {
-            System.err.println("Oops : SQL Connexion : " + ex.getMessage());
+            System.err.println("Oops:SQL:" + ex.getErrorCode() + ":" + ex.getMessage());
+            return statusList;
         }
-        return status;
+
+        co.closeConnectionDatabase();
+        return statusList;
     }
+    
+    
 }
 
 
