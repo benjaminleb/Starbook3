@@ -25,13 +25,13 @@ public class JFCustomer extends javax.swing.JFrame {
     }
 
     private void useOrderList() {
-        
+
         Order o = (Order) orderList.getSelectedValue();
         jLOref.setText(Integer.toString(o.getId()));
         jLOprice.setText(Float.toString(o.calculatePrice()) + " €");
         jLOdate.setText(Helpers.convertDateToString(o.getDate()));
         jLOstatus.setText(o.getStatusList().lastElement().toString());
-        
+
     }
 
     private ListModel initOrderList() {
@@ -64,20 +64,66 @@ public class JFCustomer extends javax.swing.JFrame {
         return lm;
     }
 
- 
-     private DefaultTableModel initOrderTable(Order SelectO) {
-     DefaultTableModel tm;
-     Vector v = new Vector();
-     v.add("Livre");
-     v.add("ISBN");
-     v.add("Prix unitaire TTC");
-     v.add("Quantité");
-     v.add("Prix total TTC");
+    private DefaultTableModel initOrderLinesModel() {
+        Vector v = new Vector();
+        v.add("Titre");
+        v.add("ISBN");
+        v.add("Prix TTC");
+        v.add("Quantité");
+        v.add("Total TTC");
+        
+        
+        
+        return new javax.swing.table.DefaultTableModel(initVectorOrderLines(), v) {
+            boolean[] canEdit = new boolean[]{
+                        false, false, false, false, false
+                    };
+                    public boolean isCellEditable(int rowIndex, int columnIndex) {
+                        return canEdit[columnIndex];
+                    }
+        };
 
-     tm = new javax.swing.table.DefaultTableModel(SelectO.getOrderLines(), v);
-     return tm;
-     }
-    
+    }
+
+    private Vector initVectorOrderLines() {
+        Vector v = new Vector();
+        ConnectSQLS co = new ConnectSQLS();
+        co.connectDatabase();
+        Order select = (Order) orderList.getSelectedValue();
+
+        String query = "SELECT * FROM sb_orderLine WHERE order_id LIKE '" + select.getId() + "'";
+        try {
+            Statement stmt = co.getConnexion().createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+
+            while (rs.next()) {
+                //(int id, String isbnBook, int itemQty, float unitPrice, float taxRate, float discountRate)
+                OrderLine ol = new OrderLine(rs.getInt("orderLine_id"),
+                        rs.getString("book_isbn"), 
+                        rs.getInt("order_itemQty"), 
+                        rs.getFloat("order_unitPrice"), 
+                        rs.getFloat("order_taxRate"), 
+                        rs.getFloat("order_discountRate"));
+                Vector vv = new Vector();
+                vv.add(ol.getBookName());
+                vv.add(ol.getIsbnBook());
+                vv.add(ol.taxUnitPrice());
+                vv.add(ol.getItemQty());
+                vv.add(ol.calculateLinePrice());
+                v.add(vv);
+            }
+
+            rs.close();
+            stmt.close();
+        } catch (SQLException ex) {
+            System.err.println("Oops:SQL:" + ex.getErrorCode() + ":" + ex.getMessage());
+            return v;
+        }
+
+        co.closeConnectionDatabase();
+
+        return v;
+    }
 
     private DefaultComboBoxModel initModelCustomerResults() {
         return new DefaultComboBoxModel(initVectorCustomerResults());
@@ -689,8 +735,7 @@ public class JFCustomer extends javax.swing.JFrame {
         if (orderList.getWidth() >= 0) {
             orderList.setSelectedIndex(0);
             useOrderList();
-            Order SelectO = (Order) orderList.getSelectedValue();
-            initOrderTable(SelectO);
+            orderTable.setModel(initOrderLinesModel());
         }
 
     }//GEN-LAST:event_jButton2ActionPerformed
@@ -706,6 +751,8 @@ public class JFCustomer extends javax.swing.JFrame {
 
     private void orderListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_orderListValueChanged
         // TODO add your handling code here:
+        useOrderList();
+        orderTable.setModel(initOrderLinesModel());
 
     }//GEN-LAST:event_orderListValueChanged
 
