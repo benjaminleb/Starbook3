@@ -39,7 +39,35 @@ public class JF09ModifyEvent extends javax.swing.JFrame {
     
 
 
-    private ListModel initBookList() {
+    private ListModel initNonChosenBookList() {
+        ListModel lm;
+        DefaultListModel books = new DefaultListModel();
+        ConnectSQLS co = new ConnectSQLS();
+        co.connectDatabase();
+        String query = "SELECT * FROM sb_book";
+        try {
+            Statement stmt = co.getConnexion().createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+
+            while (rs.next()) {
+                
+                Book b = new Book(rs.getString("book_isbn"), rs.getString("book_title"),rs.getString("book_subtitle"),rs.getFloat("book_price"));
+                        
+                books.addElement(b);
+            }
+            rs.close();
+            stmt.close();
+        } catch (SQLException ex) {
+            System.err.println("Oops:SQL:" + ex.getErrorCode() + ":" + ex.getMessage());
+        }
+        BookList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+        co.closeConnectionDatabase();
+        lm = books;
+        return lm;
+    }
+    
+    
+     private ListModel initChosenBookList() {
         ListModel lm;
         DefaultListModel books = new DefaultListModel();
         ConnectSQLS co = new ConnectSQLS();
@@ -219,14 +247,10 @@ public class JF09ModifyEvent extends javax.swing.JFrame {
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Ajouter / Supprimer des livres"));
 
-        BookList.setModel(initBookList());
+        BookList.setModel(initNonChosenBookList());
         jScrollPane1.setViewportView(BookList);
 
-        jList2.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
-        });
+        jList2.setModel(initChosenBookList());
         jScrollPane2.setViewportView(jList2);
 
         jButton4.setText("Ajouter");
@@ -280,7 +304,8 @@ public class JF09ModifyEvent extends javax.swing.JFrame {
 
         setJMenuBar(jMenuBar1);
 
-        pack();
+        setSize(new java.awt.Dimension(840, 590));
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
