@@ -17,6 +17,8 @@ import java.util.logging.Logger;
  */
 public class JF05ModifyAuthor extends javax.swing.JFrame {
 
+    private Author aut;
+    
     /**
      * Creates new form JF05ModifyAuthor
      */
@@ -27,13 +29,14 @@ public class JF05ModifyAuthor extends javax.swing.JFrame {
 
     
     public void fillAuthor(Author aut) {
+        this.aut= aut;
         jTextField1.setText(aut.getSurname());
         jTextField2.setText(aut.getFirstname());
         String dobstr = Helpers.convertDateToString(aut.getDob());
         jTextField3.setText(dobstr);
         String dodstr = Helpers.convertDateToString(aut.getDod());
         jTextField4.setText(dodstr);
-        jTextField5.setText(""+aut.getId());
+//        jTextField5.setText(""+aut.getId());
     }
     
     
@@ -176,8 +179,8 @@ public class JF05ModifyAuthor extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try {
             Author aut = new Author();
-            aut.updateAuthor(jTextField1.getText(), jTextField2.getText(), Helpers.convertStringToDate(jTextField3.getText()), Helpers.convertStringToDate(jTextField4.getText()), Integer.parseInt(jTextField5.getText()));
-        } catch (ParseException ex) {
+            aut.updateAuthor(jTextField1.getText(), jTextField2.getText(), Helpers.convertStringToDate(jTextField3.getText()), Helpers.convertStringToDate(jTextField4.getText()), aut.getId());        } 
+        catch (ParseException ex) {
             Logger.getLogger(JF05ModifyAuthor.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
