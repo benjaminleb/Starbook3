@@ -118,7 +118,7 @@ public class Publisher {
             PreparedStatement pstmt = co.getConnexion().prepareStatement(query);
             pstmt.setInt(1, status.getNumber());
             pstmt.setString(2, code);
-            pstmt.setDate(3, (java.sql.Date)getDate());             // problème sur la conversion des dates en sql 
+            pstmt.setDate(3, (java.sql.Date)getDate());             // problème sur la conversion des dates en sql
 
             int result = pstmt.executeUpdate();
             System.out.println("result:" + result);
