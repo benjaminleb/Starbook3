@@ -212,14 +212,14 @@ public class Book {
             PreparedStatement pstmt = co.getConnexion().prepareStatement(query);
             pstmt.setString(1, isbn);
             pstmt.setString(2, publisher.getCode());
-            pstmt.setString(3, title);
-            pstmt.setString(4, subtitle);
-            pstmt.setDate(5, (java.sql.Date) date);
-            pstmt.setString(6, picture);
-            pstmt.setString(7, summary);
-            pstmt.setString(8, idiom);
-            pstmt.setFloat(9, price);
-            pstmt.setFloat(10, tax.getRate());
+            pstmt.setInt(3, tax.getId());
+            pstmt.setString(4, title);
+            pstmt.setString(5, subtitle);
+            pstmt.setDate(6, (java.sql.Date) date);
+            pstmt.setString(7, picture);
+            pstmt.setString(8, summary);
+            pstmt.setString(9, idiom);
+            pstmt.setFloat(10, price);
             pstmt.setInt(11, quantity);
             pstmt.setString(12, pages);
             pstmt.setString(13, print);
@@ -275,7 +275,7 @@ public class Book {
             PreparedStatement pstmt = co.getConnexion().prepareStatement(query);
             pstmt.setInt(1, status.getNumber());
             pstmt.setString(2, isbn);
-            
+              
        
 
             int result = pstmt.executeUpdate();

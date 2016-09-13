@@ -160,7 +160,7 @@ public class Employee {
 
         try {
             String query = "INSERT INTO sb_employeeStatus VALUES ("
-                    + "?,?,GETDATE)";
+                    + "?,?,GETDATE())";
 
             PreparedStatement pstmt = co.getConnexion().prepareStatement(query);
             pstmt.setInt(1, status.getNumber());

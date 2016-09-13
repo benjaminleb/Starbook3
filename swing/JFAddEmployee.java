@@ -225,6 +225,7 @@ public class JFAddEmployee extends javax.swing.JFrame {
                 jTextField5.getText());
 
         emp.insertEmployee();
+       
         emp.insertEmployeeStatus(((Status)jComboBox1.getSelectedItem()));
         
 
