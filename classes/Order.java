@@ -150,6 +150,7 @@ public class Order {
         for (OrderLine line : lines) {
             globalPrice += line.calculateLinePrice();
         }
+        globalPrice = ((float) ((int) (globalPrice * 100))) / 100;
         return globalPrice;                
     }
 

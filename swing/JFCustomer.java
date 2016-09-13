@@ -24,6 +24,16 @@ public class JFCustomer extends javax.swing.JFrame {
         initComponents();
     }
 
+    private void useOrderList() {
+        
+        Order o = (Order) orderList.getSelectedValue();
+        jLOref.setText(Integer.toString(o.getId()));
+        jLOprice.setText(Float.toString(o.calculatePrice()) + " €");
+        jLOdate.setText(Helpers.convertDateToString(o.getDate()));
+        jLOstatus.setText(o.getStatusList().lastElement().toString());
+        
+    }
+
     private ListModel initOrderList() {
         ListModel lm;
         DefaultListModel orders = new DefaultListModel();
@@ -48,26 +58,27 @@ public class JFCustomer extends javax.swing.JFrame {
             System.err.println("Oops:SQL:" + ex.getErrorCode() + ":" + ex.getMessage());
 
         }
-
+        orderList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         co.closeConnectionDatabase();
         lm = orders;
         return lm;
     }
-    
-    /* EN CHANTIER :(
-    private TableModel initOrderTable(Order SelectO) {
-        TableModel tm;
-        Vector v = new Vector();
-        v.add("Livre");
-        v.add("ISBN");
-        v.add("Prix unitaire TTC");
-        v.add("Quantité");
-        v.add("Prix total TTC");
 
-        tm = new javax.swing.table.DefaultTableModel(SelectO.getOrderLines(), v);
-        return tm;
-    }
-    */
+ 
+     private DefaultTableModel initOrderTable(Order SelectO) {
+     DefaultTableModel tm;
+     Vector v = new Vector();
+     v.add("Livre");
+     v.add("ISBN");
+     v.add("Prix unitaire TTC");
+     v.add("Quantité");
+     v.add("Prix total TTC");
+
+     tm = new javax.swing.table.DefaultTableModel(SelectO.getOrderLines(), v);
+     return tm;
+     }
+    
+
     private DefaultComboBoxModel initModelCustomerResults() {
         return new DefaultComboBoxModel(initVectorCustomerResults());
     }
@@ -168,7 +179,6 @@ public class JFCustomer extends javax.swing.JFrame {
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
 
-        jDialogSearch.setPreferredSize(new java.awt.Dimension(470, 335));
         jDialogSearch.setSize(new java.awt.Dimension(470, 335));
         jDialogSearch.addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowOpened(java.awt.event.WindowEvent evt) {
@@ -400,7 +410,7 @@ public class JFCustomer extends javax.swing.JFrame {
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(jLCellV, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jLLandV, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
+                .addGap(51, 51, 51)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jLStatus)
@@ -410,7 +420,7 @@ public class JFCustomer extends javax.swing.JFrame {
                         .addComponent(jLID)
                         .addGap(18, 18, 18)
                         .addComponent(jLIDV, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(28, 28, 28))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -418,29 +428,36 @@ public class JFCustomer extends javax.swing.JFrame {
                 .addComponent(jButtonSearch)
                 .addGap(22, 22, 22)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLName)
-                    .addComponent(jLID)
-                    .addComponent(jLNameV)
-                    .addComponent(jLIDV))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLMail)
-                    .addComponent(jLStatus)
-                    .addComponent(jLMailV)
-                    .addComponent(jLStatusV))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLBirth)
-                    .addComponent(jLBirthV))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLCell)
-                    .addComponent(jLCellV))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLLand)
-                    .addComponent(jLLandV))
-                .addGap(58, 58, 58))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLName)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLMail)
+                            .addComponent(jLMailV))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLBirth)
+                            .addComponent(jLBirthV))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLCell)
+                            .addComponent(jLCellV))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLLand)
+                            .addComponent(jLLandV))
+                        .addGap(58, 58, 58))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLNameV)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLID)
+                            .addComponent(jLIDV))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLStatus)
+                            .addComponent(jLStatusV))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
 
         jLabel1.setFont(new java.awt.Font("Calibri", 0, 13)); // NOI18N
@@ -451,7 +468,7 @@ public class JFCustomer extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Livre", "ISBN", "Prix unitaire TTC", "Quantité", "Prix total TTC"
+                "Titre", "ISBN", "Prix unitaire TTC", "Quantité", "Prix total TTC"
             }
         ) {
             Class[] types = new Class [] {
@@ -472,6 +489,7 @@ public class JFCustomer extends javax.swing.JFrame {
         orderTable.getTableHeader().setReorderingAllowed(false);
         jScrollPane1.setViewportView(orderTable);
 
+        orderList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         orderList.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
             public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
                 orderListValueChanged(evt);
@@ -506,14 +524,11 @@ public class JFCustomer extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel1)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 374, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 501, Short.MAX_VALUE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
@@ -533,8 +548,8 @@ public class JFCustomer extends javax.swing.JFrame {
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(jLabel4)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jLOdate)))
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                                .addComponent(jLOdate)))))
+                .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -553,11 +568,11 @@ public class JFCustomer extends javax.swing.JFrame {
                     .addComponent(jLabel5)
                     .addComponent(jLOprice)
                     .addComponent(jLOstatus))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 56, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jMenu1.setText("File");
@@ -592,7 +607,7 @@ public class JFCustomer extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        setBounds(0, 0, 555, 658);
+        setBounds(0, 0, 747, 620);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSearchActionPerformed
@@ -661,6 +676,7 @@ public class JFCustomer extends javax.swing.JFrame {
         Customer selectC = (Customer) jCBCustomerSearch.getSelectedItem();
         jDialogSearch.dispose();
 
+//infos client
         jLNameV.setText(selectC.getFirstname() + " " + selectC.getSurname().toUpperCase());
         jLMailV.setText(selectC.getMail());
         jLBirthV.setText(Helpers.convertDateToString(selectC.getDob()));
@@ -668,7 +684,14 @@ public class JFCustomer extends javax.swing.JFrame {
         jLLandV.setText(selectC.getLandline());
         jLIDV.setText(Integer.toString(selectC.getId()));
         jLStatusV.setText(selectC.getStatusList().lastElement().toString());
+//infos commande
         orderList.setModel(initOrderList());
+        if (orderList.getWidth() >= 0) {
+            orderList.setSelectedIndex(0);
+            useOrderList();
+            Order SelectO = (Order) orderList.getSelectedValue();
+            initOrderTable(SelectO);
+        }
 
     }//GEN-LAST:event_jButton2ActionPerformed
 
@@ -683,6 +706,7 @@ public class JFCustomer extends javax.swing.JFrame {
 
     private void orderListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_orderListValueChanged
         // TODO add your handling code here:
+
     }//GEN-LAST:event_orderListValueChanged
 
     /**
