@@ -34,6 +34,16 @@ public class Book {
     public Book() {
     }
 
+    public Book(String isbn, String title, String subtitle, float price) {
+        this.isbn = isbn;
+        this.title = title;
+        this.subtitle = subtitle;
+        
+        this.price = price;
+    }
+    
+    
+
     public Book(String isbn, Publisher publisher, String title, Date date, float price, Tax tax, int quantity) {
         this.isbn = isbn;
         this.publisher = publisher;
@@ -187,7 +197,7 @@ public class Book {
     public String toString() {
         return title;
     }
-
+    
     public void insertBook() {
 
         ConnectSQLS co = new ConnectSQLS();
@@ -276,4 +286,7 @@ public class Book {
 
         co.closeConnectionDatabase();
     }
+    
+    
+    
 }
