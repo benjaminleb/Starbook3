@@ -4,6 +4,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDateTime;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -118,7 +119,16 @@ public class Publisher {
             PreparedStatement pstmt = co.getConnexion().prepareStatement(query);
             pstmt.setInt(1, status.getNumber());
             pstmt.setString(2, code);
-            pstmt.setDate(3, (java.sql.Date)getDate());             // problème sur la conversion des dates en sql
+            
+            //TEST DATE
+            LocalDateTime a = LocalDateTime.now();
+            //Convertir en uDate
+            java.util.Date uDate = Helpers.convertDateTimeToUDate(a);
+            java.sql.Date sqlDate = Helpers.convertUtiltoSQLDate(uDate);
+            pstmt.setDate(3, (java.sql.Date) sqlDate);   
+            //FIN TEST DATE
+
+// problème sur la conversion des dates en sql
 
             int result = pstmt.executeUpdate();
             System.out.println("result:" + result);

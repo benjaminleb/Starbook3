@@ -8,6 +8,8 @@ package classes;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Date;
 
 /**
@@ -56,4 +58,14 @@ public class Helpers {
         java.sql.Date sDate = new java.sql.Date(jDate.getTime());
         return sDate;
     }
+    
+    
+    public static java.util.Date convertDateTimeToUDate (LocalDateTime indate) {
+        LocalDateTime a = LocalDateTime.now();  
+        Date in = new Date();
+        LocalDateTime ldt = LocalDateTime.ofInstant(in.toInstant(), ZoneId.systemDefault());
+        Date out = Date.from(ldt.atZone(ZoneId.systemDefault()).toInstant());  
+        return out;
+    }
+  
 }
