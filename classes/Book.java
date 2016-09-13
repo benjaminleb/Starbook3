@@ -227,7 +227,7 @@ public class Book {
     }
 
     public Vector getStatusList() {
-        Vector statusList = new Vector();
+        Vector<BookStatus> statusList = new Vector<BookStatus>();
         ConnectSQLS co = new ConnectSQLS();
         co.connectDatabase();
         String query = "SELECT * FROM sb_bookStatus WHERE book_isbn LIKE '" + isbn + "'";

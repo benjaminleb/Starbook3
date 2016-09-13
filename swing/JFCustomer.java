@@ -32,7 +32,7 @@ public class JFCustomer extends javax.swing.JFrame {
         jLOref.setText(Integer.toString(o.getId()));
         jLOprice.setText(Float.toString(o.calculatePrice()) + " €");
         jLOdate.setText(Helpers.convertDateToString(o.getDate()));
-//        jLOstatus.setText(o.getStatusList().lastElement().toString());
+        jLOstatus.setText(o.getStatusList().lastElement().toString());
 
     }
 
@@ -731,7 +731,7 @@ public class JFCustomer extends javax.swing.JFrame {
         jLCellV.setText(selectC.getCell());
         jLLandV.setText(selectC.getLandline());
         jLIDV.setText(Integer.toString(selectC.getId()));
-        jLStatusV.setText(selectC.getStatusList().lastElement().toString());
+        jLStatusV.setText(selectC.getStatus().toString());
 //infos commande
         orderList.setModel(initOrderList());
         if (orderList.getWidth() >= 0) {

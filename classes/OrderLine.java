@@ -116,7 +116,7 @@ public class OrderLine {
     }
     
     public Vector getStatusList(){
-        Vector statusList = new Vector();
+        Vector<ItemStatus> statusList = new Vector<ItemStatus>();
         ConnectSQLS co = new ConnectSQLS();
         co.connectDatabase();
         String query = "SELECT * FROM sb_orderLineStatus WHERE orderLine_id LIKE '" + id + "'";

@@ -87,11 +87,12 @@ public class Order {
         String info = "Ref "+id+" "+Helpers.convertDateToString(date);
         return info;
     }
+    
 
     public Vector getStatusList(){
         //génère un Vector de l'historique des status de la commande
         //      -> le dernier est le plus récent
-        Vector statusList = new Vector();
+        Vector<ItemStatus> statusList = new Vector<ItemStatus>();
         ConnectSQLS co = new ConnectSQLS();
         co.connectDatabase();
         String query = "SELECT * FROM sb_orderStatus WHERE order_id LIKE '" + id + "'";

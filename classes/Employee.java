@@ -121,7 +121,7 @@ public class Employee {
     }
     
     public Vector getStatusList(){
-        Vector statusList = new Vector();
+        Vector<ItemStatus> statusList = new Vector<ItemStatus>();
         ConnectSQLS co = new ConnectSQLS();
         co.connectDatabase();
         String query = "SELECT * FROM sb_employeeStatus WHERE employee_id LIKE '" + id + "'";

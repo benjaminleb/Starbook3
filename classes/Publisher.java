@@ -79,7 +79,7 @@ public class Publisher {
 
     }
     public Vector getStatusList(){
-        Vector statusList = new Vector();
+        Vector<BookStatus> statusList = new Vector<BookStatus>();
         ConnectSQLS co = new ConnectSQLS();
         co.connectDatabase();
         String query = "SELECT * FROM sb_publisherStatus WHERE publisher_isbn LIKE '" + code + "'";
