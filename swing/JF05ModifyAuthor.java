@@ -24,7 +24,7 @@ public class JF05ModifyAuthor extends javax.swing.JFrame {
      */
     public JF05ModifyAuthor() {
         initComponents();
-        jTextField5.setVisible(false);
+        //jTextField5.setVisible(false);
     }
 
     
