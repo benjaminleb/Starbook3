@@ -102,4 +102,32 @@ public class Publisher {
         return statusList;
     }
 
+
+
+
+    public void insertPublisherStatus(Status status) {
+
+        ConnectSQLS co = new ConnectSQLS();
+
+        co.connectDatabase();
+
+        try {
+            String query = "INSERT INTO sb_publisherStatus VALUES ("
+                    + "?,?,?)";
+
+            PreparedStatement pstmt = co.getConnexion().prepareStatement(query);
+            pstmt.setInt(1, status.getNumber());
+            pstmt.setString(2, code);
+            pstmt.setDate(3, (java.sql.Date)getDate());             // problème sur la conversion des dates en sql 
+
+            int result = pstmt.executeUpdate();
+            System.out.println("result:" + result);
+            pstmt.close();
+
+        } catch (SQLException ex) {
+            System.err.println("error: sql exception: " + ex.getMessage());
+        }
+
+        co.closeConnectionDatabase();
+    }
 }
