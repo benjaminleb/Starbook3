@@ -24,18 +24,19 @@ public class JFCustomer extends javax.swing.JFrame {
         initComponents();
     }
 
+    
+    //orderList
     private void useOrderList() {
 
         Order o = (Order) orderList.getSelectedValue();
         jLOref.setText(Integer.toString(o.getId()));
         jLOprice.setText(Float.toString(o.calculatePrice()) + " €");
         jLOdate.setText(Helpers.convertDateToString(o.getDate()));
-        jLOstatus.setText(o.getStatusList().lastElement().toString());
+//        jLOstatus.setText(o.getStatusList().lastElement().toString());
 
     }
 
-    private ListModel initOrderList() {
-        ListModel lm;
+    private DefaultListModel initOrderList() {
         DefaultListModel orders = new DefaultListModel();
         Customer selectC = (Customer) jCBCustomerSearch.getSelectedItem();
         ConnectSQLS co = new ConnectSQLS();
@@ -60,10 +61,12 @@ public class JFCustomer extends javax.swing.JFrame {
         }
         orderList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         co.closeConnectionDatabase();
-        lm = orders;
-        return lm;
+        return orders;
     }
-
+    
+    
+    
+    //orderLines table
     private DefaultTableModel initOrderLinesModel() {
         Vector v = new Vector();
         v.add("Titre");
@@ -125,6 +128,8 @@ public class JFCustomer extends javax.swing.JFrame {
         return v;
     }
 
+    
+    //recherche customers
     private DefaultComboBoxModel initModelCustomerResults() {
         return new DefaultComboBoxModel(initVectorCustomerResults());
     }
@@ -663,10 +668,7 @@ public class JFCustomer extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonSearchActionPerformed
 
     private void jDialogSearchWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_jDialogSearchWindowOpened
-        // TODO add your handling code here:
-        //        jTFMailSearch.setVisible(false);
-        //        jTFNameSearch1.setVisible(true);
-        //        jTFNameSearch2.setVisible(true);
+        // TODO add your handling code here
     }//GEN-LAST:event_jDialogSearchWindowOpened
 
     private void jRBNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRBNameActionPerformed
@@ -753,6 +755,7 @@ public class JFCustomer extends javax.swing.JFrame {
         // TODO add your handling code here:
         useOrderList();
         orderTable.setModel(initOrderLinesModel());
+         
 
     }//GEN-LAST:event_orderListValueChanged
 
