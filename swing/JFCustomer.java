@@ -50,7 +50,7 @@ public class JFCustomer extends javax.swing.JFrame {
             while (rs.next()) {
                 orders.addElement(new Order(rs.getInt("order_id"),
                         selectC,
-                        rs.getDate("order_Date"),
+                        rs.getDate("order_date"),
                         rs.getString("order_ipAddress")));
             }
             rs.close();
@@ -63,7 +63,6 @@ public class JFCustomer extends javax.swing.JFrame {
         co.closeConnectionDatabase();
         return orders;
     }
-    
     
     
     //orderLines table
@@ -173,6 +172,35 @@ public class JFCustomer extends javax.swing.JFrame {
         co.closeConnectionDatabase();
         return customerResults;
     }
+    
+    //statusList
+    private DefaultListModel initStatusList() {
+        DefaultListModel status = new DefaultListModel();
+        Customer selectC = (Customer) jCBCustomerSearch.getSelectedItem();
+        ConnectSQLS co = new ConnectSQLS();
+        co.connectDatabase();
+        statusList.removeAll();
+        String query = "SELECT * FROM sb_customerStatus WHERE customer_id LIKE '" + selectC.getId() + "'";
+        try {
+            Statement stmt = co.getConnexion().createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+
+            while (rs.next()) {
+                //(int idItem, int statusNumber, Date statusDate)
+                status.addElement(new ItemStatus(rs.getInt("customerStatus_id"),
+                        rs.getInt("status_number"),
+                        rs.getDate("status_date")));
+            }
+            rs.close();
+            stmt.close();
+        } catch (SQLException ex) {
+            System.err.println("Oops:SQL:" + ex.getErrorCode() + ":" + ex.getMessage());
+
+        }
+        statusList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        co.closeConnectionDatabase();
+        return status;
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -194,6 +222,10 @@ public class JFCustomer extends javax.swing.JFrame {
         jRBMail = new javax.swing.JRadioButton();
         jRBName = new javax.swing.JRadioButton();
         jDialogStatus = new javax.swing.JDialog();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        statusList = new javax.swing.JList();
+        jLabel7 = new javax.swing.JLabel();
+        jButton3 = new javax.swing.JButton();
         buttonGroupSearch = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
         jButtonSearch = new javax.swing.JButton();
@@ -211,6 +243,7 @@ public class JFCustomer extends javax.swing.JFrame {
         jLLandV = new javax.swing.JLabel();
         jLIDV = new javax.swing.JLabel();
         jLStatusV = new javax.swing.JLabel();
+        statusButton = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -230,6 +263,7 @@ public class JFCustomer extends javax.swing.JFrame {
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
 
+        jDialogSearch.setPreferredSize(new java.awt.Dimension(470, 335));
         jDialogSearch.setSize(new java.awt.Dimension(470, 335));
         jDialogSearch.addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowOpened(java.awt.event.WindowEvent evt) {
@@ -289,6 +323,11 @@ public class JFCustomer extends javax.swing.JFrame {
         jTFNameSearch1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTFNameSearch1ActionPerformed(evt);
+            }
+        });
+        jTFNameSearch1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jTFNameSearch1KeyPressed(evt);
             }
         });
 
@@ -379,15 +418,48 @@ public class JFCustomer extends javax.swing.JFrame {
                 .addGap(57, 57, 57))
         );
 
+        statusList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jScrollPane3.setViewportView(statusList);
+
+        jLabel7.setFont(new java.awt.Font("Calibri", 0, 13)); // NOI18N
+        jLabel7.setText("Historique des status");
+
+        jButton3.setText("OK");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jDialogStatusLayout = new javax.swing.GroupLayout(jDialogStatus.getContentPane());
         jDialogStatus.getContentPane().setLayout(jDialogStatusLayout);
         jDialogStatusLayout.setHorizontalGroup(
             jDialogStatusLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(jDialogStatusLayout.createSequentialGroup()
+                .addGroup(jDialogStatusLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jDialogStatusLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                    .addGroup(jDialogStatusLayout.createSequentialGroup()
+                        .addGap(70, 70, 70)
+                        .addComponent(jLabel7)
+                        .addGap(0, 62, Short.MAX_VALUE)))
+                .addContainerGap())
+            .addGroup(jDialogStatusLayout.createSequentialGroup()
+                .addGap(106, 106, 106)
+                .addComponent(jButton3)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jDialogStatusLayout.setVerticalGroup(
             jDialogStatusLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jDialogStatusLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel7)
+                .addGap(28, 28, 28)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
+                .addComponent(jButton3)
+                .addGap(26, 26, 26))
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -432,6 +504,20 @@ public class JFCustomer extends javax.swing.JFrame {
         jLIDV.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
 
         jLStatusV.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
+        jLStatusV.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                jLStatusVPropertyChange(evt);
+            }
+        });
+
+        statusButton.setText("...");
+        statusButton.setToolTipText("Historique des statuts");
+        statusButton.setEnabled(false);
+        statusButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                statusButtonActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -471,7 +557,9 @@ public class JFCustomer extends javax.swing.JFrame {
                         .addComponent(jLID)
                         .addGap(18, 18, 18)
                         .addComponent(jLIDV, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(statusButton, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(27, 27, 27))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -507,7 +595,8 @@ public class JFCustomer extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLStatus)
-                            .addComponent(jLStatusV))
+                            .addComponent(jLStatusV)
+                            .addComponent(statusButton))
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
 
@@ -731,7 +820,7 @@ public class JFCustomer extends javax.swing.JFrame {
         jLCellV.setText(selectC.getCell());
         jLLandV.setText(selectC.getLandline());
         jLIDV.setText(Integer.toString(selectC.getId()));
-        jLStatusV.setText(selectC.getStatus().toString());
+        jLStatusV.setText(selectC.getStatusList().lastElement().toString());
 //infos commande
         orderList.setModel(initOrderList());
         if (orderList.getWidth() >= 0) {
@@ -758,6 +847,30 @@ public class JFCustomer extends javax.swing.JFrame {
          
 
     }//GEN-LAST:event_orderListValueChanged
+
+    private void jTFNameSearch1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTFNameSearch1KeyPressed
+        // TODO add your handling code here
+    }//GEN-LAST:event_jTFNameSearch1KeyPressed
+
+    private void statusButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_statusButtonActionPerformed
+        // TODO add your handling code here:
+        jDialogStatus.setModal(true);
+        jDialogStatus.setVisible(true);
+        statusList.setModel(initStatusList());
+        
+    }//GEN-LAST:event_statusButtonActionPerformed
+
+    private void jLStatusVPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jLStatusVPropertyChange
+        // TODO add your handling code here:
+        if(!jLStatusV.getText().isEmpty()){
+            statusButton.setEnabled(true);
+        }
+    }//GEN-LAST:event_jLStatusVPropertyChange
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        jDialogStatus.dispose();
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -798,6 +911,7 @@ public class JFCustomer extends javax.swing.JFrame {
     private javax.swing.ButtonGroup buttonGroupSearch;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JButton jButtonSearch;
     private javax.swing.JComboBox jCBCustomerSearch;
     private javax.swing.JDialog jDialogSearch;
@@ -826,6 +940,7 @@ public class JFCustomer extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
@@ -835,11 +950,14 @@ public class JFCustomer extends javax.swing.JFrame {
     private javax.swing.JRadioButton jRBName;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JTextField jTFMailSearch;
     private javax.swing.JTextField jTFNameSearch1;
     private javax.swing.JTextField jTFNameSearch2;
     private javax.swing.JList orderList;
     private javax.swing.JTable orderTable;
+    private javax.swing.JButton statusButton;
+    private javax.swing.JList statusList;
     // End of variables declaration//GEN-END:variables
 }
