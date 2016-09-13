@@ -370,13 +370,13 @@ public class JFAddBook extends javax.swing.JFrame {
       
 
         Book bk;
-        
+      
         try {
             bk = new Book(jTextField1.getText(),
                     (Publisher) jComboBox1.getSelectedItem(),
                     jTextField3.getText(),
                     jTextField4.getText(),
-                    Helpers.convertStringToDate(jTextField5.getText()),
+                    Helpers.parseDateFromTF(jTextField5.getText()),
                     jTextField6.getText(),
                     jTextField7.getText(),
                     jTextField8.getText(),

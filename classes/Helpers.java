@@ -50,9 +50,10 @@ public class Helpers {
         return utilDate;
     }
     
-    private static DateFormat dateFormat (java.util.Date uDate) {
-        DateFormat df = new SimpleDateFormat("dd/MM/YYYY");
-        return df;
+    public static java.sql.Date parseDateFromTF (String rawDateTF) throws ParseException {
+        SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+        Date jDate = (Date) formatter.parse(rawDateTF);
+        java.sql.Date sDate = new java.sql.Date(jDate.getTime());
+        return sDate;
     }
-
 }

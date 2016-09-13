@@ -58,9 +58,9 @@ public class JF11ModifyEmployee extends javax.swing.JFrame {
     }
     
     
-    public void fillEmployee(Employee emp) {
-        //Remplir la combo box avec le bon statut
-        
+    public void fillEmployee(Employee emp, Status stat) {
+        //Remplir la combo box avec le bon statut >>> A remplir
+        jComboBox1.setSelectedItem(stat.getName());
         jTextField1.setText(emp.getSurname());
         jTextField2.setText(emp.getFirstname());
         // ??? >>>>>>>>><<<<<<<<<<<< ??? Gérer le mot de passe = encrypté ?
@@ -123,6 +123,11 @@ public class JF11ModifyEmployee extends javax.swing.JFrame {
         jLabel6.setText("Statut");
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -216,6 +221,11 @@ public class JF11ModifyEmployee extends javax.swing.JFrame {
         
         // Add a row to EmployeeStatus
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_jComboBox1ActionPerformed
 
     /**
      * @param args the command line arguments
