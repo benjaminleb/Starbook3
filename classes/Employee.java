@@ -4,6 +4,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDateTime;
 import java.util.Vector;
 
 /*
@@ -159,13 +160,13 @@ public class Employee {
 
         try {
             String query = "INSERT INTO sb_employeeStatus VALUES ("
-                    + "?,?,?)";
+                    + "?,?,GETDATE)";
 
             PreparedStatement pstmt = co.getConnexion().prepareStatement(query);
             pstmt.setInt(1, status.getNumber());
             pstmt.setInt(2, id);
-            pstmt.setDate(3, (java.sql.Date)getDate());             // problème sur la conversion des dates en sql 
-
+            
+            
             int result = pstmt.executeUpdate();
             System.out.println("result:" + result);
             pstmt.close();

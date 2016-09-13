@@ -4,6 +4,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDateTime;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -269,12 +270,13 @@ public class Book {
 
         try {
             String query = "INSERT INTO sb_bookStatus VALUES ("
-                    + "?,?,?)";
+                    + "?,?,GETDATE())";
 
             PreparedStatement pstmt = co.getConnexion().prepareStatement(query);
             pstmt.setInt(1, status.getNumber());
             pstmt.setString(2, isbn);
-            pstmt.setDate(3, (java.sql.Date)getDate());
+            
+       
 
             int result = pstmt.executeUpdate();
             System.out.println("result:" + result);
