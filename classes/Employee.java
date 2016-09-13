@@ -144,6 +144,11 @@ public class Employee {
         co.closeConnectionDatabase();
         return statusList;
     }
+
+    @Override
+    public String toString() {
+        return  surname + " " + firstname;
+    }
     
     
 }

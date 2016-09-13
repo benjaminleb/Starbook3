@@ -12,6 +12,8 @@
     </Component>
     <Component class="javax.swing.ButtonGroup" name="buttonGroup5">
     </Component>
+    <Component class="javax.swing.ButtonGroup" name="buttonGroup6">
+    </Component>
     <Menu class="javax.swing.JMenuBar" name="jMenuBar1">
       <SubComponents>
         <Menu class="javax.swing.JMenu" name="jMenu1">
@@ -2191,12 +2193,18 @@
                                           <Component id="jButton20" min="-2" pref="60" max="-2" attributes="0"/>
                                       </Group>
                                       <Component id="jComboBox8" alignment="0" min="-2" pref="354" max="-2" attributes="0"/>
-                                      <Component id="jLabel69" alignment="0" min="-2" pref="155" max="-2" attributes="0"/>
+                                      <Group type="102" alignment="0" attributes="0">
+                                          <Component id="jLabel69" min="-2" pref="155" max="-2" attributes="0"/>
+                                          <EmptySpace type="separate" max="-2" attributes="0"/>
+                                          <Component id="jRadioButton15" min="-2" max="-2" attributes="0"/>
+                                          <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                                          <Component id="jRadioButton16" min="-2" max="-2" attributes="0"/>
+                                      </Group>
                                   </Group>
-                                  <EmptySpace min="-2" pref="36" max="-2" attributes="0"/>
+                                  <EmptySpace min="-2" pref="17" max="-2" attributes="0"/>
                                   <Group type="103" groupAlignment="0" attributes="0">
                                       <Group type="102" alignment="0" attributes="0">
-                                          <EmptySpace min="32" pref="29" max="32767" attributes="0"/>
+                                          <EmptySpace min="32" pref="48" max="32767" attributes="0"/>
                                           <Component id="jLabel70" min="-2" pref="181" max="-2" attributes="0"/>
                                           <EmptySpace min="-2" pref="80" max="-2" attributes="0"/>
                                       </Group>
@@ -2218,6 +2226,8 @@
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="jLabel70" alignment="3" min="-2" pref="37" max="-2" attributes="0"/>
                               <Component id="jLabel69" alignment="3" min="-2" pref="37" max="-2" attributes="0"/>
+                              <Component id="jRadioButton15" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="jRadioButton16" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" alignment="0" attributes="0">
@@ -2311,6 +2321,22 @@
                   </Events>
                 </Component>
                 <Component class="javax.swing.JSeparator" name="jSeparator7">
+                </Component>
+                <Component class="javax.swing.JRadioButton" name="jRadioButton15">
+                  <Properties>
+                    <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
+                      <ComponentRef name="buttonGroup6"/>
+                    </Property>
+                    <Property name="text" type="java.lang.String" value="Nom"/>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JRadioButton" name="jRadioButton16">
+                  <Properties>
+                    <Property name="buttonGroup" type="javax.swing.ButtonGroup" editor="org.netbeans.modules.form.RADComponent$ButtonGroupPropertyEditor">
+                      <ComponentRef name="buttonGroup6"/>
+                    </Property>
+                    <Property name="text" type="java.lang.String" value="Tous"/>
+                  </Properties>
                 </Component>
               </SubComponents>
             </Container>

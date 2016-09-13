@@ -10,6 +10,7 @@ import classes.Book;
 import classes.ConnectSQLS;
 import classes.Employee;
 import classes.Event;
+import classes.Genre;
 import classes.Helpers;
 import classes.Publisher;
 import classes.Tax;
@@ -41,6 +42,7 @@ public class JFMain extends javax.swing.JFrame {
         jRadioButton7.setSelected(true);
         jRadioButton8.setSelected(true);
         jRadioButton12.setSelected(true);
+        jRadioButton15.setSelected(true);
     }
 
     private DefaultComboBoxModel initBookSearch() {
@@ -58,16 +60,46 @@ public class JFMain extends javax.swing.JFrame {
     private DefaultComboBoxModel initEventSearch() {
         return new DefaultComboBoxModel(initVectorEvent());
     }
-    
+
     private DefaultComboBoxModel initEventBooks() {
         return new DefaultComboBoxModel(initVectorBookEvent());
     }
-    
-    private DefaultComboBoxModel initEmployeeSearch(){
+
+    private DefaultComboBoxModel initEmployeeSearch() {
         return new DefaultComboBoxModel(initVectorEmployee());
     }
     
-    public Vector initVectorEmployee(){
+    private DefaultComboBoxModel initGenreSearch(){
+        return new DefaultComboBoxModel(initVectorGenre());
+    }
+
+    public Vector initVectorGenre() {
+        ConnectSQLS co = new ConnectSQLS();
+        co.connectDatabase();
+        Vector v = new Vector();
+        String query = "SELECT sb_genre.* "
+                + "FROM sb_genre ";
+
+        if (jRadioButton15.isSelected()) {
+            query = query + "WHERE sb_genre.genre_name LIKE '%"
+                    + jTextField7.getText() + "%'";
+        }
+        try {
+
+            Statement stmt = co.getConnexion().createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            while (rs.next()) {
+                v.add(new Genre(rs.getString("genre_name")));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(JFMain.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        co.closeConnectionDatabase();
+        return v;
+
+    }
+
+    public Vector initVectorEmployee() {
         ConnectSQLS co = new ConnectSQLS();
         co.connectDatabase();
         Vector v = new Vector();
@@ -78,31 +110,31 @@ public class JFMain extends javax.swing.JFrame {
             query = query + "sb_employee.employee_surname LIKE '%"
                     + jTextField5.getText() + "%'";
         }
-        
+
         if (jRadioButton13.isSelected()) {
             query = query + "sb_employee.employee_firstname LIKE '%"
                     + jTextField5.getText() + "%'";
         }
-        
+
         if (jRadioButton14.isSelected()) {
             query = "SELECT sb_employee.* FROM sb_employee";
         }
-        
+
         try {
             Statement stmt = co.getConnexion().createStatement();
             ResultSet rs = stmt.executeQuery(query);
-            while(rs.next()) {
-                v.add(new Employee(rs.getInt("employee_id"), 
-                        rs.getString("employee_surname"), 
-                        rs.getString("employee_firstname"), 
+            while (rs.next()) {
+                v.add(new Employee(rs.getInt("employee_id"),
+                        rs.getString("employee_surname"),
+                        rs.getString("employee_firstname"),
                         rs.getString("employee_pwd"),
-                        rs.getString("employee_mail"), 
-                        rs.getString("employee_phone")));          
-            }       
-        }catch (SQLException ex) {
+                        rs.getString("employee_mail"),
+                        rs.getString("employee_phone")));
+            }
+        } catch (SQLException ex) {
             Logger.getLogger(JFMain.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         co.closeConnectionDatabase();
         return v;
     }
@@ -121,7 +153,7 @@ public class JFMain extends javax.swing.JFrame {
                 + "AND sb_event.event_id = sb_bookEvent.event_id "
                 + "AND sb_bookEvent.event_id = '"
                 + ev.getId() + "'";
-        
+
         try {
 
             Statement stmt = co.getConnexion().createStatement();
@@ -150,7 +182,7 @@ public class JFMain extends javax.swing.JFrame {
             Logger.getLogger(JFMain.class.getName()).log(Level.SEVERE, null, ex);
         }
         co.closeConnectionDatabase();
-        
+
         return v;
     }
 
@@ -336,6 +368,7 @@ public class JFMain extends javax.swing.JFrame {
         buttonGroup3 = new javax.swing.ButtonGroup();
         buttonGroup4 = new javax.swing.ButtonGroup();
         buttonGroup5 = new javax.swing.ButtonGroup();
+        buttonGroup6 = new javax.swing.ButtonGroup();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
         jButton3 = new javax.swing.JButton();
@@ -476,6 +509,8 @@ public class JFMain extends javax.swing.JFrame {
         jTextField7 = new javax.swing.JTextField();
         jComboBox8 = new javax.swing.JComboBox();
         jSeparator7 = new javax.swing.JSeparator();
+        jRadioButton15 = new javax.swing.JRadioButton();
+        jRadioButton16 = new javax.swing.JRadioButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
@@ -1731,6 +1766,12 @@ public class JFMain extends javax.swing.JFrame {
             }
         });
 
+        buttonGroup6.add(jRadioButton15);
+        jRadioButton15.setText("Nom");
+
+        buttonGroup6.add(jRadioButton16);
+        jRadioButton16.setText("Tous");
+
         javax.swing.GroupLayout jPanel20Layout = new javax.swing.GroupLayout(jPanel20);
         jPanel20.setLayout(jPanel20Layout);
         jPanel20Layout.setHorizontalGroup(
@@ -1748,11 +1789,16 @@ public class JFMain extends javax.swing.JFrame {
                                 .addGap(18, 18, 18)
                                 .addComponent(jButton20, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jComboBox8, javax.swing.GroupLayout.PREFERRED_SIZE, 354, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel69, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(36, 36, 36)
+                            .addGroup(jPanel20Layout.createSequentialGroup()
+                                .addComponent(jLabel69, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jRadioButton15)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jRadioButton16)))
+                        .addGap(17, 17, 17)
                         .addGroup(jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel20Layout.createSequentialGroup()
-                                .addGap(29, 29, Short.MAX_VALUE)
+                                .addGap(32, 48, Short.MAX_VALUE)
                                 .addComponent(jLabel70, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(80, 80, 80))
                             .addGroup(jPanel20Layout.createSequentialGroup()
@@ -1766,7 +1812,9 @@ public class JFMain extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel70, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel69, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel69, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jRadioButton15)
+                    .addComponent(jRadioButton16))
                 .addGroup(jPanel20Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel20Layout.createSequentialGroup()
                         .addGap(24, 24, 24)
@@ -1818,7 +1866,7 @@ public class JFMain extends javax.swing.JFrame {
 
     private void jComboBox6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox6ActionPerformed
         // TODO add your handling code here:
-        Employee em = (Employee)jComboBox6.getSelectedItem();
+        Employee em = (Employee) jComboBox6.getSelectedItem();
         jLabel65.setText(em.getSurname());
         jLabel66.setText(em.getFirstname());
         jLabel62.setText(em.getMail());
@@ -2000,10 +2048,12 @@ public class JFMain extends javax.swing.JFrame {
 
     private void jButton20ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton20ActionPerformed
         // TODO add your handling code here:
+        jComboBox8.setModel(initGenreSearch());
     }//GEN-LAST:event_jButton20ActionPerformed
 
     private void jTextField7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTextField7MouseClicked
         // TODO add your handling code here:
+        jTextField7.setText("");
     }//GEN-LAST:event_jTextField7MouseClicked
 
     private void jTextField7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField7ActionPerformed
@@ -2055,6 +2105,7 @@ public class JFMain extends javax.swing.JFrame {
     private javax.swing.ButtonGroup buttonGroup3;
     private javax.swing.ButtonGroup buttonGroup4;
     private javax.swing.ButtonGroup buttonGroup5;
+    private javax.swing.ButtonGroup buttonGroup6;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton10;
     private javax.swing.JButton jButton11;
@@ -2175,6 +2226,8 @@ public class JFMain extends javax.swing.JFrame {
     private javax.swing.JRadioButton jRadioButton12;
     private javax.swing.JRadioButton jRadioButton13;
     private javax.swing.JRadioButton jRadioButton14;
+    private javax.swing.JRadioButton jRadioButton15;
+    private javax.swing.JRadioButton jRadioButton16;
     private javax.swing.JRadioButton jRadioButton2;
     private javax.swing.JRadioButton jRadioButton3;
     private javax.swing.JRadioButton jRadioButton4;
