@@ -78,6 +78,8 @@ public class JF07ModifyBook extends javax.swing.JFrame {
         jLabel8.setText(bk.getPicture());
         //Fill ComboBox with pre-selected status name
         //TODO
+        //Remplir la combo box avec le bon statut >>> A remplir
+        jComboBox1.setSelectedItem(stat.getName());
         
       
     }
