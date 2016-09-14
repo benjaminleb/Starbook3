@@ -15,10 +15,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.ParseException;
+import java.util.List;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
+import javax.swing.JList;
 import javax.swing.ListModel;
 import javax.swing.ListSelectionModel;
 
@@ -28,32 +30,37 @@ import javax.swing.ListSelectionModel;
  */
 public class JF09ModifyEvent extends javax.swing.JFrame {
 
+    private Event ev;
+
     /**
      * Creates new form JF09ModifyEvent
      */
     public JF09ModifyEvent() {
         initComponents();
         jTextField5.setVisible(false);
+        System.out.println(BookList.getModel().getSize());
     }
-    
 
+    //MÃ©thode qui doit prendre un Ã©vÃ©nement en argument
     private ListModel initNonChosenBookList() {
         ListModel lm;
-        DefaultListModel books = new DefaultListModel();
+        DefaultListModel nonChosenBooks = new DefaultListModel();
         ConnectSQLS co = new ConnectSQLS();
         co.connectDatabase();
-        String query = "SELECT sb_book.*, sb_bookEvent.event_id " +
-                    "FROM sb_book " +
-                    "LEFT JOIN sb_bookEvent " +
-                    "ON sb_book.book_isbn = sb_bookEvent.book_isbn " +
-                    "WHERE sb_bookEvent.event_id <> 2 or sb_bookEvent.event_id is NULL";
+        String query = "SELECT sb_book.*, sb_bookEvent.event_id "
+                + "FROM sb_book "
+                + "LEFT JOIN sb_bookEvent "
+                + "ON sb_book.book_isbn = sb_bookEvent.book_isbn "
+                + // Enlever le id = 2 en dur
+                "WHERE sb_bookEvent.event_id <> 2 or sb_bookEvent.event_id is NULL";
+        //"WHERE sb_bookEvent.event_id <> "+ev.getId()+ " or sb_bookEvent.event_id is NULL";
         try {
             Statement stmt = co.getConnexion().createStatement();
             ResultSet rs = stmt.executeQuery(query);
 
             while (rs.next()) {
-                Book b = new Book(rs.getString("book_isbn"), rs.getString("book_title"),rs.getString("book_subtitle"),rs.getFloat("book_price"));
-                books.addElement(b);
+                Book b = new Book(rs.getString("book_isbn"), rs.getString("book_title"), rs.getString("book_subtitle"), rs.getFloat("book_price"));
+                nonChosenBooks.addElement(b);
             }
             rs.close();
             stmt.close();
@@ -62,29 +69,31 @@ public class JF09ModifyEvent extends javax.swing.JFrame {
         }
         BookList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
         co.closeConnectionDatabase();
-        lm = books;
+        lm = nonChosenBooks;
+        System.out.println("Model>>>>>>>>>" + lm.getSize());
         return lm;
     }
-    
-    
-     private ListModel initChosenBookList() {
+
+    private ListModel initChosenBookList() {
         ListModel lm;
-        DefaultListModel books = new DefaultListModel();
+        DefaultListModel chosenBooks = new DefaultListModel();
         ConnectSQLS co = new ConnectSQLS();
         co.connectDatabase();
         String query = "SELECT sb_book.* "
                 + "FROM sb_book "
                 + "JOIN sb_bookEvent "
                 + "ON sb_book.book_isbn = sb_bookEvent.book_isbn "
+                // Enlever le id = 2 en dur
                 + "WHERE sb_bookEvent.event_id = 2;";
+        //"WHERE sb_bookEvent.event_id = " + ev.getId() + ";";
         //A REMPLACER PAR ev.getId();
         try {
             Statement stmt = co.getConnexion().createStatement();
             ResultSet rs = stmt.executeQuery(query);
 
             while (rs.next()) {
-                Book b = new Book(rs.getString("book_isbn"), rs.getString("book_title"),rs.getString("book_subtitle"),rs.getFloat("book_price"));      
-                books.addElement(b);
+                Book b = new Book(rs.getString("book_isbn"), rs.getString("book_title"), rs.getString("book_subtitle"), rs.getFloat("book_price"));
+                chosenBooks.addElement(b);
             }
             rs.close();
             stmt.close();
@@ -93,47 +102,18 @@ public class JF09ModifyEvent extends javax.swing.JFrame {
         }
         BookList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
         co.closeConnectionDatabase();
-        lm = books;
+        lm = chosenBooks;
         return lm;
     }
-    
-//    private DefaultListModel initBookList() {
-//        return new DefaultListModel(initVectorBookList());
-//    }
-//      
-//    public Vector initVectorBookList(){
-//        ConnectSQLS co = new ConnectSQLS();
-//        co.connectDatabase();
-//        Vector v = new Vector();
-//        String query = "SELECT * "
-//                + "FROM sb_status "
-//                + "WHERE sb_status.status_number LIKE '5%'";
-//        
-//        try {
-//            Statement stmt = co.getConnexion().createStatement();
-//            ResultSet rs = stmt.executeQuery(query);
-//            while (rs.next()) {
-//                v.add(new Status(rs.getInt("status_number"), 
-//                        rs.getString("status_name")));
-//            }
-//        } catch (SQLException ex) {
-//            Logger.getLogger(JFMain.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//        co.closeConnectionDatabase();
-//        return v;
-//    }
-    
-    
-    
-    
-     public void fillEvent(Event ev) {
+
+    public void fillEvent(Event ev) {
+        this.ev = ev;
         jTextField1.setText(ev.getName());
         String startdate = Helpers.convertDateToString(ev.getStart());
         jTextField2.setText(startdate);
         String enddate = Helpers.convertDateToString(ev.getEnd());
         jTextField3.setText(enddate);
-        jTextField4.setText(""+ev.getDiscountRate());
-        jTextField5.setText(""+ev.getId());
+        jTextField4.setText("" + ev.getDiscountRate());
     }
 
     /**
@@ -161,7 +141,7 @@ public class JF09ModifyEvent extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         BookList = new javax.swing.JList();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jList2 = new javax.swing.JList();
+        EventList = new javax.swing.JList();
         jButton4 = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
@@ -169,7 +149,7 @@ public class JF09ModifyEvent extends javax.swing.JFrame {
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         getContentPane().setLayout(null);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Infos événement"));
@@ -227,7 +207,7 @@ public class JF09ModifyEvent extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(32, Short.MAX_VALUE))
         );
 
         getContentPane().add(jPanel1);
@@ -242,7 +222,7 @@ public class JF09ModifyEvent extends javax.swing.JFrame {
             }
         });
         getContentPane().add(jButton1);
-        jButton1.setBounds(390, 470, 103, 32);
+        jButton1.setBounds(390, 510, 103, 32);
 
         jTextField5.setText("jTextField5");
         getContentPane().add(jTextField5);
@@ -253,13 +233,23 @@ public class JF09ModifyEvent extends javax.swing.JFrame {
         BookList.setModel(initNonChosenBookList());
         jScrollPane1.setViewportView(BookList);
 
-        jList2.setModel(initChosenBookList()
+        EventList.setModel(initChosenBookList()
         );
-        jScrollPane2.setViewportView(jList2);
+        jScrollPane2.setViewportView(EventList);
 
         jButton4.setText("Ajouter");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         jButton5.setText("Supprimer");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -279,22 +269,21 @@ public class JF09ModifyEvent extends javax.swing.JFrame {
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton4)
-                        .addGap(27, 27, 27)
-                        .addComponent(jButton5)))
-                .addContainerGap(16, Short.MAX_VALUE))
+                .addContainerGap()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 164, Short.MAX_VALUE)
+                    .addComponent(jScrollPane2))
+                .addContainerGap(27, Short.MAX_VALUE))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(38, 38, 38)
+                .addComponent(jButton4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jButton5)
+                .addGap(57, 57, 57))
         );
 
         getContentPane().add(jPanel2);
-        jPanel2.setBounds(210, 280, 550, 160);
+        jPanel2.setBounds(210, 280, 550, 220);
 
         jLabel6.setIcon(new javax.swing.ImageIcon("D:\\newsalon_paris.jpg")); // NOI18N
         getContentPane().add(jLabel6);
@@ -308,7 +297,7 @@ public class JF09ModifyEvent extends javax.swing.JFrame {
 
         setJMenuBar(jMenuBar1);
 
-        setSize(new java.awt.Dimension(840, 590));
+        setSize(new java.awt.Dimension(841, 630));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -324,10 +313,68 @@ public class JF09ModifyEvent extends javax.swing.JFrame {
         } catch (ParseException ex) {
             Logger.getLogger(JF09ModifyEvent.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         // Update bookevent table?
-        
+
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+
+        //System.out.println(BookList.getModel().getSize()+">>>>"+BookList.getSelectedValuesList().size());
+        System.out.println(BookList.getModel().getSize() + "BOOKLIST1>>>>" + BookList.getSelectedValuesList().size());
+        System.out.println(BookList.getSelectedValue());
+
+        DefaultListModel bookModel= (DefaultListModel) BookList.getModel();
+        Book bk1 = (Book) BookList.getSelectedValue();
+        bookModel.removeElement(bk1);
+        BookList.setModel(bookModel);
+
+        DefaultListModel eventListModel = (DefaultListModel) EventList.getModel();
+        eventListModel.addElement(bk1);
+        EventList.setModel(eventListModel);
+
+//        DefaultListModel bl = (DefaultListModel) BookList.getModel();
+//        BookList = new JList(bl);
+//        System.out.println(BookList.getModel().getSize()+"BookLIST2>>>>"+BookList.getSelectedValuesList().size());
+//        DefaultListModel elm = (DefaultListModel) EventList.getModel();
+//        EventList = new JList(elm);
+        //Rajouter un livre qui apparaît = OK
+//        DefaultListModel bl = (DefaultListModel) BookList.getModel();
+//        BookList = new JList(bl);
+//        for (Object bk : BookList.getSelectedValuesList()) {
+//            chosenBooks.addElement(bk);
+//        }
+//        chosenBooks.addElement(BookList.getSelectedValuesList());
+//        nonChosenBooks.removeElement(BookList.getSelectedValuesList());
+//        BookList.setModel(initNonChosenBookList());
+
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+
+        // Créer un EventListModel pour pouvoir récupérer les éléments sélectionnés
+        DefaultListModel eventListModel = (DefaultListModel) EventList.getModel();
+        Book bk1 = (Book) EventList.getSelectedValue();
+        eventListModel.removeElement(bk1);
+        // Redéfinir le modèle
+        EventList.setModel(eventListModel);
+        
+        DefaultListModel bookModel = (DefaultListModel) BookList.getModel();
+        bookModel.addElement(bk1);
+        BookList.setModel(bookModel);
+        
+//        System.out.println(BookList.getModel().getSize() + "BOOKLIST1>>>>" + BookList.getSelectedValuesList().size());
+//        System.out.println(BookList.getSelectedValue());
+//
+//        DefaultListModel bookModel= (DefaultListModel) BookList.getModel();
+//        Book bk1 = (Book) BookList.getSelectedValue();
+//        bookModel.removeElement(bk1);
+//        BookList.setModel(bookModel);
+//
+//        DefaultListModel eventListModel = (DefaultListModel) EventList.getModel();
+//        eventListModel.addElement(bk1);
+//        EventList.setModel(eventListModel);
+    }//GEN-LAST:event_jButton5ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -366,6 +413,7 @@ public class JF09ModifyEvent extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JList BookList;
+    private javax.swing.JList EventList;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
@@ -375,7 +423,6 @@ public class JF09ModifyEvent extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JList jList2;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;

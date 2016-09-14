@@ -21,7 +21,7 @@ import javax.swing.DefaultComboBoxModel;
  * @author ml
  */
 public class JF11ModifyEmployee extends javax.swing.JFrame {
-
+    private Employee emp;
     /**
      * Creates new form JF11ModifyEmployee
      */
@@ -65,7 +65,7 @@ public class JF11ModifyEmployee extends javax.swing.JFrame {
         jTextField2.setText(emp.getFirstname());
         // ??? >>>>>>>>><<<<<<<<<<<< ??? Gérer le mot de passe = encrypté ?
         jTextField4.setText(emp.getMail());
-        jTextField5.setText(""+emp.getId());
+        this.emp = emp;
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -93,7 +93,7 @@ public class JF11ModifyEmployee extends javax.swing.JFrame {
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Infos employé"));
 

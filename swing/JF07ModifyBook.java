@@ -59,7 +59,7 @@ public class JF07ModifyBook extends javax.swing.JFrame {
         return v;
     }
     
-    public void fillBook (Book bk, Status stat) {
+    public void fillBook (Book bk, String status_name) {
         this.bk = bk;
         jTextField1.setText(bk.getTitle());
         jTextField2.setText(bk.getSubtitle());
@@ -79,7 +79,7 @@ public class JF07ModifyBook extends javax.swing.JFrame {
         //Fill ComboBox with pre-selected status name
         //TODO
         //Remplir la combo box avec le bon statut >>> A remplir
-        jComboBox1.setSelectedItem(stat.getName());
+        jComboBox1.setSelectedItem(status_name);
         
       
     }
@@ -133,7 +133,7 @@ public class JF07ModifyBook extends javax.swing.JFrame {
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jPanel5.setPreferredSize(new java.awt.Dimension(600, 250));
 
