@@ -6,6 +6,7 @@
 package swing;
 
 import classes.ConnectSQLS;
+import classes.Publisher;
 import classes.Status;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -20,9 +21,23 @@ import javax.swing.DefaultComboBoxModel;
  * @author cdi315
  */
 public class JF13ModifyPublisher extends javax.swing.JFrame {
+    private Publisher pub;
+    
+    
     public JF13ModifyPublisher() {
         initComponents();
         jComboBox1.setModel(initPublisherStatusSearch());
+    }
+    
+
+   public void fillPublisher (Publisher pub, String status_name) {
+        this.pub = pub;
+        jTextField1.setText(pub.getName());
+        jTextField2.setText(pub.getCode());
+        //Fill ComboBox with pre-selected status name
+        //TODO
+        //Remplir la combo box avec le bon statut >>> A remplir
+        jComboBox1.setSelectedItem(status_name);  
     }
     /**
      * Creates new form JF13ModifyPublisher
