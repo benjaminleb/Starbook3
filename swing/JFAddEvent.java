@@ -1,17 +1,23 @@
 package swing;
 
+import classes.Book;
 import classes.ConnectSQLS;
 import classes.Event;
 import classes.Helpers;
+import classes.Publisher;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.text.ParseException;
+import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.DefaultListModel;
+import javax.swing.JList;
 import javax.swing.JTextField;
-
-
-
+import javax.swing.ListModel;
+import javax.swing.ListSelectionModel;
 
 /*
  Gab
@@ -20,6 +26,33 @@ public class JFAddEvent extends javax.swing.JFrame {
 
     public JFAddEvent() {
         initComponents();
+    }
+
+    private ListModel initJList1() {
+        ListModel lm;
+        DefaultListModel bookDatabase = new DefaultListModel();
+        ConnectSQLS co = new ConnectSQLS();
+        co.connectDatabase();
+        String query = "SELECT sb_book.* FROM sb_book";
+        
+                
+                try {
+            Statement stmt = co.getConnexion().createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+
+            while (rs.next()) {
+                Book bk = new Book(rs.getString("book_isbn"), rs.getString("book_title"), rs.getString("book_subtitle"), rs.getFloat("book_price"));
+                bookDatabase.addElement(bk);
+            }
+            rs.close();
+            stmt.close();
+        } catch (SQLException ex) {
+            System.err.println("Oops:SQL:" + ex.getErrorCode() + ":" + ex.getMessage());
+        }
+        jList1.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+        co.closeConnectionDatabase();
+        lm = bookDatabase;
+        return lm;
     }
 
     @SuppressWarnings("unchecked")
@@ -94,11 +127,7 @@ public class JFAddEvent extends javax.swing.JFrame {
         jLabel8.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
         jLabel8.setText("Livre:");
 
-        jList1.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
-        });
+        jList1.setModel(initJList1());
         jScrollPane1.setViewportView(jList1);
 
         jList2.setModel(new javax.swing.AbstractListModel() {
@@ -211,7 +240,7 @@ public class JFAddEvent extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void AjouterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AjouterActionPerformed
-    
+
         Event evnt;
 
         try {
