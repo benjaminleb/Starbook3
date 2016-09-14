@@ -10,6 +10,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.ParseException;
+import java.util.List;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -28,9 +29,9 @@ public class JFAddEvent extends javax.swing.JFrame {
         initComponents();
     }
 
-    private ListModel initJList1() {
-        ListModel lm;
-        DefaultListModel bookDatabase = new DefaultListModel();
+    private DefaultListModel initbookDatabase() {
+       
+        DefaultListModel bookDatabaseModel = new DefaultListModel();
         ConnectSQLS co = new ConnectSQLS();
         co.connectDatabase();
         String query = "SELECT sb_book.* FROM sb_book";
@@ -42,19 +43,48 @@ public class JFAddEvent extends javax.swing.JFrame {
 
             while (rs.next()) {
                 Book bk = new Book(rs.getString("book_isbn"), rs.getString("book_title"), rs.getString("book_subtitle"), rs.getFloat("book_price"));
-                bookDatabase.addElement(bk);
+                bookDatabaseModel.addElement(bk);
             }
             rs.close();
             stmt.close();
         } catch (SQLException ex) {
             System.err.println("Oops:SQL:" + ex.getErrorCode() + ":" + ex.getMessage());
         }
-        jList1.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
+        bookDatabase.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
         co.closeConnectionDatabase();
-        lm = bookDatabase;
-        return lm;
+        
+        return bookDatabaseModel;
     }
 
+
+
+    
+    private DefaultListModel bookSelectionModel(){
+        DefaultListModel dm = new DefaultListModel();
+        return dm;
+    }
+    
+    private ListModel modBookSelectionModel(List bl, ListModel dm){
+        ListModel lm;
+        DefaultListModel ndm = dm;
+        for(int i = 0; i < bl.size() ; i++){
+            ndm.addElement(bl.get(i));
+        }
+        lm = ndm;
+        return lm;
+        
+    }
+    
+    
+    
+    
+
+
+    
+    
+    
+    
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -74,11 +104,11 @@ public class JFAddEvent extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList();
+        bookDatabase = new javax.swing.JList();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jList2 = new javax.swing.JList();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        bookSelection = new javax.swing.JList();
+        AjouterLivre = new javax.swing.JButton();
+        SupprimerLIvre = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -127,21 +157,22 @@ public class JFAddEvent extends javax.swing.JFrame {
         jLabel8.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
         jLabel8.setText("Livre:");
 
-        jList1.setModel(initJList1());
-        jScrollPane1.setViewportView(jList1);
+        bookDatabase.setModel(initbookDatabase());
+        jScrollPane1.setViewportView(bookDatabase);
 
-        jList2.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
+        bookSelection.setModel(bookSelectionModel());
+        jScrollPane2.setViewportView(bookSelection);
+
+        AjouterLivre.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
+        AjouterLivre.setText("Ajouter Livre  >>>");
+        AjouterLivre.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AjouterLivreActionPerformed(evt);
+            }
         });
-        jScrollPane2.setViewportView(jList2);
 
-        jButton1.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
-        jButton1.setText("Ajouter Livre  >>>");
-
-        jButton2.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
-        jButton2.setText("Supprimer Livre <<<");
+        SupprimerLIvre.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
+        SupprimerLIvre.setText("Supprimer Livre <<<");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -184,8 +215,8 @@ public class JFAddEvent extends javax.swing.JFrame {
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton2)
-                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(SupprimerLIvre)
+                            .addComponent(AjouterLivre, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(23, 23, 23))))
@@ -228,9 +259,9 @@ public class JFAddEvent extends javax.swing.JFrame {
                         .addGap(14, 14, 14))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(67, 67, 67)
-                        .addComponent(jButton1)
+                        .addComponent(AjouterLivre)
                         .addGap(27, 27, 27)
-                        .addComponent(jButton2)
+                        .addComponent(SupprimerLIvre)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(Ajouter)
                         .addGap(31, 31, 31))))
@@ -257,6 +288,19 @@ public class JFAddEvent extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_AjouterActionPerformed
+
+    private void AjouterLivreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AjouterLivreActionPerformed
+        
+        //ajoute la selection de jlist1 dans jlist2
+        List<Book> bkL = bookDatabase.getSelectedValuesList();
+        bookDatabase.setModel(modBookSelectionModel(bkL,bookDatabase.getModel()));
+        
+        
+        
+        
+        //bookSelection.add(bookDatabaseModel.getSelectedItem());
+        //supprime la selection de jlist1
+    }//GEN-LAST:event_AjouterLivreActionPerformed
 
     /**
      * @param args the command line arguments
@@ -300,8 +344,10 @@ public class JFAddEvent extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Ajouter;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton AjouterLivre;
+    private javax.swing.JButton SupprimerLIvre;
+    private javax.swing.JList bookDatabase;
+    private javax.swing.JList bookSelection;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -310,8 +356,6 @@ public class JFAddEvent extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JList jList1;
-    private javax.swing.JList jList2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextField jTextField1;
