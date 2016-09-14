@@ -121,8 +121,7 @@ public class Publisher {
             pstmt.setString(2, code);
             
            
-            int result = pstmt.executeUpdate();
-            System.out.println("result:" + result);
+            
             pstmt.close();
 
         } catch (SQLException ex) {

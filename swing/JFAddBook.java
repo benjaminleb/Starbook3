@@ -373,7 +373,7 @@ public class JFAddBook extends javax.swing.JFrame {
                 || jTextField14.getText().equals("")) {
 
             JOptionPane JOp01 = new JOptionPane();
-            JOp01.showMessageDialog(null, "Remplissez les champs obligatoires", "Erreur", JOptionPane.ERROR_MESSAGE);
+            JOp01.showMessageDialog(null, "Veuillez remplir les champs obligatoires", "Erreur", JOptionPane.ERROR_MESSAGE);
         } else {
             try {
                 bk = new Book(jTextField1.getText(),

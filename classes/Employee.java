@@ -167,8 +167,7 @@ public class Employee {
             pstmt.setInt(2, id);
             
             
-            int result = pstmt.executeUpdate();
-            System.out.println("result:" + result);
+            
             pstmt.close();
 
         } catch (SQLException ex) {

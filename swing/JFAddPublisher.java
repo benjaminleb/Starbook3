@@ -1,4 +1,3 @@
-
 package swing;
 
 import classes.ConnectSQLS;
@@ -11,13 +10,13 @@ import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
 
 /*
-Gab
+ Gab
  */
 public class JFAddPublisher extends javax.swing.JFrame {
 
-   
     public JFAddPublisher() {
         initComponents();
     }
@@ -44,14 +43,7 @@ public class JFAddPublisher extends javax.swing.JFrame {
         }
         return v;
     }
-    
-   
-    
-    
-    
-    
-    
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -171,12 +163,17 @@ public class JFAddPublisher extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void AjouterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AjouterActionPerformed
-     
-       Publisher pb = new Publisher(jTextField1.getText(), jTextField2.getText());
-       pb.insertPublisher();
-       pb.insertPublisherStatus((Status)jComboBox1.getSelectedItem());
-    }//GEN-LAST:event_AjouterActionPerformed
 
+        if (jTextField1.getText().equals("") || jTextField2.getText().equals("")) {
+            JOptionPane JOp01 = new JOptionPane();
+            JOp01.showMessageDialog(null, "Veuillez remplir les champs obligatoires", "Erreur", JOptionPane.ERROR_MESSAGE);
+        } else {
+
+            Publisher pb = new Publisher(jTextField1.getText(), jTextField2.getText());
+            pb.insertPublisher();
+            pb.insertPublisherStatus((Status) jComboBox1.getSelectedItem());
+    }//GEN-LAST:event_AjouterActionPerformed
+}
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jComboBox1ActionPerformed

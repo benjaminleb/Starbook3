@@ -225,8 +225,7 @@ public class Book {
             pstmt.setString(13, print);
             pstmt.setInt(14, weight);
 
-            int result = pstmt.executeUpdate();
-            System.out.println("result:" + result);
+            
             pstmt.close();
 
         } catch (SQLException ex) {

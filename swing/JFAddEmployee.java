@@ -11,6 +11,7 @@ import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
 
 /*
  Gab
@@ -43,10 +44,7 @@ public class JFAddEmployee extends javax.swing.JFrame {
         }
         return v;
     }
-    
-    
-    
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -218,19 +216,51 @@ public class JFAddEmployee extends javax.swing.JFrame {
 
         Employee emp;
 
-        emp = new Employee(0, jTextField1.getText(),
-                jTextField2.getText(),
-                jTextField3.getText(),
-                jTextField4.getText(),
-                jTextField5.getText());
+        if (jTextField1.getText().equals("") || jTextField2.getText().equals("")
+                || jTextField3.getText().equals("") || jTextField4.getText().equals("")) {
+            JOptionPane JOp01 = new JOptionPane();
+            JOp01.showMessageDialog(null, "Veuillez remplir les champs obligatoires", "Erreur", JOptionPane.ERROR_MESSAGE);
+        } else {
 
-        emp.insertEmployee();
-       
-        emp.insertEmployeeStatus(((Status)jComboBox1.getSelectedItem()));
-        
+            emp = new Employee(0, jTextField1.getText(),
+                    jTextField2.getText(),
+                    jTextField3.getText(),
+                    jTextField4.getText(),
+                    jTextField5.getText());
+
+            emp.insertEmployee();
+
+            // on recherche l'id d'employee avec une requête SQL 
+            ConnectSQLS co = new ConnectSQLS();
+
+            co.connectDatabase();
+
+            try {
+                String query = "SELECT sb_employee.employee_id FROM sb_employee WHERE employee_mail = '" + emp.getMail()+"'";
+
+                Statement stmt = co.getConnexion().createStatement();
+                ResultSet rs = stmt.executeQuery(query);
+                
+                
+                while (rs.next()){
+                emp.setId(rs.getInt("employee_id"));
+                }
+                
+                rs.close();
+                stmt.close();
+                
+
+            } catch (SQLException ex) {
+                System.err.println("error: sql exception: " + ex.getMessage());
+            }
+
+            co.closeConnectionDatabase();
+
+            emp.insertEmployeeStatus(((Status) jComboBox1.getSelectedItem()));
+
 
     }//GEN-LAST:event_AjouterActionPerformed
-
+    }
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jComboBox1ActionPerformed
@@ -249,16 +279,21 @@ public class JFAddEmployee extends javax.swing.JFrame {
                 if ("Nimbus".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
+
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(JFAddEmployee.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(JFAddEmployee.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(JFAddEmployee.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(JFAddEmployee.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(JFAddEmployee.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(JFAddEmployee.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(JFAddEmployee.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(JFAddEmployee.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
