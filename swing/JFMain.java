@@ -12,6 +12,7 @@ import classes.Employee;
 import classes.Event;
 import classes.Genre;
 import classes.Helpers;
+import classes.InputCheck;
 import classes.Publisher;
 import classes.Tax;
 import java.sql.ResultSet;
@@ -21,9 +22,8 @@ import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
-import sun.security.x509.AttributeNameEnumeration;
 
 /**
  *
@@ -164,6 +164,8 @@ public class JFMain extends javax.swing.JFrame {
                         rs.getInt("book_weight")));
                 v.add(v1);
             }
+            rs.close();
+            stmt.close();
 
         } catch (SQLException ex) {
             Logger.getLogger(JFMain.class.getName()).log(Level.SEVERE, null, ex);
@@ -190,6 +192,8 @@ public class JFMain extends javax.swing.JFrame {
             while (rs.next()) {
                 v.add(new Genre(rs.getString("genre_name")));
             }
+            rs.close();
+            stmt.close();
         } catch (SQLException ex) {
             Logger.getLogger(JFMain.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -230,6 +234,8 @@ public class JFMain extends javax.swing.JFrame {
                         rs.getString("employee_mail"),
                         rs.getString("employee_phone")));
             }
+            rs.close();
+            stmt.close();
         } catch (SQLException ex) {
             Logger.getLogger(JFMain.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -276,7 +282,8 @@ public class JFMain extends javax.swing.JFrame {
                         rs.getString("book_print"),
                         rs.getInt("book_weight")));
             }
-
+            rs.close();
+            stmt.close();
         } catch (SQLException ex) {
             Logger.getLogger(JFMain.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -319,7 +326,8 @@ public class JFMain extends javax.swing.JFrame {
                         rs.getFloat("event_discountRate"),
                         rs.getString("event_picture")));
             }
-
+            rs.close();
+            stmt.close();
         } catch (SQLException ex) {
             Logger.getLogger(JFMain.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -354,7 +362,8 @@ public class JFMain extends javax.swing.JFrame {
                 v.add(new Publisher(rs.getString("publisher_isbn"),
                         rs.getString("publisher_name")));
             }
-
+            rs.close();
+            stmt.close();
         } catch (SQLException ex) {
             Logger.getLogger(JFMain.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -394,6 +403,8 @@ public class JFMain extends javax.swing.JFrame {
                         rs.getDate("author_dob"),
                         rs.getDate("author_dod")));
             }
+            rs.close();
+            stmt.close();
 
         } catch (SQLException ex) {
             Logger.getLogger(JFMain.class.getName()).log(Level.SEVERE, null, ex);
@@ -444,6 +455,8 @@ public class JFMain extends javax.swing.JFrame {
                         rs.getString("book_print"),
                         rs.getInt("book_weight")));
             }
+            rs.close();
+            stmt.close();
 
         } catch (SQLException ex) {
             Logger.getLogger(JFMain.class.getName()).log(Level.SEVERE, null, ex);
@@ -1654,7 +1667,7 @@ public class JFMain extends javax.swing.JFrame {
 
         buttonGroup5.add(jRadioButton14);
         jRadioButton14.setFont(new java.awt.Font("Calibri", 0, 13)); // NOI18N
-        jRadioButton14.setText("Les deux");
+        jRadioButton14.setText("Tous");
 
         jLabel52.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
         jLabel52.setText("Ajouter un Employé :");
@@ -1705,7 +1718,7 @@ public class JFMain extends javax.swing.JFrame {
                 .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jSeparator5)
                     .addGroup(jPanel15Layout.createSequentialGroup()
-                        .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(jPanel15Layout.createSequentialGroup()
                                 .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, 276, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
@@ -1718,8 +1731,8 @@ public class JFMain extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(jRadioButton13, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jRadioButton14, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(38, 38, 38)
+                                .addComponent(jRadioButton14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addGap(65, 65, 65)
                         .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel52, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jButton14, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -1968,15 +1981,16 @@ public class JFMain extends javax.swing.JFrame {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {},
+                {},
+                {},
+                {}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+
             }
         ));
+        jTable1.setEnabled(false);
         jScrollPane2.setViewportView(jTable1);
 
         jPanel19.add(jScrollPane2);
@@ -2033,9 +2047,12 @@ public class JFMain extends javax.swing.JFrame {
             while (rs.next()) {
                 jLabel74.setText(rs.getString("status_name"));
             }
+            rs.close();
+            stmt.close();
         } catch (SQLException ex) {
             Logger.getLogger(JFMain.class.getName()).log(Level.SEVERE, null, ex);
         }
+        co.closeConnectionDatabase();
     }//GEN-LAST:event_jComboBox6ActionPerformed
 
     private void jTextField5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField5ActionPerformed
@@ -2049,7 +2066,14 @@ public class JFMain extends javax.swing.JFrame {
 
     private void jButton15ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton15ActionPerformed
         // TODO add your handling code here:
-        jComboBox6.setModel(initEmployeeSearch());
+        if ((jRadioButton12.isSelected()
+                || jRadioButton13.isSelected())
+                && !InputCheck.checkStringIsNotBlank(jTextField5.getText())) {
+            JOptionPane.showMessageDialog(null, "Entrez un nom/prénom valide !", "Erreur", JOptionPane.ERROR_MESSAGE);
+        } else {
+            jComboBox6.setModel(initEmployeeSearch());
+        }
+
     }//GEN-LAST:event_jButton15ActionPerformed
 
     private void jButton14ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton14ActionPerformed
@@ -2082,7 +2106,12 @@ public class JFMain extends javax.swing.JFrame {
 
     private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
         // TODO add your handling code here:
-        jComboBox4.setModel(initEventSearch());
+        if (jRadioButton8.isSelected() && !InputCheck.checkStringIsNotBlank(jTextField4.getText())) {
+            JOptionPane.showMessageDialog(null, "Entrez un nom valide !", "Erreur", JOptionPane.ERROR_MESSAGE);
+        } else {
+            jComboBox4.setModel(initEventSearch());
+        }
+
     }//GEN-LAST:event_jButton13ActionPerformed
 
     private void jRadioButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton11ActionPerformed
@@ -2112,9 +2141,12 @@ public class JFMain extends javax.swing.JFrame {
             while (rs.next()) {
                 jLabel72.setText(rs.getString("status_name"));
             }
+            rs.close();
+            stmt.close();
         } catch (SQLException ex) {
             Logger.getLogger(JFMain.class.getName()).log(Level.SEVERE, null, ex);
         }
+        co.closeConnectionDatabase();
     }//GEN-LAST:event_jComboBox3ActionPerformed
 
     private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
@@ -2128,7 +2160,24 @@ public class JFMain extends javax.swing.JFrame {
 
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
         // TODO add your handling code here:
-        jComboBox3.setModel(initPublisherSearch());
+//        if (jRadioButton7.isSelected() && InputCheck.checkPublisherISBN(jTextField3.getText())) {
+//            jComboBox3.setModel(initPublisherSearch());
+//        } else {
+//            if (jRadioButton9.isSelected() && InputCheck.checkPublisherISBN(jTextField3.getText())) {
+//                jComboBox3.setModel(initPublisherSearch());
+//            } else {
+//                JOptionPane.showMessageDialog(null, "Entrez un champ valide !", "Erreur", JOptionPane.ERROR_MESSAGE);
+//            }
+//        }
+        if ((jRadioButton7.isSelected() && !InputCheck.checkStringIsNotBlank(jTextField3.getText()))) {
+            JOptionPane.showMessageDialog(null, "Entrez un nom valide !", "Erreur", JOptionPane.ERROR_MESSAGE);
+        } else {
+            if (jRadioButton9.isSelected() && !InputCheck.checkPublisherISBN(jTextField3.getText())) {
+                JOptionPane.showMessageDialog(null, "Entrez un isbn valide !", "Erreur", JOptionPane.ERROR_MESSAGE);
+            } else {
+                jComboBox3.setModel(initPublisherSearch());
+            }
+        }
     }//GEN-LAST:event_jButton10ActionPerformed
 
     private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
@@ -2158,7 +2207,12 @@ public class JFMain extends javax.swing.JFrame {
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         // TODO add your handling code here:
-        jComboBox2.setModel(initAuthorSearch());
+        if (!InputCheck.checkStringIsNotBlank(jTextField2.getText())) {
+            JOptionPane.showMessageDialog(null, "Entrez un champ valide !", "Erreur", JOptionPane.ERROR_MESSAGE);
+        } else {
+            jComboBox2.setModel(initAuthorSearch());
+        }
+
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
@@ -2218,8 +2272,21 @@ public class JFMain extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        jComboBox1.setModel(initBookSearch());
-        
+        if ((jRadioButton1.isSelected() && !InputCheck.checkStringIsNotBlank(jTextField1.getText()))) {
+            JOptionPane.showMessageDialog(null, "Entrez un nom valide !", "Erreur", JOptionPane.ERROR_MESSAGE);
+        } else {
+            if (jRadioButton2.isSelected() && !InputCheck.checkStringIsNotBlank(jTextField1.getText())) {
+                JOptionPane.showMessageDialog(null, "Entrez un titre valide !", "Erreur", JOptionPane.ERROR_MESSAGE);
+            } else {
+                if (jRadioButton3.isSelected() && !InputCheck.checkBookISBN(jTextField1.getText())) {
+                    JOptionPane.showMessageDialog(null, "Entrez un isbn valide !", "Erreur", JOptionPane.ERROR_MESSAGE);
+                } else {
+                    jComboBox1.setModel(initBookSearch());
+                }
+            }
+        }
+//        && (!jRadioButton2.isSelected() || !InputCheck.checkStringIsNotBlank(jTextField1.getText()))
+//        && (!jRadioButton3.isSelected() || !InputCheck.checkBookISBN(jTextField1.getText()))
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jRadioButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton2ActionPerformed
@@ -2248,7 +2315,11 @@ public class JFMain extends javax.swing.JFrame {
 
     private void jButton20ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton20ActionPerformed
         // TODO add your handling code here:
-        jComboBox8.setModel(initGenreSearch());
+        if (jRadioButton15.isSelected() && !InputCheck.checkStringIsNotBlank(jTextField7.getText())) {
+            JOptionPane.showMessageDialog(null, "Entrez un genre valide !", "Erreur", JOptionPane.ERROR_MESSAGE);
+        } else {
+            jComboBox8.setModel(initGenreSearch());
+        }
     }//GEN-LAST:event_jButton20ActionPerformed
 
     private void jTextField7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTextField7MouseClicked
