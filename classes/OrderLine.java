@@ -82,6 +82,15 @@ public class OrderLine {
 
     
     //m
+    
+    public float taxUnitPrice(){
+        float uPrice;
+        uPrice = unitPrice+((unitPrice*taxRate)/100);
+        //troncate to xx,xx
+        uPrice = ((float) ((int) (uPrice * 100))) / 100;
+        return uPrice;
+    }
+    
     public float calculateExclTax(){
         float lPrice;
         lPrice = itemQty * unitPrice;
@@ -107,7 +116,7 @@ public class OrderLine {
     }
     
     public Vector getStatusList(){
-        Vector statusList = new Vector();
+        Vector<ItemStatus> statusList = new Vector<ItemStatus>();
         ConnectSQLS co = new ConnectSQLS();
         co.connectDatabase();
         String query = "SELECT * FROM sb_orderLineStatus WHERE orderLine_id LIKE '" + id + "'";
@@ -129,6 +138,29 @@ public class OrderLine {
 
         co.closeConnectionDatabase();
         return statusList;
+    }
+    
+    public String getBookName(){
+        String info = "";
+        ConnectSQLS co = new ConnectSQLS();
+        co.connectDatabase();
+        String query = "SELECT * FROM sb_book WHERE book_isbn LIKE '" + isbnBook + "'";
+        try {
+            Statement stmt = co.getConnexion().createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+
+            while (rs.next()) {
+                info = rs.getString("book_title");
+            }
+            rs.close();
+            stmt.close();
+        } catch (SQLException ex) {
+            System.err.println("Oops:SQL:" + ex.getErrorCode() + ":" + ex.getMessage());
+            return info;
+        }
+
+        co.closeConnectionDatabase();
+        return info;
     }
 
 }

@@ -4,6 +4,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDateTime;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -78,7 +79,7 @@ public class Publisher {
 
     }
     public Vector getStatusList(){
-        Vector statusList = new Vector();
+        Vector<BookStatus> statusList = new Vector<BookStatus>();
         ConnectSQLS co = new ConnectSQLS();
         co.connectDatabase();
         String query = "SELECT * FROM sb_publisherStatus WHERE publisher_isbn LIKE '" + code + "'";
@@ -113,13 +114,13 @@ public class Publisher {
 
         try {
             String query = "INSERT INTO sb_publisherStatus VALUES ("
-                    + "?,?,?)";
+                    + "?,?,GETDATE())";
 
             PreparedStatement pstmt = co.getConnexion().prepareStatement(query);
             pstmt.setInt(1, status.getNumber());
             pstmt.setString(2, code);
-            pstmt.setDate(3, (java.sql.Date)getDate());             // problème sur la conversion des dates en sql 
-
+            
+           
             int result = pstmt.executeUpdate();
             System.out.println("result:" + result);
             pstmt.close();

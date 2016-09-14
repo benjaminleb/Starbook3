@@ -4,6 +4,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.time.LocalDateTime;
 import java.util.Vector;
 
 /*
@@ -121,7 +122,7 @@ public class Employee {
     }
     
     public Vector getStatusList(){
-        Vector statusList = new Vector();
+        Vector<ItemStatus> statusList = new Vector<ItemStatus>();
         ConnectSQLS co = new ConnectSQLS();
         co.connectDatabase();
         String query = "SELECT * FROM sb_employeeStatus WHERE employee_id LIKE '" + id + "'";
@@ -151,7 +152,31 @@ public class Employee {
     }
     
     
+    public void insertEmployeeStatus(Status status) {
+
+        ConnectSQLS co = new ConnectSQLS();
+
+        co.connectDatabase();
+
+        try {
+            String query = "INSERT INTO sb_employeeStatus VALUES ("
+                    + "?,?,GETDATE())";
+
+            PreparedStatement pstmt = co.getConnexion().prepareStatement(query);
+            pstmt.setInt(1, status.getNumber());
+            pstmt.setInt(2, id);
+            
+            
+            int result = pstmt.executeUpdate();
+            System.out.println("result:" + result);
+            pstmt.close();
+
+        } catch (SQLException ex) {
+            System.err.println("error: sql exception: " + ex.getMessage());
+        }
+
+        co.closeConnectionDatabase();
+    }
 }
-
-
+    
 

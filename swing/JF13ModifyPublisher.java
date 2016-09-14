@@ -6,7 +6,6 @@
 package swing;
 
 import classes.ConnectSQLS;
-import classes.Employee;
 import classes.Status;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -18,30 +17,27 @@ import javax.swing.DefaultComboBoxModel;
 
 /**
  *
- * @author ml
+ * @author cdi315
  */
-public class JF11ModifyEmployee extends javax.swing.JFrame {
-
-    /**
-     * Creates new form JF11ModifyEmployee
-     */
-    public JF11ModifyEmployee() {
+public class JF13ModifyPublisher extends javax.swing.JFrame {
+    public JF13ModifyPublisher() {
         initComponents();
-        jTextField6.setVisible(false);
-        jComboBox1.setModel(initEmployeeStatusSearch());
+        jComboBox1.setModel(initPublisherStatusSearch());
     }
-    
-    private DefaultComboBoxModel initEmployeeStatusSearch() {
-        return new DefaultComboBoxModel(initVectorEmployeeStatus());
+    /**
+     * Creates new form JF13ModifyPublisher
+     */
+    private DefaultComboBoxModel initPublisherStatusSearch() {
+        return new DefaultComboBoxModel(initVectorPublisherStatus());
     }
       
-    public Vector initVectorEmployeeStatus(){
+    public Vector initVectorPublisherStatus(){
         ConnectSQLS co = new ConnectSQLS();
         co.connectDatabase();
         Vector v = new Vector();
         String query = "SELECT * "
                 + "FROM sb_status "
-                + "WHERE sb_status.status_number LIKE '5%'";
+                + "WHERE sb_status.status_number LIKE '4%'";
         
         try {
             Statement stmt = co.getConnexion().createStatement();
@@ -57,16 +53,6 @@ public class JF11ModifyEmployee extends javax.swing.JFrame {
         return v;
     }
     
-    
-    public void fillEmployee(Employee emp, Status stat) {
-        //Remplir la combo box avec le bon statut >>> A remplir
-        jComboBox1.setSelectedItem(stat.getName());
-        jTextField1.setText(emp.getSurname());
-        jTextField2.setText(emp.getFirstname());
-        // ??? >>>>>>>>><<<<<<<<<<<< ??? Gérer le mot de passe = encrypté ?
-        jTextField4.setText(emp.getMail());
-        jTextField5.setText(""+emp.getId());
-    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -79,15 +65,10 @@ public class JF11ModifyEmployee extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
         jTextField2 = new javax.swing.JTextField();
-        jTextField4 = new javax.swing.JTextField();
-        jLabel5 = new javax.swing.JLabel();
-        jTextField5 = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         jComboBox1 = new javax.swing.JComboBox();
-        jTextField6 = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
@@ -95,23 +76,15 @@ public class JF11ModifyEmployee extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Infos employé"));
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Infos éditeur"));
 
         jLabel1.setText("Nom");
 
-        jLabel2.setText("Prénom");
-
-        jLabel4.setText("Mot de passe");
+        jLabel2.setText("ISBN");
 
         jTextField1.setText("jTextField1");
 
         jTextField2.setText("jTextField2");
-
-        jTextField4.setText("jTextField4");
-
-        jLabel5.setText("Email");
-
-        jTextField5.setText("jTextField5");
 
         jLabel6.setText("Statut");
 
@@ -131,17 +104,13 @@ public class JF11ModifyEmployee extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel1)
                     .addComponent(jLabel2)
-                    .addComponent(jLabel4)
-                    .addComponent(jLabel5)
                     .addComponent(jLabel6))
-                .addGap(46, 46, 46)
+                .addGap(88, 88, 88)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jTextField1)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 137, Short.MAX_VALUE)
                     .addComponent(jTextField2)
-                    .addComponent(jTextField4)
-                    .addComponent(jTextField5, javax.swing.GroupLayout.DEFAULT_SIZE, 137, Short.MAX_VALUE)
                     .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(64, Short.MAX_VALUE))
+                .addContainerGap(35, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -158,18 +127,8 @@ public class JF11ModifyEmployee extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(jTextField5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(118, 118, 118))
+                .addGap(202, 202, 202))
         );
-
-        jTextField6.setText("jTextField6");
 
         jButton1.setText("Sauvegarder");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -190,27 +149,23 @@ public class JF11ModifyEmployee extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(36, 36, 36)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(35, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButton1)
-                .addGap(55, 55, 55)
-                .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(94, 94, 94))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(34, 34, 34)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(43, Short.MAX_VALUE))
+                .addGap(156, 156, 156))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1))
-                .addGap(49, 49, 49))
+                .addGap(20, 20, 20)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jButton1)
+                .addContainerGap(25, Short.MAX_VALUE))
         );
 
         pack();
@@ -218,14 +173,13 @@ public class JF11ModifyEmployee extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // Update Employee table
-        
-        
+
         // Add a row to EmployeeStatus
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
         // TODO add your handling code here:
-        
+
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
     /**
@@ -245,20 +199,20 @@ public class JF11ModifyEmployee extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(JF11ModifyEmployee.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(JF13ModifyPublisher.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(JF11ModifyEmployee.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(JF13ModifyPublisher.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(JF11ModifyEmployee.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(JF13ModifyPublisher.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(JF11ModifyEmployee.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(JF13ModifyPublisher.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new JF11ModifyEmployee().setVisible(true);
+                new JF13ModifyPublisher().setVisible(true);
             }
         });
     }
@@ -268,8 +222,6 @@ public class JF11ModifyEmployee extends javax.swing.JFrame {
     private javax.swing.JComboBox jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
@@ -277,8 +229,5 @@ public class JF11ModifyEmployee extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel1;
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField5;
-    private javax.swing.JTextField jTextField6;
     // End of variables declaration//GEN-END:variables
 }

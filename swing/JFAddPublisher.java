@@ -174,6 +174,7 @@ public class JFAddPublisher extends javax.swing.JFrame {
      
        Publisher pb = new Publisher(jTextField1.getText(), jTextField2.getText());
        pb.insertPublisher();
+       pb.insertPublisherStatus((Status)jComboBox1.getSelectedItem());
     }//GEN-LAST:event_AjouterActionPerformed
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed

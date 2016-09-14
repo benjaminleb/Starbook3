@@ -14,6 +14,8 @@ import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JOptionPane;
+
 
 /*
  Gab
@@ -47,8 +49,7 @@ public class JFAddBook extends javax.swing.JFrame {
         return v01;
     }
 
-    
-        private DefaultComboBoxModel initComboBox2() {
+    private DefaultComboBoxModel initComboBox2() {
         return new DefaultComboBoxModel(initVector2());
     }
 
@@ -70,9 +71,7 @@ public class JFAddBook extends javax.swing.JFrame {
         }
         return v02;
     }
-    
-   
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -185,7 +184,7 @@ public class JFAddBook extends javax.swing.JFrame {
         jTextField13.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
 
         jLabel15.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
-        jLabel15.setText("Poids:");
+        jLabel15.setText("Poids:*");
 
         jTextField14.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
 
@@ -354,7 +353,7 @@ public class JFAddBook extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel17))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel16, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(Ajouter, javax.swing.GroupLayout.Alignment.TRAILING))
@@ -365,33 +364,39 @@ public class JFAddBook extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void AjouterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AjouterActionPerformed
-      
 
         Book bk;
-      
-        try {
-            bk = new Book(jTextField1.getText(),
-                    (Publisher) jComboBox1.getSelectedItem(),
-                    jTextField3.getText(),
-                    jTextField4.getText(),
-                    Helpers.parseDateFromTF(jTextField5.getText()),
-                    jTextField6.getText(),
-                    jTextField7.getText(),
-                    jTextField8.getText(),
-                    Float.valueOf(jTextField9.getText()),
-                    new Tax(0, "tva", Float.valueOf(jTextField10.getText())),
-                    Integer.valueOf(jTextField11.getText()),
-                    jTextField12.getText(),
-                    jTextField13.getText(),
-                    Integer.valueOf(jTextField14.getText()));
-            bk.insertBook();
-            bk.insertBookStatus((Status)jComboBox2.getSelectedItem());
-            
-            
-        } catch (ParseException ex) {
-            Logger.getLogger(JFAddBook.class.getName()).log(Level.SEVERE, null, ex);
-        }
 
+        if (jTextField1.getText().equals("") || jTextField3.getText().equals("")
+                || jTextField5.getText().equals("") || jTextField9.getText().equals("")
+                || jTextField10.getText().equals("") || jTextField11.getText().equals("")
+                || jTextField14.getText().equals("")) {
+
+            JOptionPane JOp01 = new JOptionPane();
+            JOp01.showMessageDialog(null, "Remplissez les champs obligatoires", "Erreur", JOptionPane.ERROR_MESSAGE);
+        } else {
+            try {
+                bk = new Book(jTextField1.getText(),
+                        (Publisher) jComboBox1.getSelectedItem(),
+                        jTextField3.getText(),
+                        jTextField4.getText(),
+                        Helpers.parseDateFromTF(jTextField5.getText()),
+                        jTextField6.getText(),
+                        jTextField7.getText(),
+                        jTextField8.getText(),
+                        Float.valueOf(jTextField9.getText()),
+                        new Tax(1, "tva", Float.valueOf(jTextField10.getText())),
+                        Integer.valueOf(jTextField11.getText()),
+                        jTextField12.getText(),
+                        jTextField13.getText(),
+                        Integer.valueOf(jTextField14.getText()));
+                bk.insertBook();
+                bk.insertBookStatus((Status) jComboBox2.getSelectedItem());
+
+            } catch (ParseException ex) {
+                Logger.getLogger(JFAddBook.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }//GEN-LAST:event_AjouterActionPerformed
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
@@ -399,8 +404,8 @@ public class JFAddBook extends javax.swing.JFrame {
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
     private void AjouterEditeurActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AjouterEditeurActionPerformed
-     JFAddPublisher japb = new JFAddPublisher();
-     japb.setVisible(true);
+        JFAddPublisher japb = new JFAddPublisher();
+        japb.setVisible(true);
     }//GEN-LAST:event_AjouterEditeurActionPerformed
 
     private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
