@@ -34,25 +34,25 @@ public class JF09ModifyEvent extends javax.swing.JFrame {
     public JF09ModifyEvent() {
         initComponents();
         jTextField5.setVisible(false);
-       // BookList.setModel(initBookList());
     }
     
-
 
     private ListModel initNonChosenBookList() {
         ListModel lm;
         DefaultListModel books = new DefaultListModel();
         ConnectSQLS co = new ConnectSQLS();
         co.connectDatabase();
-        String query = "SELECT * FROM sb_book";
+        String query = "SELECT sb_book.*, sb_bookEvent.event_id " +
+                    "FROM sb_book " +
+                    "LEFT JOIN sb_bookEvent " +
+                    "ON sb_book.book_isbn = sb_bookEvent.book_isbn " +
+                    "WHERE sb_bookEvent.event_id <> 2 or sb_bookEvent.event_id is NULL";
         try {
             Statement stmt = co.getConnexion().createStatement();
             ResultSet rs = stmt.executeQuery(query);
 
             while (rs.next()) {
-                
                 Book b = new Book(rs.getString("book_isbn"), rs.getString("book_title"),rs.getString("book_subtitle"),rs.getFloat("book_price"));
-                        
                 books.addElement(b);
             }
             rs.close();
@@ -72,15 +72,18 @@ public class JF09ModifyEvent extends javax.swing.JFrame {
         DefaultListModel books = new DefaultListModel();
         ConnectSQLS co = new ConnectSQLS();
         co.connectDatabase();
-        String query = "SELECT * FROM sb_book";
+        String query = "SELECT sb_book.* "
+                + "FROM sb_book "
+                + "JOIN sb_bookEvent "
+                + "ON sb_book.book_isbn = sb_bookEvent.book_isbn "
+                + "WHERE sb_bookEvent.event_id = 2;";
+        //A REMPLACER PAR ev.getId();
         try {
             Statement stmt = co.getConnexion().createStatement();
             ResultSet rs = stmt.executeQuery(query);
 
             while (rs.next()) {
-                
-                Book b = new Book(rs.getString("book_isbn"), rs.getString("book_title"),rs.getString("book_subtitle"),rs.getFloat("book_price"));
-                        
+                Book b = new Book(rs.getString("book_isbn"), rs.getString("book_title"),rs.getString("book_subtitle"),rs.getFloat("book_price"));      
                 books.addElement(b);
             }
             rs.close();
@@ -250,7 +253,8 @@ public class JF09ModifyEvent extends javax.swing.JFrame {
         BookList.setModel(initNonChosenBookList());
         jScrollPane1.setViewportView(BookList);
 
-        jList2.setModel(initChosenBookList());
+        jList2.setModel(initChosenBookList()
+        );
         jScrollPane2.setViewportView(jList2);
 
         jButton4.setText("Ajouter");
