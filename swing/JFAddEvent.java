@@ -61,22 +61,8 @@ public class JFAddEvent extends javax.swing.JFrame {
         return bookDatabaseModel;
     }
 
-    /*private DefaultListModel bookSelectionModel() {
-        DefaultListModel dm = new DefaultListModel();
-        return dm;
-    }
+   
 
-    private ListModel modBookSelectionModel(List bl, ListModel dm) {
-        ListModel lm;
-        DefaultListModel ndm = dm;
-        for (int i = 0; i < bl.size(); i++) {
-            ndm.addElement(bl.get(i));
-        }
-        lm = ndm;
-        return lm;
-
-    }
-*/
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -100,7 +86,7 @@ public class JFAddEvent extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         bookSelection = new javax.swing.JList();
         AjouterLivre = new javax.swing.JButton();
-        SupprimerLIvre = new javax.swing.JButton();
+        SupprimerLivre = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -163,11 +149,11 @@ public class JFAddEvent extends javax.swing.JFrame {
             }
         });
 
-        SupprimerLIvre.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
-        SupprimerLIvre.setText("Supprimer Livre <<<");
-        SupprimerLIvre.addActionListener(new java.awt.event.ActionListener() {
+        SupprimerLivre.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
+        SupprimerLivre.setText("Supprimer Livre <<<");
+        SupprimerLivre.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                SupprimerLIvreActionPerformed(evt);
+                SupprimerLivreActionPerformed(evt);
             }
         });
 
@@ -212,7 +198,7 @@ public class JFAddEvent extends javax.swing.JFrame {
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(SupprimerLIvre)
+                            .addComponent(SupprimerLivre)
                             .addComponent(AjouterLivre, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -258,7 +244,7 @@ public class JFAddEvent extends javax.swing.JFrame {
                         .addGap(67, 67, 67)
                         .addComponent(AjouterLivre)
                         .addGap(27, 27, 27)
-                        .addComponent(SupprimerLIvre)
+                        .addComponent(SupprimerLivre)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(Ajouter)
                         .addGap(31, 31, 31))))
@@ -291,6 +277,34 @@ public class JFAddEvent extends javax.swing.JFrame {
                             jTextField5.getText());
 
                     evnt.insertEvent();
+                    
+                // on recherche l'id de l'event avec une requête sql 
+                ConnectSQLS co = new ConnectSQLS();
+
+                co.connectDatabase();
+
+                try {
+                    String query = "SELECT sb_event.event_id FROM sb_event WHERE event_name = '" + evnt.getName()+ "'";
+
+                    Statement stmt = co.getConnexion().createStatement();
+                    ResultSet rs = stmt.executeQuery(query);
+
+                    while (rs.next()) {
+                        evnt.setId(rs.getInt("event_id"));
+                    }
+
+                    rs.close();
+                    stmt.close();
+
+                } catch (SQLException ex) {
+                    System.err.println("error: sql exception: " + ex.getMessage());
+                }
+
+                co.closeConnectionDatabase();
+                    
+                // on insère la sélection de livres  reliée à l'id de l'event recherché 
+                evnt.insertBookEvent((Book b) bookSelection.getSelectedValuesList().get(b) );
+                    
 
                 } catch (ParseException ex) {
                     Logger.getLogger(JFAddEvent.class.getName()).log(Level.SEVERE, null, ex);
@@ -312,8 +326,8 @@ public class JFAddEvent extends javax.swing.JFrame {
         
     }//GEN-LAST:event_AjouterLivreActionPerformed
 
-    private void SupprimerLIvreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SupprimerLIvreActionPerformed
-        // déplace la sélection de jListé à jList1
+    private void SupprimerLivreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SupprimerLivreActionPerformed
+        // déplace la sélection de jList2 à jList1
         List<Book> bkL = bookSelection.getSelectedValuesList();
         DefaultListModel dmBDD= (DefaultListModel) bookDatabase.getModel();
         DefaultListModel dmSelection =  (DefaultListModel) bookSelection.getModel();
@@ -321,7 +335,7 @@ public class JFAddEvent extends javax.swing.JFrame {
             dmSelection.removeElement(b);
             dmBDD.addElement(b);
         } 
-    }//GEN-LAST:event_SupprimerLIvreActionPerformed
+    }//GEN-LAST:event_SupprimerLivreActionPerformed
 
     /**
      * @param args the command line arguments
@@ -366,7 +380,7 @@ public class JFAddEvent extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Ajouter;
     private javax.swing.JButton AjouterLivre;
-    private javax.swing.JButton SupprimerLIvre;
+    private javax.swing.JButton SupprimerLivre;
     private javax.swing.JList bookDatabase;
     private javax.swing.JList bookSelection;
     private javax.swing.JLabel jLabel1;

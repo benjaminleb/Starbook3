@@ -13,7 +13,6 @@ import swing.JFAddAuthor;
 public class Event {
 
     //p
-
     private int id;
     private String name;
     private Date start;
@@ -125,8 +124,32 @@ public class Event {
             System.out.println("result:" + result);
             pstmt.close();
 
-         } catch (SQLException ex) {
-            System.err.println("error: sql exception: " +ex.getMessage());
+        } catch (SQLException ex) {
+            System.err.println("error: sql exception: " + ex.getMessage());
+        }
+        co.closeConnectionDatabase();
+
+    }
+
+    public void insertBookEvent(Book b) {
+
+        ConnectSQLS co = new ConnectSQLS();
+
+        co.connectDatabase();
+
+        try {
+            String query = "INSERT INTO sb_bookEvent VALUES ("
+                    + "?,?)";
+            PreparedStatement pstmt = co.getConnexion().prepareStatement(query);
+            pstmt.setInt(1, id);
+            pstmt.setString(2, isbn);
+
+            int result = pstmt.executeUpdate();
+            System.out.println("result:" + result);
+            pstmt.close();
+
+        } catch (SQLException ex) {
+            System.err.println("error: sql exception: " + ex.getMessage());
         }
         co.closeConnectionDatabase();
 
@@ -134,11 +157,7 @@ public class Event {
 
     @Override
     public String toString() {
-        return  name;
+        return name;
     }
-    
-    
 
 }
-
-
