@@ -33,16 +33,12 @@ public class JF09ModifyEvent extends javax.swing.JFrame {
 
     private Event ev;
 
-    /**
-     * Creates new form JF09ModifyEvent
-     */
     public JF09ModifyEvent() {
         initComponents();
         jTextField5.setVisible(false);
         //System.out.println(BookList.getModel().getSize());
     }
 
-    //MÃ©thode qui doit prendre un Ã©vÃ©nement en argument
     private ListModel initNonChosenBookList() {
         ListModel lm;
         DefaultListModel nonChosenBooks = new DefaultListModel();
@@ -310,7 +306,7 @@ public class JF09ModifyEvent extends javax.swing.JFrame {
         // Update event table
         Event event = new Event();
         try {
-            event.updateEvent(jTextField1.getText(), Helpers.convertStringToDate(jTextField2.getText()), Helpers.convertStringToDate(jTextField3.getText()), Float.parseFloat(jTextField4.getText()), Integer.parseInt(jTextField5.getText()));
+            event.updateEvent(jTextField1.getText(), Helpers.convertStringToDate(jTextField2.getText()), Helpers.convertStringToDate(jTextField3.getText()), Float.parseFloat(jTextField4.getText()), ev.getId());
         } catch (ParseException ex) {
             Logger.getLogger(JF09ModifyEvent.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -320,15 +316,12 @@ public class JF09ModifyEvent extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        //Print debug
-        //System.out.println(BookList.getModel().getSize()+">>>>"+BookList.getSelectedValuesList().size());
-        //System.out.println(BookList.getModel().getSize() + "BOOKLIST1>>>>" + BookList.getSelectedValuesList().size());
+
         System.out.println("Size selectedValuesList : " + BookList.getSelectedValuesList().size());
-        
-        //Print
+
         ArrayList aSupprimer= new ArrayList();
         DefaultListModel eventListModel = (DefaultListModel) EventList.getModel();
-        for( Object o : BookList.getSelectedValuesList()) {
+        for(Object o : BookList.getSelectedValuesList()) {
             eventListModel.addElement(o);
             aSupprimer.add(o);
         }
@@ -336,42 +329,14 @@ public class JF09ModifyEvent extends javax.swing.JFrame {
         for (Object o : aSupprimer) {
             bookModel.removeElement(o);
         }
-        
-        // Get Models
-       //DefaultListModel eventListModel = (DefaultListModel) EventList.getModel();
-        
-        //Add to model
-//        for (int i = 0; i < BookList.getSelectedValuesList().size(); i++) {
-//            Book bk0 = (Book) BookList.getSelectedValuesList().get(i);
-//            System.out.println("Boucle pour insertion, à l'étape "+i+" : "+ bk0);
-//            bookModel.removeElement(bk0);
-//            //eventListModel.removeElement(bk0);   
-//        }
-//        BookList.setModel(bookModel);
-        //EventList.setModel(eventListModel);
-        
-        //VERSION AVEC UN SEUL ELEMENT SELECTIONNABLE
-//        DefaultListModel bookModel= (DefaultListModel) BookList.getModel();
-//        Book bk1 = (Book) BookList.getSelectedValue();
-//        bookModel.removeElement(bk1);
-//        BookList.setModel(bookModel);
-//
-//        DefaultListModel eventListModel = (DefaultListModel) EventList.getModel();
-//        eventListModel.addElement(bk1);
-//        EventList.setModel(eventListModel);
-
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        //print
-//        for (int i = 0; i < EventList.getSelectedValuesList().size(); i++) {
-//            System.out.println(EventList.getSelectedValuesList().get(i));
-//        }
-        
+
         ArrayList aSupprimer= new ArrayList();
         DefaultListModel eventListModel = (DefaultListModel) EventList.getModel();
         DefaultListModel bookModel= (DefaultListModel) BookList.getModel();
-        for( Object o : EventList.getSelectedValuesList()) {
+        for(Object o : EventList.getSelectedValuesList()) {
             bookModel.addElement(o);
             aSupprimer.add(o);
         }
@@ -381,17 +346,6 @@ public class JF09ModifyEvent extends javax.swing.JFrame {
         }
         
         
-        
-        
-        
-//        DefaultListModel eventListModel = (DefaultListModel) EventList.getModel();
-//        Book bk1 = (Book) EventList.getSelectedValue();
-//        eventListModel.removeElement(bk1);
-//        EventList.setModel(eventListModel);
-//        
-//        DefaultListModel bookModel = (DefaultListModel) BookList.getModel();
-//        bookModel.addElement(bk1);
-//        BookList.setModel(bookModel);
     }//GEN-LAST:event_jButton5ActionPerformed
 
     /**
