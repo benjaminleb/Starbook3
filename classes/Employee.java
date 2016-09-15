@@ -105,9 +105,9 @@ public class Employee {
             PreparedStatement pstmt = co.getConnexion().prepareStatement(query);
             pstmt.setString(1, surname);
             pstmt.setString(2, firstname);
-            pstmt.setString(3, pwd);
-            pstmt.setString(4, mail);
-            pstmt.setString(5, phone);
+            pstmt.setString(5, Log.convertPassword(pwd));
+            pstmt.setString(3, mail);
+            pstmt.setString(4, phone);
             
 
             int result = pstmt.executeUpdate();
