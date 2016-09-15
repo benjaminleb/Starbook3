@@ -3,6 +3,7 @@ package classes;
 /*
  Gab
  */
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -118,7 +119,37 @@ public class Customer {
         return info;
     }
     
-   
+    public void updateCustomer(){
+        ConnectSQLS co = new ConnectSQLS();
+        co.connectDatabase();
+        try {
+            String query = "UPDATE sb_customer SET"
+                    + "customer_surname = ?,"
+                    + "customer_firstname = ?,"
+                    + "customer_mail = ?,"
+                    + "customer_cell = ?,"
+                    + "customer_landline = ?,"
+                    + "customer_dob = ?"
+                    + "WHERE customer_id = ?";
+
+            PreparedStatement pstmt = co.getConnexion().prepareStatement(query);
+            pstmt.setString(1, "'"+surname+"'");
+            pstmt.setString(2, "'"+firstname+"'");
+            pstmt.setString(3, "'"+mail+"'");
+            pstmt.setString(4, "'"+cell+"'");
+            pstmt.setString(5, "'"+landline+"'");
+            pstmt.setDate(6, Helpers.convertUtiltoSQLDate(dob));
+            pstmt.setInt(7, id);
+
+            
+            pstmt.close();
+
+        } catch (SQLException ex) {
+            System.err.println("error: sql exception: " + ex.getMessage());
+        }
+
+        co.closeConnectionDatabase();
+    }
     
     public Vector getStatusList(){
         Vector<ItemStatus> statusList = new Vector<ItemStatus>();

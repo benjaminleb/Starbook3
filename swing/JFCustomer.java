@@ -1,4 +1,3 @@
-
 package swing;
 
 import java.sql.*;
@@ -21,9 +20,10 @@ public class JFCustomer extends javax.swing.JFrame {
      */
     public JFCustomer() {
         initComponents();
+        permaCo.connectDatabase();
+
     }
 
-    
     // --------------- ORDER jLIST ---------------
     private void useOrderList() {
 
@@ -37,18 +37,17 @@ public class JFCustomer extends javax.swing.JFrame {
 
     private DefaultListModel initOrderList() {
         DefaultListModel orders = new DefaultListModel();
-        Customer selectC = (Customer) jCBCustomerSearch.getSelectedItem();
         ConnectSQLS co = new ConnectSQLS();
         co.connectDatabase();
         orderList.removeAll();
-        String query = "SELECT * FROM sb_order WHERE customer_id LIKE '" + selectC.getId() + "'";
+        String query = "SELECT * FROM sb_order WHERE customer_id LIKE '" + current.getId() + "'";
         try {
             Statement stmt = co.getConnexion().createStatement();
             ResultSet rs = stmt.executeQuery(query);
 
             while (rs.next()) {
                 orders.addElement(new Order(rs.getInt("order_id"),
-                        selectC,
+                        current,
                         rs.getDate("order_date"),
                         rs.getString("order_ipAddress")));
             }
@@ -62,8 +61,59 @@ public class JFCustomer extends javax.swing.JFrame {
         co.closeConnectionDatabase();
         return orders;
     }
-    
-    
+
+    //--------------- SearchC LIST ---------------
+    private DefaultListModel empowerSearchC(Connection co) {
+        DefaultListModel searchC = new DefaultListModel();
+        int oName;
+        String fName;
+        String sName;
+        String query = new String();
+        jLiSearchC.removeAll();
+        if (jComboSearchC.getSelectedIndex() == 1) {
+            query = "SELECT * FROM sb_customer WHERE customer_mail LIKE '" + jTFSearchC.getText() + "%'";
+        } else {
+            if (!jTFSearchC.getText().contains(" ")) {
+                query = "SELECT * FROM sb_customer WHERE customer_firstname LIKE '%" + jTFSearchC.getText() + "%'";
+            } else {
+                oName = jTFSearchC.getText().lastIndexOf(" ");
+                fName = jTFSearchC.getText().substring(0, oName);
+                sName = jTFSearchC.getText().substring(oName+1).trim();
+                System.out.println(fName);
+                System.out.println(sName);
+                query = "SELECT * FROM sb_customer "
+                        + "WHERE (customer_firstname LIKE '" + fName + "%' "
+                        + "AND customer_surname LIKE '%" + sName + "%') "
+                        + "OR (customer_firstname LIKE '" + sName + "%' "
+                        + "AND customer_surname LIKE '%" + fName + "%')";
+            }
+
+        }
+
+        try {
+            Statement stmt = co.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+
+            while (rs.next()) {
+                searchC.addElement(new Customer(rs.getInt("customer_id"),
+                        rs.getString("customer_surname"),
+                        rs.getString("customer_firstname"),
+                        rs.getString("customer_pwd"),
+                        rs.getString("customer_mail"),
+                        rs.getString("customer_cell"),
+                        rs.getString("customer_landline"),
+                        rs.getDate("customer_dob")));
+            }
+            rs.close();
+            stmt.close();
+        } catch (SQLException ex) {
+            System.err.println("Oops:SQL:" + ex.getErrorCode() + ":" + ex.getMessage());
+
+        }
+        jLiSearchC.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        return searchC;
+    }
+
     //--------------- ORDERLINES jTABLE ---------------
     private DefaultTableModel initOrderLinesModel() {
         Vector v = new Vector();
@@ -72,16 +122,15 @@ public class JFCustomer extends javax.swing.JFrame {
         v.add("Prix TTC");
         v.add("Quantité");
         v.add("Total TTC");
-        
-        
-        
+
         return new javax.swing.table.DefaultTableModel(initVectorOrderLines(), v) {
             boolean[] canEdit = new boolean[]{
-                        false, false, false, false, false
-                    };
-                    public boolean isCellEditable(int rowIndex, int columnIndex) {
-                        return canEdit[columnIndex];
-                    }
+                false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit[columnIndex];
+            }
         };
 
     }
@@ -99,10 +148,10 @@ public class JFCustomer extends javax.swing.JFrame {
 
             while (rs.next()) {
                 OrderLine ol = new OrderLine(rs.getInt("orderLine_id"),
-                        rs.getString("book_isbn"), 
-                        rs.getInt("order_itemQty"), 
-                        rs.getFloat("order_unitPrice"), 
-                        rs.getFloat("order_taxRate"), 
+                        rs.getString("book_isbn"),
+                        rs.getInt("order_itemQty"),
+                        rs.getFloat("order_unitPrice"),
+                        rs.getFloat("order_taxRate"),
                         rs.getFloat("order_discountRate"));
                 Vector vv = new Vector();
                 vv.add(ol.getBookName());
@@ -125,59 +174,14 @@ public class JFCustomer extends javax.swing.JFrame {
         return v;
     }
 
-    
-    //--------------- CUSTOMER SEARCH ---------------
-    private DefaultComboBoxModel initModelCustomerResults() {
-        return new DefaultComboBoxModel(initVectorCustomerResults());
-    }
 
-    private Vector initVectorCustomerResults() {
-        Vector customerResults = new Vector();
-        ConnectSQLS co = new ConnectSQLS();
-        co.connectDatabase();
-        String query;
-        jCBCustomerSearch.removeAllItems();
-        if (jRBMail.isSelected()) {
-            query = "SELECT * FROM sb_Customer WHERE customer_mail LIKE '" + jTFMailSearch.getText() + "%'";
-        } else {
-            query = "SELECT * FROM sb_Customer "
-                    + "WHERE customer_firstname LIKE '%" + jTFNameSearch1.getText() + "%'"
-                    + "AND customer_surname LIKE '%" + jTFNameSearch2.getText() + "%'";
-        }
-
-        try {
-            Statement stmt = co.getConnexion().createStatement();
-            ResultSet rs = stmt.executeQuery(query);
-
-            while (rs.next()) {
-                customerResults.add(new Customer(rs.getInt("customer_id"),
-                        rs.getString("customer_surname"),
-                        rs.getString("customer_firstname"),
-                        rs.getString("customer_pwd"),
-                        rs.getString("customer_mail"),
-                        rs.getString("customer_cell"),
-                        rs.getString("customer_landline"),
-                        rs.getDate("customer_dob")));
-            }
-            rs.close();
-            stmt.close();
-        } catch (SQLException ex) {
-            System.err.println("Oops:SQL:" + ex.getErrorCode() + ":" + ex.getMessage());
-            return customerResults;
-        }
-
-        co.closeConnectionDatabase();
-        return customerResults;
-    }
-    
     //--------------- STATUS HISTO ---------------
     private String initStatusC() {
         String hist = new String();
-        Customer selectC = (Customer) jCBCustomerSearch.getSelectedItem();
         ConnectSQLS co = new ConnectSQLS();
         co.connectDatabase();
         jTAStatus.removeAll();
-        String query = "SELECT * FROM sb_customerStatus WHERE customer_id LIKE '" + selectC.getId() + "'";
+        String query = "SELECT * FROM sb_customerStatus WHERE customer_id LIKE '" + current.getId() + "'";
         try {
             Statement stmt = co.getConnexion().createStatement();
             ResultSet rs = stmt.executeQuery(query);
@@ -186,7 +190,7 @@ public class JFCustomer extends javax.swing.JFrame {
                 ItemStatus status = new ItemStatus(rs.getInt("customerStatus_id"),
                         rs.getInt("status_number"),
                         rs.getDate("status_date"));
-                hist += Helpers.convertDateToString(status.getStatusDate())+" - "+status.toString()+"\n";
+                hist += Helpers.convertDateToString(status.getStatusDate()) + " - " + status.toString() + "\n";
             }
             rs.close();
             stmt.close();
@@ -197,7 +201,7 @@ public class JFCustomer extends javax.swing.JFrame {
         co.closeConnectionDatabase();
         return hist;
     }
-    
+
     private String initStatusO() {
         String hist = new String();
         Order selectO = (Order) orderList.getSelectedValue();
@@ -213,7 +217,7 @@ public class JFCustomer extends javax.swing.JFrame {
                 ItemStatus status = new ItemStatus(rs.getInt("orderStatus_id"),
                         rs.getInt("status_number"),
                         rs.getDate("status_date"));
-                hist += Helpers.convertDateToString(status.getStatusDate())+" - "+status.toString()+"\n";
+                hist += Helpers.convertDateToString(status.getStatusDate()) + " - " + status.toString() + "\n";
             }
             rs.close();
             stmt.close();
@@ -224,11 +228,10 @@ public class JFCustomer extends javax.swing.JFrame {
         co.closeConnectionDatabase();
         return hist;
     }
-    
+
     //--------------- ADD CUSTOMER ---------------
-    
     //  Status jCombo
-     private DefaultComboBoxModel initModelStatus() {
+    private DefaultComboBoxModel initModelStatus() {
         return new DefaultComboBoxModel(initVectorStatus());
     }
 
@@ -237,16 +240,15 @@ public class JFCustomer extends javax.swing.JFrame {
         ConnectSQLS co = new ConnectSQLS();
         co.connectDatabase();
         String query;
-        jCBCustomerSearch.removeAllItems();
-        
-            query = "SELECT * FROM sb_status WHERE status_number > 600 AND status_number < 700";
-                   
+        jComboStatus.removeAllItems();
+
+        query = "SELECT * FROM sb_status WHERE status_number > 600 AND status_number < 700";
+
         try {
             Statement stmt = co.getConnexion().createStatement();
             ResultSet rs = stmt.executeQuery(query);
 
             while (rs.next()) {
-                //public Status(int number, String name){
                 status.add(new Status(rs.getInt("status_number"),
                         rs.getString("status_name")));
             }
@@ -260,31 +262,64 @@ public class JFCustomer extends javax.swing.JFrame {
         co.closeConnectionDatabase();
         return status;
     }
-    
-    private void addCustomer() throws ParseException{
-        //(int id, String surname, String firstname, String pwd, String mail, String cell, String landline, Date dob)
-        String dob = jTFDBirthAC.getText()+"/"+jTFMBirthAC.getText()+"/"+jTFYBirthAC.getText();
-        Customer c = new Customer(0, jTFSurnameAC.getText(), jTFFirstnameAC.getText(), 
-                "password", jTFCellAC.getText(), jTFLandlineAC.getText(), 
+
+    private void newCustStatus(Customer c) {
+        Status selectS = (Status) jComboStatus.getSelectedItem();
+        ConnectSQLS co = new ConnectSQLS();
+        co.connectDatabase();
+        try {
+            String query = "INSERT INTO sb_customerStatus "
+                    + "(status_number, customer_id, status_date) VALUES "
+                    + "(?, ?, GETDATE())";
+
+            PreparedStatement pstmt = co.getConnexion().prepareStatement(query);
+            pstmt.setInt(1, selectS.getNumber());
+            pstmt.setInt(2, c.getId());
+
+            pstmt.close();
+
+        } catch (SQLException ex) {
+            System.err.println("error: sql exception: " + ex.getMessage());
+        }
+
+        co.closeConnectionDatabase();
+
+    }
+
+    private void addCustomer() throws ParseException {
+        String dob = jTFDBirthAC.getText() + "/" + jTFMBirthAC.getText() + "/" + jTFYBirthAC.getText();
+        Customer c = new Customer(0, jTFSurnameAC.getText(), jTFFirstnameAC.getText(),
+                "password", jTFMailAC.getText(), jTFCellAC.getText(), jTFLandlineAC.getText(),
                 Helpers.convertStringToDate(dob));
         ConnectSQLS co = new ConnectSQLS();
         co.connectDatabase();
         String query = "INSERT INTO sb_customer(customer_surname, customer_firstname, "
                 + "customer_pwd, customer_mail,customer_cell, customer_landline, customer_dob) "
-                + "VALUES ('"+c.getSurname()+"', '"+c.getFirstname()+"', '"+c.getPwd()+"',"
-                + "'"+c.getMail()+"', '"+c.getCell()+"', '"+c.getLandline()+"', '"+Helpers.convertUtiltoSQLDate(c.getDob())+"')";                   
+                + "VALUES ('" + c.getSurname() + "', '" + c.getFirstname() + "', '" + c.getPwd() + "',"
+                + "'" + c.getMail() + "', '" + c.getCell() + "', '" + c.getLandline() + "', '" + Helpers.convertUtiltoSQLDate(c.getDob()) + "')";
         try {
             Statement stmt = co.getConnexion().createStatement();
             ResultSet rs = stmt.executeQuery(query);
-       
+
             rs.close();
             stmt.close();
         } catch (SQLException ex) {
             System.err.println("Oops:SQL:" + ex.getErrorCode() + ":" + ex.getMessage());
-           
+
         }
+        newCustStatus(c);
 
         co.closeConnectionDatabase();
+    }
+
+    private Customer modCustomer() throws ParseException {
+        String dob = jTFDBirthAC.getText() + "/" + jTFMBirthAC.getText() + "/" + jTFYBirthAC.getText();
+        Customer m = new Customer(current.getId(), jTFSurnameAC.getText(), jTFFirstnameAC.getText(),
+                current.getPwd(), jTFMailAC.getText(), jTFCellAC.getText(), jTFLandlineAC.getText(),
+                Helpers.convertStringToDate(dob));
+        m.updateCustomer();
+
+        return m;
     }
 
     /**
@@ -296,22 +331,11 @@ public class JFCustomer extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jDialogSearch = new javax.swing.JDialog();
-        jLabel2 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jCBCustomerSearch = new javax.swing.JComboBox();
-        jButton2 = new javax.swing.JButton();
-        jTFNameSearch2 = new javax.swing.JTextField();
-        jTFNameSearch1 = new javax.swing.JTextField();
-        jTFMailSearch = new javax.swing.JTextField();
-        jRBMail = new javax.swing.JRadioButton();
-        jRBName = new javax.swing.JRadioButton();
         jDialogStatus = new javax.swing.JDialog();
         jLabel7 = new javax.swing.JLabel();
         jButton3 = new javax.swing.JButton();
         jScrollPane4 = new javax.swing.JScrollPane();
         jTAStatus = new javax.swing.JTextArea();
-        buttonGroupSearch = new javax.swing.ButtonGroup();
         jDialogAddCustomer = new javax.swing.JDialog();
         jLTitleAC = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
@@ -322,7 +346,7 @@ public class JFCustomer extends javax.swing.JFrame {
         jLabel13 = new javax.swing.JLabel();
         jLabel14 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox();
+        jComboStatus = new javax.swing.JComboBox();
         jTFSurnameAC = new javax.swing.JTextField();
         jTFMailAC = new javax.swing.JTextField();
         jTFFirstnameAC = new javax.swing.JTextField();
@@ -334,8 +358,8 @@ public class JFCustomer extends javax.swing.JFrame {
         jLabel17 = new javax.swing.JLabel();
         jTFYBirthAC = new javax.swing.JTextField();
         jButton5 = new javax.swing.JButton();
-        ACButton = new javax.swing.JToggleButton();
-        jButton6 = new javax.swing.JButton();
+        MCButton = new javax.swing.JButton();
+        ACButton = new javax.swing.JButton();
         jDialogAddAddress = new javax.swing.JDialog();
         jPanel7 = new javax.swing.JPanel();
         jLabel28 = new javax.swing.JLabel();
@@ -363,6 +387,13 @@ public class JFCustomer extends javax.swing.JFrame {
         jTFCityD1 = new javax.swing.JTextField();
         jTFCodeD1 = new javax.swing.JTextField();
         jTFCountryD1 = new javax.swing.JTextField();
+        jDialogSearchC = new javax.swing.JDialog();
+        jLabel8 = new javax.swing.JLabel();
+        jComboSearchC = new javax.swing.JComboBox();
+        jTFSearchC = new javax.swing.JTextField();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jLiSearchC = new javax.swing.JList();
+        OKSearchC = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jButtonSearch = new javax.swing.JButton();
         jLName = new javax.swing.JLabel();
@@ -401,161 +432,6 @@ public class JFCustomer extends javax.swing.JFrame {
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
-
-        jDialogSearch.setTitle("Recherche de client");
-        jDialogSearch.setSize(new java.awt.Dimension(470, 335));
-        jDialogSearch.addWindowListener(new java.awt.event.WindowAdapter() {
-            public void windowOpened(java.awt.event.WindowEvent evt) {
-                jDialogSearchWindowOpened(evt);
-            }
-        });
-
-        jLabel2.setFont(new java.awt.Font("Calibri", 0, 13)); // NOI18N
-        jLabel2.setText("Rechercher un client par");
-
-        jButton1.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
-        jButton1.setText("OK");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-
-        jCBCustomerSearch.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
-        jCBCustomerSearch.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Sélectionner un client" }));
-        jCBCustomerSearch.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCBCustomerSearchActionPerformed(evt);
-            }
-        });
-
-        jButton2.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
-        jButton2.setText("Sélectionner");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
-
-        jTFNameSearch2.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
-        jTFNameSearch2.setText("Nom");
-        jTFNameSearch2.setToolTipText("Nom");
-        jTFNameSearch2.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jTFNameSearch2MouseClicked(evt);
-            }
-        });
-        jTFNameSearch2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTFNameSearch2ActionPerformed(evt);
-            }
-        });
-
-        jTFNameSearch1.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
-        jTFNameSearch1.setText("Prénom");
-        jTFNameSearch1.setToolTipText("Prénom");
-        jTFNameSearch1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jTFNameSearch1MouseClicked(evt);
-            }
-        });
-        jTFNameSearch1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTFNameSearch1ActionPerformed(evt);
-            }
-        });
-        jTFNameSearch1.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                jTFNameSearch1KeyPressed(evt);
-            }
-        });
-
-        jTFMailSearch.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
-        jTFMailSearch.setText("Mail");
-        jTFMailSearch.setToolTipText("Mail");
-        jTFMailSearch.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
-        jTFMailSearch.setEnabled(false);
-        jTFMailSearch.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jTFMailSearchMouseClicked(evt);
-            }
-        });
-        jTFMailSearch.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTFMailSearchActionPerformed(evt);
-            }
-        });
-
-        buttonGroupSearch.add(jRBMail);
-        jRBMail.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
-        jRBMail.setText("Mail");
-        jRBMail.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jRBMailActionPerformed(evt);
-            }
-        });
-
-        buttonGroupSearch.add(jRBName);
-        jRBName.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
-        jRBName.setSelected(true);
-        jRBName.setText("Nom");
-        jRBName.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jRBNameActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout jDialogSearchLayout = new javax.swing.GroupLayout(jDialogSearch.getContentPane());
-        jDialogSearch.getContentPane().setLayout(jDialogSearchLayout);
-        jDialogSearchLayout.setHorizontalGroup(
-            jDialogSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jDialogSearchLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(185, 185, 185))
-            .addGroup(jDialogSearchLayout.createSequentialGroup()
-                .addGap(25, 25, 25)
-                .addGroup(jDialogSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jCBCustomerSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 290, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jDialogSearchLayout.createSequentialGroup()
-                        .addGap(180, 180, 180)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jDialogSearchLayout.createSequentialGroup()
-                        .addGroup(jDialogSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jRBName, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jRBMail, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(jDialogSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jDialogSearchLayout.createSequentialGroup()
-                                .addComponent(jTFNameSearch1, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(jTFNameSearch2, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jTFMailSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(38, Short.MAX_VALUE))
-        );
-        jDialogSearchLayout.setVerticalGroup(
-            jDialogSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jDialogSearchLayout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(jDialogSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jRBName, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTFNameSearch1)
-                    .addComponent(jTFNameSearch2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jDialogSearchLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jRBMail, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTFMailSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(27, 27, 27)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jCBCustomerSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(27, 27, 27)
-                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(57, 57, 57))
-        );
 
         jDialogStatus.setTitle("Historique des statuts");
         jDialogStatus.setSize(new java.awt.Dimension(256, 372));
@@ -636,7 +512,7 @@ public class JFCustomer extends javax.swing.JFrame {
         jLabel15.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
         jLabel15.setText("Statut*");
 
-        jComboBox1.setModel(initModelStatus());
+        jComboStatus.setModel(initModelStatus());
 
         jTFSurnameAC.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -693,14 +569,19 @@ public class JFCustomer extends javax.swing.JFrame {
 
         jButton5.setText("Adresses");
 
-        ACButton.setText("Ajouter Client");
+        MCButton.setText("Enregistrer");
+        MCButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MCButtonActionPerformed(evt);
+            }
+        });
+
+        ACButton.setText("Ajouter client");
         ACButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 ACButtonActionPerformed(evt);
             }
         });
-
-        jButton6.setText("Enregistrer");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -741,7 +622,7 @@ public class JFCustomer extends javax.swing.JFrame {
                                 .addGap(80, 80, 80)))
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jTFSurnameAC, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jComboStatus, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jTFFirstnameAC, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createSequentialGroup()
                         .addComponent(jLabel14)
@@ -750,9 +631,9 @@ public class JFCustomer extends javax.swing.JFrame {
                             .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, 185, Short.MAX_VALUE)
                             .addComponent(jTFLandlineAC)))
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addComponent(ACButton, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(ACButton, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(MCButton, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(26, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
@@ -777,7 +658,7 @@ public class JFCustomer extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel15)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jComboStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel10)
@@ -794,7 +675,7 @@ public class JFCustomer extends javax.swing.JFrame {
                 .addComponent(jButton5)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 61, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton6)
+                    .addComponent(MCButton)
                     .addComponent(ACButton))
                 .addGap(88, 88, 88))
         );
@@ -806,18 +687,19 @@ public class JFCustomer extends javax.swing.JFrame {
             .addGroup(jDialogAddCustomerLayout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jDialogAddCustomerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLTitleAC)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 21, Short.MAX_VALUE))
+                    .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jDialogAddCustomerLayout.createSequentialGroup()
+                        .addGap(130, 130, 130)
+                        .addComponent(jLTitleAC)))
+                .addGap(0, 12, Short.MAX_VALUE))
         );
         jDialogAddCustomerLayout.setVerticalGroup(
             jDialogAddCustomerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jDialogAddCustomerLayout.createSequentialGroup()
-                .addContainerGap()
+                .addContainerGap(50, Short.MAX_VALUE)
                 .addComponent(jLTitleAC)
-                .addGap(18, 18, 18)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(52, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         jPanel7.setBorder(javax.swing.BorderFactory.createTitledBorder("Adresse de facturation"));
@@ -1008,6 +890,84 @@ public class JFCustomer extends javax.swing.JFrame {
                         .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+        );
+
+        jDialogSearchC.setTitle("Recherche client");
+        jDialogSearchC.setModal(true);
+        jDialogSearchC.setResizable(false);
+        jDialogSearchC.setSize(new java.awt.Dimension(350, 351));
+
+        jLabel8.setText("Rechercher un client par...");
+
+        jComboSearchC.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Nom", "Mail" }));
+        jComboSearchC.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboSearchCActionPerformed(evt);
+            }
+        });
+
+        jTFSearchC.setForeground(new java.awt.Color(153, 153, 153));
+        jTFSearchC.setText("Entrer un nom...");
+        jTFSearchC.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTFSearchCMouseClicked(evt);
+            }
+        });
+        jTFSearchC.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTFSearchCActionPerformed(evt);
+            }
+        });
+        jTFSearchC.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                jTFSearchCKeyTyped(evt);
+            }
+        });
+
+        jScrollPane3.setViewportView(jLiSearchC);
+
+        OKSearchC.setText("OK");
+        OKSearchC.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                OKSearchCActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jDialogSearchCLayout = new javax.swing.GroupLayout(jDialogSearchC.getContentPane());
+        jDialogSearchC.getContentPane().setLayout(jDialogSearchCLayout);
+        jDialogSearchCLayout.setHorizontalGroup(
+            jDialogSearchCLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jDialogSearchCLayout.createSequentialGroup()
+                .addGroup(jDialogSearchCLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jDialogSearchCLayout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addGroup(jDialogSearchCLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel8)
+                            .addGroup(jDialogSearchCLayout.createSequentialGroup()
+                                .addComponent(jComboSearchC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addGroup(jDialogSearchCLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 232, Short.MAX_VALUE)
+                                    .addComponent(jTFSearchC)))))
+                    .addGroup(jDialogSearchCLayout.createSequentialGroup()
+                        .addGap(145, 145, 145)
+                        .addComponent(OKSearchC)))
+                .addContainerGap(36, Short.MAX_VALUE))
+        );
+        jDialogSearchCLayout.setVerticalGroup(
+            jDialogSearchCLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jDialogSearchCLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel8)
+                .addGap(18, 18, 18)
+                .addGroup(jDialogSearchCLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jComboSearchC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTFSearchC, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
+                .addComponent(OKSearchC)
+                .addGap(36, 36, 36))
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -1360,105 +1320,17 @@ public class JFCustomer extends javax.swing.JFrame {
 
     private void jButtonSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonSearchActionPerformed
         // TODO add your handling code here:
-        jDialogSearch.setModal(true);
-        jDialogSearch.setVisible(true);
+        jDialogSearchC.setModal(true);
+        jDialogSearchC.setVisible(true);
     }//GEN-LAST:event_jButtonSearchActionPerformed
-
-    private void jDialogSearchWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_jDialogSearchWindowOpened
-        // TODO add your handling code here
-    }//GEN-LAST:event_jDialogSearchWindowOpened
-
-    private void jRBNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRBNameActionPerformed
-        // TODO add your handling code here:
-        jTFMailSearch.setEnabled(false);
-        jTFMailSearch.setText("Mail");
-        jTFNameSearch1.setEnabled(true);
-        jTFNameSearch2.setEnabled(true);
-    }//GEN-LAST:event_jRBNameActionPerformed
-
-    private void jRBMailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRBMailActionPerformed
-        // TODO add your handling code here:
-        jTFMailSearch.setEnabled(true);
-        jTFNameSearch1.setEnabled(false);
-        jTFNameSearch1.setText("Prénom");
-        jTFNameSearch2.setEnabled(false);
-        jTFNameSearch2.setText("Nom");
-    }//GEN-LAST:event_jRBMailActionPerformed
-
-    private void jTFMailSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTFMailSearchActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTFMailSearchActionPerformed
-
-    private void jTFMailSearchMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTFMailSearchMouseClicked
-        // TODO add your handling code here:
-        jTFMailSearch.setText("");
-        jTFMailSearch.setForeground(Color.black);
-    }//GEN-LAST:event_jTFMailSearchMouseClicked
-
-    private void jTFNameSearch1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTFNameSearch1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTFNameSearch1ActionPerformed
-
-    private void jTFNameSearch1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTFNameSearch1MouseClicked
-        // TODO add your handling code here:
-        jTFNameSearch1.setText("");
-        jTFNameSearch1.setForeground(Color.black);
-    }//GEN-LAST:event_jTFNameSearch1MouseClicked
-
-    private void jTFNameSearch2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTFNameSearch2ActionPerformed
-        // TODO add your handling code here:
-
-    }//GEN-LAST:event_jTFNameSearch2ActionPerformed
-
-    private void jTFNameSearch2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTFNameSearch2MouseClicked
-        // TODO add your handling code here:
-        jTFNameSearch2.setText("");
-        jTFNameSearch2.setForeground(Color.black);
-    }//GEN-LAST:event_jTFNameSearch2MouseClicked
-
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-        Customer selectC = (Customer) jCBCustomerSearch.getSelectedItem();
-        jDialogSearch.dispose();
-
-//infos client
-        jLNameV.setText(selectC.getFirstname() + " " + selectC.getSurname().toUpperCase());
-        jLMailV.setText(selectC.getMail());
-        jLBirthV.setText(Helpers.convertDateToString(selectC.getDob()));
-        jLCellV.setText(selectC.getCell());
-        jLLandV.setText(selectC.getLandline());
-        jLIDV.setText(Integer.toString(selectC.getId()));
-        jLStatusV.setText(selectC.getStatusList().lastElement().toString());
-//infos commande
-        orderList.setModel(initOrderList());
-        if (orderList.getWidth() >= 0) {
-            orderList.setSelectedIndex(0);
-            useOrderList();
-            orderTable.setModel(initOrderLinesModel());
-        }
-
-    }//GEN-LAST:event_jButton2ActionPerformed
-
-    private void jCBCustomerSearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCBCustomerSearchActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jCBCustomerSearchActionPerformed
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-        jCBCustomerSearch.setModel(initModelCustomerResults());
-    }//GEN-LAST:event_jButton1ActionPerformed
 
     private void orderListValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_orderListValueChanged
         // TODO add your handling code here:
         useOrderList();
         orderTable.setModel(initOrderLinesModel());
-         
+
 
     }//GEN-LAST:event_orderListValueChanged
-
-    private void jTFNameSearch1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTFNameSearch1KeyPressed
-        // TODO add your handling code here
-    }//GEN-LAST:event_jTFNameSearch1KeyPressed
 
     private void cStatusButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cStatusButtonActionPerformed
         // TODO add your handling code here:
@@ -1466,13 +1338,13 @@ public class JFCustomer extends javax.swing.JFrame {
         jLabel7.setText("Statuts client");
         jDialogStatus.setModal(true);
         jDialogStatus.setVisible(true);
-        
-        
+
+
     }//GEN-LAST:event_cStatusButtonActionPerformed
 
     private void jLStatusVPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jLStatusVPropertyChange
         // TODO add your handling code here:
-        if(!jLStatusV.getText().isEmpty()){
+        if (!jLStatusV.getText().isEmpty()) {
             cStatusButton.setEnabled(true);
         }
     }//GEN-LAST:event_jLStatusVPropertyChange
@@ -1492,12 +1364,12 @@ public class JFCustomer extends javax.swing.JFrame {
 
     private void orderListPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_orderListPropertyChange
         // TODO add your handling code here:
-    
+
     }//GEN-LAST:event_orderListPropertyChange
 
     private void jLOstatusPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jLOstatusPropertyChange
         // TODO add your handling code here:
-        if(!jLOstatus.getText().isEmpty()){
+        if (!jLOstatus.getText().isEmpty()) {
             oStatusButton.setEnabled(true);
         }
     }//GEN-LAST:event_jLOstatusPropertyChange
@@ -1510,18 +1382,6 @@ public class JFCustomer extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jTFMBirthACActionPerformed
 
-    private void ACButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ACButtonActionPerformed
-        try {
-            // TODO add your handling code here:
-            addCustomer();
-        } catch (ParseException ex) {
-            Logger.getLogger(JFCustomer.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        jDialogAddCustomer.dispose();
-        
-        
-    }//GEN-LAST:event_ACButtonActionPerformed
-
     private void jTFSurnameACActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTFSurnameACActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jTFSurnameACActionPerformed
@@ -1532,21 +1392,30 @@ public class JFCustomer extends javax.swing.JFrame {
 
     private void jTFDBirthACMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTFDBirthACMouseClicked
         // TODO add your handling code here:
-        jTFDBirthAC.setText("");
+        if (jTFDBirthAC.getText().equalsIgnoreCase("jj")) {
+            jTFDBirthAC.setText("");
+        }
     }//GEN-LAST:event_jTFDBirthACMouseClicked
 
     private void jTFMBirthACMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTFMBirthACMouseClicked
         // TODO add your handling code here:
-        jTFMBirthAC.setText("");
+        if (jTFMBirthAC.getText().equalsIgnoreCase("mm")) {
+            jTFMBirthAC.setText("");
+        }
     }//GEN-LAST:event_jTFMBirthACMouseClicked
 
     private void jTFYBirthACMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTFYBirthACMouseClicked
         // TODO add your handling code here:
-        jTFYBirthAC.setText("");
+        if (jTFYBirthAC.getText().equalsIgnoreCase("aaaa")) {
+            jTFYBirthAC.setText("");
+        }
     }//GEN-LAST:event_jTFYBirthACMouseClicked
 
     private void jButtonAddCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAddCActionPerformed
         // TODO add your handling code here:
+        MCButton.setVisible(false);
+        ACButton.setVisible(true);
+        jLTitleAC.setText("Création client");
         jDialogAddCustomer.setModal(true);
         jDialogAddCustomer.setVisible(true);
         jTFSurnameAC.setText("");
@@ -1556,7 +1425,7 @@ public class JFCustomer extends javax.swing.JFrame {
         jTFLandlineAC.setText("");
         jTFDBirthAC.setText("jj");
         jTFMBirthAC.setText("mm");
-        jTFYBirthAC.setText("aaaa");        
+        jTFYBirthAC.setText("aaaa");
     }//GEN-LAST:event_jButtonAddCActionPerformed
 
     private void jPanel3KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jPanel3KeyPressed
@@ -1573,35 +1442,130 @@ public class JFCustomer extends javax.swing.JFrame {
 
     private void jButtonModCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonModCActionPerformed
         // TODO add your handling code here:
-        Customer modC = (Customer) jCBCustomerSearch.getSelectedItem();
+
+        jTFSurnameAC.setText("");
+        jTFFirstnameAC.setText("");
+        jTFMailAC.setText("");
+        jTFCellAC.setText("");
+        jTFLandlineAC.setText("");
+        jTFDBirthAC.setText("jj");
+        jTFMBirthAC.setText("mm");
+        jTFYBirthAC.setText("aaaa");
+
+        jTFSurnameAC.setText(current.getSurname());
+        jTFFirstnameAC.setText(current.getFirstname());
+        jTFMailAC.setText(current.getMail());
+        jTFCellAC.setText(current.getCell());
+        jTFLandlineAC.setText(current.getLandline());
+        String dob = Helpers.convertDateToString(current.getDob());
+        jTFDBirthAC.setText(dob.substring(0, 2));
+        jTFMBirthAC.setText(dob.substring(3, 5));
+        jTFYBirthAC.setText(dob.substring(6, 10));
+
+        jLTitleAC.setText("Modification client");
+        MCButton.setVisible(true);
+        ACButton.setVisible(false);
         jDialogAddCustomer.setModal(true);
         jDialogAddCustomer.setVisible(true);
-        jTFSurnameAC.setText(modC.getSurname());
-        jTFFirstnameAC.setText(modC.getFirstname());
-        jTFMailAC.setText(modC.getMail());
-        jTFCellAC.setText(modC.getCell());
-        if(modC.getLandline() != null){
-            jTFLandlineAC.setText(modC.getLandline());
-        }else{
-            jTFLandlineAC.setText("");
-        }
-        String dob = Helpers.convertDateToString(modC.getDob());
-        jTFDBirthAC.setText(dob.substring(0, 1));
-        jTFMBirthAC.setText(dob.substring(3, 4));
-        jTFYBirthAC.setText(dob.substring(6, 9));
-        
-        
-        
+
+
     }//GEN-LAST:event_jButtonModCActionPerformed
 
     private void jLIDVPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jLIDVPropertyChange
         // TODO add your handling code here:
-        if(jLIDV.getText().isEmpty()){
+        if (jLIDV.getText().isEmpty()) {
             jButtonModC.setEnabled(false);
-        }else{
-           jButtonModC.setEnabled(true); 
+        } else {
+            jButtonModC.setEnabled(true);
         }
     }//GEN-LAST:event_jLIDVPropertyChange
+
+    private void ACButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ACButtonActionPerformed
+        // TODO add your handling code here:
+        try {
+            // TODO add your handling code here:
+            addCustomer();
+        } catch (ParseException ex) {
+            Logger.getLogger(JFCustomer.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        jDialogAddCustomer.dispose();
+
+    }//GEN-LAST:event_ACButtonActionPerformed
+
+    private void MCButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MCButtonActionPerformed
+
+        try {
+            // TODO add your handling code here:
+            current = modCustomer();
+        } catch (ParseException ex) {
+            Logger.getLogger(JFCustomer.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        jDialogAddCustomer.dispose();
+        jLNameV.setText(current.getFirstname() + " " + current.getSurname().toUpperCase());
+        jLMailV.setText(current.getMail());
+        jLBirthV.setText(Helpers.convertDateToString(current.getDob()));
+        jLCellV.setText(current.getCell());
+        jLLandV.setText(current.getLandline());
+        jLIDV.setText(Integer.toString(current.getId()));
+        jLStatusV.setText(current.getStatusList().lastElement().toString());
+    }//GEN-LAST:event_MCButtonActionPerformed
+
+    private void jTFSearchCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTFSearchCActionPerformed
+        // TODO add your handling code here:
+
+    }//GEN-LAST:event_jTFSearchCActionPerformed
+
+    private void jComboSearchCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboSearchCActionPerformed
+        // TODO add your handling code here:
+        if (jComboSearchC.getSelectedIndex() == 0) {
+            jTFSearchC.setForeground(Color.darkGray);
+            jTFSearchC.setText("Entrer un nom...");
+        }
+        if (jComboSearchC.getSelectedIndex() == 1) {
+            jTFSearchC.setForeground(Color.darkGray);
+            jTFSearchC.setText("Entrer une adresse mail...");
+        }
+    }//GEN-LAST:event_jComboSearchCActionPerformed
+
+    private void jTFSearchCMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTFSearchCMouseClicked
+        // TODO add your handling code here:
+        jTFSearchC.setForeground(Color.black);
+        jTFSearchC.setText("");
+    }//GEN-LAST:event_jTFSearchCMouseClicked
+
+    private void jTFSearchCKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTFSearchCKeyTyped
+        // TODO add your handling code here:
+        if (jTFSearchC.getText().length() > 2) {
+            jLiSearchC.setModel(empowerSearchC(permaCo.getConnexion()));
+        }
+    }//GEN-LAST:event_jTFSearchCKeyTyped
+
+    private void OKSearchCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OKSearchCActionPerformed
+        // TODO add your handling code here:
+        current = (Customer) jLiSearchC.getSelectedValue();
+        jDialogSearchC.dispose();
+
+//infos client
+        jLNameV.setText(current.getFirstname() + " " + current.getSurname().toUpperCase());
+        jLMailV.setText(current.getMail());
+        jLBirthV.setText(Helpers.convertDateToString(current.getDob()));
+        jLCellV.setText(current.getCell());
+        jLLandV.setText(current.getLandline());
+        jLIDV.setText(Integer.toString(current.getId()));
+        jLStatusV.setText(current.getStatusList().lastElement().toString());
+//infos commande
+        try {
+            orderList.setModel(initOrderList());
+            if (orderList.getWidth() >= 0) {
+                orderList.setSelectedIndex(0);
+                useOrderList();
+                orderTable.setModel(initOrderLinesModel());
+            }
+        } catch (NoSuchElementException ex) {
+            System.err.println("No order for customer " + current.getId() + " (" + ex.getMessage() + ")");
+        }
+    }//GEN-LAST:event_OKSearchCActionPerformed
 
     /**
      * @param args the command line arguments
@@ -1639,22 +1603,20 @@ public class JFCustomer extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JToggleButton ACButton;
-    private javax.swing.ButtonGroup buttonGroupSearch;
+    private javax.swing.JButton ACButton;
+    private javax.swing.JButton MCButton;
+    private javax.swing.JButton OKSearchC;
     private javax.swing.JButton cStatusButton;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
     private javax.swing.JButton jButtonAddC;
     private javax.swing.JButton jButtonModC;
     private javax.swing.JButton jButtonSearch;
-    private javax.swing.JComboBox jCBCustomerSearch;
-    private javax.swing.JComboBox jComboBox1;
+    private javax.swing.JComboBox jComboSearchC;
+    private javax.swing.JComboBox jComboStatus;
     private javax.swing.JDialog jDialogAddAddress;
     private javax.swing.JDialog jDialogAddCustomer;
-    private javax.swing.JDialog jDialogSearch;
+    private javax.swing.JDialog jDialogSearchC;
     private javax.swing.JDialog jDialogStatus;
     private javax.swing.JLabel jLBirth;
     private javax.swing.JLabel jLBirthV;
@@ -1684,7 +1646,6 @@ public class JFCustomer extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel17;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel28;
     private javax.swing.JLabel jLabel29;
     private javax.swing.JLabel jLabel3;
@@ -1700,7 +1661,9 @@ public class JFCustomer extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JList jLiSearchC;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
@@ -1709,12 +1672,11 @@ public class JFCustomer extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
-    private javax.swing.JRadioButton jRBMail;
-    private javax.swing.JRadioButton jRBName;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane10;
     private javax.swing.JScrollPane jScrollPane11;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane8;
     private javax.swing.JScrollPane jScrollPane9;
@@ -1736,13 +1698,15 @@ public class JFCustomer extends javax.swing.JFrame {
     private javax.swing.JTextField jTFLandlineAC;
     private javax.swing.JTextField jTFMBirthAC;
     private javax.swing.JTextField jTFMailAC;
-    private javax.swing.JTextField jTFMailSearch;
-    private javax.swing.JTextField jTFNameSearch1;
-    private javax.swing.JTextField jTFNameSearch2;
+    private javax.swing.JTextField jTFSearchC;
     private javax.swing.JTextField jTFSurnameAC;
     private javax.swing.JTextField jTFYBirthAC;
     private javax.swing.JButton oStatusButton;
     private javax.swing.JList orderList;
     private javax.swing.JTable orderTable;
     // End of variables declaration//GEN-END:variables
+    private Customer current = new Customer();
+    private ConnectSQLS permaCo = new ConnectSQLS();
+    private int test = 0;
+
 }
