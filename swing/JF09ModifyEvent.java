@@ -15,6 +15,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 import java.util.logging.Level;
@@ -38,7 +39,7 @@ public class JF09ModifyEvent extends javax.swing.JFrame {
     public JF09ModifyEvent() {
         initComponents();
         jTextField5.setVisible(false);
-        System.out.println(BookList.getModel().getSize());
+        //System.out.println(BookList.getModel().getSize());
     }
 
     //MÃ©thode qui doit prendre un Ã©vÃ©nement en argument
@@ -70,7 +71,7 @@ public class JF09ModifyEvent extends javax.swing.JFrame {
         BookList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
         co.closeConnectionDatabase();
         lm = nonChosenBooks;
-        System.out.println("Model>>>>>>>>>" + lm.getSize());
+        //System.out.println("Model>>>>>>>>>" + lm.getSize());
         return lm;
     }
 
@@ -319,53 +320,37 @@ public class JF09ModifyEvent extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-
+        //Print debug
         //System.out.println(BookList.getModel().getSize()+">>>>"+BookList.getSelectedValuesList().size());
-        System.out.println(BookList.getModel().getSize() + "BOOKLIST1>>>>" + BookList.getSelectedValuesList().size());
-        System.out.println(BookList.getSelectedValue());
-
+        //System.out.println(BookList.getModel().getSize() + "BOOKLIST1>>>>" + BookList.getSelectedValuesList().size());
+        System.out.println("Size selectedValuesList : " + BookList.getSelectedValuesList().size());
+        
+        //Print
+        ArrayList aSupprimer= new ArrayList();
+        DefaultListModel eventListModel = (DefaultListModel) EventList.getModel();
+        for( Object o : BookList.getSelectedValuesList()) {
+            eventListModel.addElement(o);
+            aSupprimer.add(o);
+        }
         DefaultListModel bookModel= (DefaultListModel) BookList.getModel();
-        Book bk1 = (Book) BookList.getSelectedValue();
-        bookModel.removeElement(bk1);
-        BookList.setModel(bookModel);
-
-        DefaultListModel eventListModel = (DefaultListModel) EventList.getModel();
-        eventListModel.addElement(bk1);
-        EventList.setModel(eventListModel);
-
-//        DefaultListModel bl = (DefaultListModel) BookList.getModel();
-//        BookList = new JList(bl);
-//        System.out.println(BookList.getModel().getSize()+"BookLIST2>>>>"+BookList.getSelectedValuesList().size());
-//        DefaultListModel elm = (DefaultListModel) EventList.getModel();
-//        EventList = new JList(elm);
-        //Rajouter un livre qui apparaît = OK
-//        DefaultListModel bl = (DefaultListModel) BookList.getModel();
-//        BookList = new JList(bl);
-//        for (Object bk : BookList.getSelectedValuesList()) {
-//            chosenBooks.addElement(bk);
+        for (Object o : aSupprimer) {
+            bookModel.removeElement(o);
+        }
+        
+        // Get Models
+       //DefaultListModel eventListModel = (DefaultListModel) EventList.getModel();
+        
+        //Add to model
+//        for (int i = 0; i < BookList.getSelectedValuesList().size(); i++) {
+//            Book bk0 = (Book) BookList.getSelectedValuesList().get(i);
+//            System.out.println("Boucle pour insertion, à l'étape "+i+" : "+ bk0);
+//            bookModel.removeElement(bk0);
+//            //eventListModel.removeElement(bk0);   
 //        }
-//        chosenBooks.addElement(BookList.getSelectedValuesList());
-//        nonChosenBooks.removeElement(BookList.getSelectedValuesList());
-//        BookList.setModel(initNonChosenBookList());
-
-    }//GEN-LAST:event_jButton4ActionPerformed
-
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-
-        // Créer un EventListModel pour pouvoir récupérer les éléments sélectionnés
-        DefaultListModel eventListModel = (DefaultListModel) EventList.getModel();
-        Book bk1 = (Book) EventList.getSelectedValue();
-        eventListModel.removeElement(bk1);
-        // Redéfinir le modèle
-        EventList.setModel(eventListModel);
+//        BookList.setModel(bookModel);
+        //EventList.setModel(eventListModel);
         
-        DefaultListModel bookModel = (DefaultListModel) BookList.getModel();
-        bookModel.addElement(bk1);
-        BookList.setModel(bookModel);
-        
-//        System.out.println(BookList.getModel().getSize() + "BOOKLIST1>>>>" + BookList.getSelectedValuesList().size());
-//        System.out.println(BookList.getSelectedValue());
-//
+        //VERSION AVEC UN SEUL ELEMENT SELECTIONNABLE
 //        DefaultListModel bookModel= (DefaultListModel) BookList.getModel();
 //        Book bk1 = (Book) BookList.getSelectedValue();
 //        bookModel.removeElement(bk1);
@@ -374,6 +359,39 @@ public class JF09ModifyEvent extends javax.swing.JFrame {
 //        DefaultListModel eventListModel = (DefaultListModel) EventList.getModel();
 //        eventListModel.addElement(bk1);
 //        EventList.setModel(eventListModel);
+
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        //print
+//        for (int i = 0; i < EventList.getSelectedValuesList().size(); i++) {
+//            System.out.println(EventList.getSelectedValuesList().get(i));
+//        }
+        
+        ArrayList aSupprimer= new ArrayList();
+        DefaultListModel eventListModel = (DefaultListModel) EventList.getModel();
+        DefaultListModel bookModel= (DefaultListModel) BookList.getModel();
+        for( Object o : EventList.getSelectedValuesList()) {
+            bookModel.addElement(o);
+            aSupprimer.add(o);
+        }
+        
+        for (Object o : aSupprimer) {
+            eventListModel.removeElement(o);
+        }
+        
+        
+        
+        
+        
+//        DefaultListModel eventListModel = (DefaultListModel) EventList.getModel();
+//        Book bk1 = (Book) EventList.getSelectedValue();
+//        eventListModel.removeElement(bk1);
+//        EventList.setModel(eventListModel);
+//        
+//        DefaultListModel bookModel = (DefaultListModel) BookList.getModel();
+//        bookModel.addElement(bk1);
+//        BookList.setModel(bookModel);
     }//GEN-LAST:event_jButton5ActionPerformed
 
     /**
