@@ -30,6 +30,10 @@ public class JFAddEvent extends javax.swing.JFrame {
     public JFAddEvent() {
         initComponents();
     }
+    
+    private DefaultListModel initBookSelection(){
+        return new DefaultListModel();
+    }
 
     private DefaultListModel initbookDatabase() {
 
@@ -57,7 +61,7 @@ public class JFAddEvent extends javax.swing.JFrame {
         return bookDatabaseModel;
     }
 
-    private DefaultListModel bookSelectionModel() {
+    /*private DefaultListModel bookSelectionModel() {
         DefaultListModel dm = new DefaultListModel();
         return dm;
     }
@@ -72,7 +76,7 @@ public class JFAddEvent extends javax.swing.JFrame {
         return lm;
 
     }
-
+*/
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -148,7 +152,7 @@ public class JFAddEvent extends javax.swing.JFrame {
         bookDatabase.setModel(initbookDatabase());
         jScrollPane1.setViewportView(bookDatabase);
 
-        bookSelection.setModel(bookSelectionModel());
+        bookSelection.setModel(initBookSelection());
         jScrollPane2.setViewportView(bookSelection);
 
         AjouterLivre.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
@@ -161,6 +165,11 @@ public class JFAddEvent extends javax.swing.JFrame {
 
         SupprimerLIvre.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
         SupprimerLIvre.setText("Supprimer Livre <<<");
+        SupprimerLIvre.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SupprimerLIvreActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -294,11 +303,25 @@ public class JFAddEvent extends javax.swing.JFrame {
 
         //ajoute la selection de jlist1 dans jlist2
         List<Book> bkL = bookDatabase.getSelectedValuesList();
-        bookDatabase.setModel(modBookSelectionModel(bkL, bookDatabase.getModel()));
-
-        //bookSelection.add(bookDatabaseModel.getSelectedItem());
-        //supprime la selection de jlist1
+        DefaultListModel dmBDD= (DefaultListModel) bookDatabase.getModel();
+        DefaultListModel dmSelection =  (DefaultListModel) bookSelection.getModel();
+        for(Book b : bkL){
+            dmSelection.addElement(b);
+            dmBDD.removeElement(b);
+        }
+        
     }//GEN-LAST:event_AjouterLivreActionPerformed
+
+    private void SupprimerLIvreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SupprimerLIvreActionPerformed
+        // déplace la sélection de jListé à jList1
+        List<Book> bkL = bookSelection.getSelectedValuesList();
+        DefaultListModel dmBDD= (DefaultListModel) bookDatabase.getModel();
+        DefaultListModel dmSelection =  (DefaultListModel) bookSelection.getModel();
+        for(Book b : bkL){
+            dmSelection.removeElement(b);
+            dmBDD.addElement(b);
+        } 
+    }//GEN-LAST:event_SupprimerLIvreActionPerformed
 
     /**
      * @param args the command line arguments
