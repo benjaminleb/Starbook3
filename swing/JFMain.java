@@ -15,6 +15,7 @@ import classes.Helpers;
 import classes.InputCheck;
 import classes.Publisher;
 import classes.Tax;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -22,6 +23,7 @@ import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -119,8 +121,12 @@ public class JFMain extends javax.swing.JFrame {
 
     private DefaultTableModel initTableGenre() {
         Vector v = new Vector();
-        String s = "Livre";
-        v.add(s);
+        //String s = "Livre";
+        v.add("Titre");
+        v.add("ISBN");
+        v.add("Nom auteur");
+        v.add("Prénom auteur");
+        v.add("Genre");
         return new DefaultTableModel(initVectorTable(), v);
     }
 
@@ -129,15 +135,17 @@ public class JFMain extends javax.swing.JFrame {
         co.connectDatabase();
         Vector v = new Vector();
         Genre ge = (Genre) jComboBox8.getSelectedItem();
-        String query = "SELECT sb_book.*, sb_publisher.*,sb_tax.* "
-                + "FROM sb_book, sb_writer, sb_author, sb_publisher, sb_tax, sb_category, sb_genre "
-                + "WHERE sb_author.author_id = sb_writer.author_id "
-                + "AND sb_book.book_isbn = sb_writer.book_isbn "
-                + "AND sb_book.publisher_isbn = sb_publisher.publisher_isbn "
-                + "AND sb_category.book_isbn = sb_book.book_isbn "
-                + "AND sb_category.genre_name = sb_genre.genre_name "
-                + "AND sb_genre.genre_name LIKE '%"
-                + ge.getName() + "%'";
+//        String query = "SELECT sb_book.*, sb_publisher.*,sb_tax.* "
+//                + "FROM sb_book, sb_writer, sb_author, sb_publisher, sb_tax, sb_category, sb_genre "
+//                + "WHERE sb_author.author_id = sb_writer.author_id "
+//                + "AND sb_book.book_isbn = sb_writer.book_isbn "
+//                + "AND sb_book.publisher_isbn = sb_publisher.publisher_isbn "
+//                + "AND sb_category.book_isbn = sb_book.book_isbn "
+//                + "AND sb_category.genre_name = sb_genre.genre_name "
+//                + "AND sb_genre.genre_name LIKE '%"
+//                + ge.getName() + "%'";
+        String query = "SELECT * FROM vueWriters WHERE vueWriters.Genre = '"
+                + ge.getName() + "'";
 
         try {
 
@@ -145,23 +153,28 @@ public class JFMain extends javax.swing.JFrame {
             ResultSet rs = stmt.executeQuery(query);
             while (rs.next()) {
                 Vector v1 = new Vector();
-                v1.add(new Book(rs.getString("book_isbn"),
-                        new Publisher(rs.getString("publisher_isbn"),
-                                rs.getString("publisher_name")),
-                        rs.getString("book_title"),
-                        rs.getString("book_subtitle"),
-                        rs.getDate("book_date"),
-                        rs.getString("book_picture"),
-                        rs.getString("book_summary"),
-                        rs.getString("book_idiom"),
-                        rs.getFloat("book_price"),
-                        new Tax(rs.getInt("tax_id"),
-                                rs.getString("tax_name"),
-                                rs.getFloat("tax_rate")),
-                        rs.getInt("book_quantity"),
-                        rs.getString("book_pages"),
-                        rs.getString("book_print"),
-                        rs.getInt("book_weight")));
+//                v1.add(new Book(rs.getString("book_isbn"),
+//                        new Publisher(rs.getString("publisher_isbn"),
+//                                rs.getString("publisher_name")),
+//                        rs.getString("book_title"),
+//                        rs.getString("book_subtitle"),
+//                        rs.getDate("book_date"),
+//                        rs.getString("book_picture"),
+//                        rs.getString("book_summary"),
+//                        rs.getString("book_idiom"),
+//                        rs.getFloat("book_price"),
+//                        new Tax(rs.getInt("tax_id"),
+//                                rs.getString("tax_name"),
+//                                rs.getFloat("tax_rate")),
+//                        rs.getInt("book_quantity"),
+//                        rs.getString("book_pages"),
+//                        rs.getString("book_print"),
+//                        rs.getInt("book_weight")));
+                v1.add(rs.getString("Titre"));
+                v1.add(rs.getString("isbn"));
+                v1.add(rs.getString("NomAuteur"));
+                v1.add(rs.getString("PrénomAuteur"));
+                v1.add(rs.getString("Genre"));
                 v.add(v1);
             }
             rs.close();
@@ -1909,6 +1922,11 @@ public class JFMain extends javax.swing.JFrame {
 
         jButton19.setFont(new java.awt.Font("Tahoma", 0, 48)); // NOI18N
         jButton19.setText("+");
+        jButton19.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton19ActionPerformed(evt);
+            }
+        });
 
         jButton20.setFont(new java.awt.Font("Calibri", 0, 13)); // NOI18N
         jButton20.setText("Ok");
@@ -2018,7 +2036,7 @@ public class JFMain extends javax.swing.JFrame {
         jScrollPane2.setViewportView(jTable1);
 
         jPanel19.add(jScrollPane2);
-        jScrollPane2.setBounds(0, 170, 370, 230);
+        jScrollPane2.setBounds(0, 170, 690, 230);
 
         jTabbedPane1.addTab("Genre", jPanel19);
 
@@ -2050,7 +2068,7 @@ public class JFMain extends javax.swing.JFrame {
         // TODO add your handling code here:
         JF11ModifyEmployee jme = new JF11ModifyEmployee();
         jme.setVisible(true);
-        jme.fillEmployee((Employee)jComboBox6.getSelectedItem(), jLabel74.getText());
+        jme.fillEmployee((Employee) jComboBox6.getSelectedItem(), jLabel74.getText());
     }//GEN-LAST:event_jButton16ActionPerformed
 
     private void jComboBox6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox6ActionPerformed
@@ -2151,7 +2169,7 @@ public class JFMain extends javax.swing.JFrame {
         // TODO add your handling code here:
         JF13ModifyPublisher jmp = new JF13ModifyPublisher();
         jmp.setVisible(true);
-        jmp.fillPublisher((Publisher)jComboBox3.getSelectedItem(), jLabel72.getText());
+        jmp.fillPublisher((Publisher) jComboBox3.getSelectedItem(), jLabel72.getText());
     }//GEN-LAST:event_jButton11ActionPerformed
 
     private void jComboBox3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox3ActionPerformed
@@ -2337,7 +2355,7 @@ public class JFMain extends javax.swing.JFrame {
         // TODO add your handling code here:
         JF07ModifyBook jmb = new JF07ModifyBook();
         jmb.setVisible(true);
-        jmb.fillBook((Book)jComboBox1.getSelectedItem(), jLabel68.getText());
+        jmb.fillBook((Book) jComboBox1.getSelectedItem(), jLabel68.getText());
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton20ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton20ActionPerformed
@@ -2391,8 +2409,26 @@ public class JFMain extends javax.swing.JFrame {
         // TODO add your handling code here:
         JF09ModifyEvent jme = new JF09ModifyEvent();
         jme.setVisible(true);
-        jme.fillEvent((Event)jComboBox4.getSelectedItem());
+        jme.fillEvent((Event) jComboBox4.getSelectedItem());
     }//GEN-LAST:event_jButton17ActionPerformed
+
+    private void jButton19ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton19ActionPerformed
+        // TODO add your handling code here:
+        String s = JOptionPane.showInputDialog("Entrez le nouveau Genre:");
+        ConnectSQLS co = new ConnectSQLS();
+        co.connectDatabase();
+        String query = "INSERT INTO sb_genre VALUES (?)";
+        try {
+            PreparedStatement stmt = co.getConnexion().prepareStatement(query);
+            stmt.setString(1, s);
+            stmt.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(JFMain.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        co.closeConnectionDatabase();
+
+    }//GEN-LAST:event_jButton19ActionPerformed
 
     /**
      * @param args the command line arguments

@@ -65,6 +65,14 @@ public class InputCheck {
             return false;
         }
     }
+    
+    public static Boolean checkAlphaChar(String inputtxt){
+        if (inputtxt.matches("^[A-Za-z]+$") && checkStringIsNotBlank(inputtxt)) {
+            return true;
+        }else{
+            return false;
+        }
+    }
 
     public static Boolean checkStringIsNotBlank(String inputtxt) {
         if (StringUtils.isNotBlank(inputtxt)) {
