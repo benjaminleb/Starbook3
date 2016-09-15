@@ -4,6 +4,7 @@ import classes.Book;
 import classes.ConnectSQLS;
 import classes.Event;
 import classes.Helpers;
+import classes.InputCheck;
 import classes.Publisher;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -16,6 +17,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.ListModel;
 import javax.swing.ListSelectionModel;
@@ -30,14 +32,13 @@ public class JFAddEvent extends javax.swing.JFrame {
     }
 
     private DefaultListModel initbookDatabase() {
-       
+
         DefaultListModel bookDatabaseModel = new DefaultListModel();
         ConnectSQLS co = new ConnectSQLS();
         co.connectDatabase();
         String query = "SELECT sb_book.* FROM sb_book";
-        
-                
-                try {
+
+        try {
             Statement stmt = co.getConnexion().createStatement();
             ResultSet rs = stmt.executeQuery(query);
 
@@ -52,39 +53,26 @@ public class JFAddEvent extends javax.swing.JFrame {
         }
         bookDatabase.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
         co.closeConnectionDatabase();
-        
+
         return bookDatabaseModel;
     }
 
-
-
-    
-    private DefaultListModel bookSelectionModel(){
+    private DefaultListModel bookSelectionModel() {
         DefaultListModel dm = new DefaultListModel();
         return dm;
     }
-    
-    private ListModel modBookSelectionModel(List bl, ListModel dm){
+
+    private ListModel modBookSelectionModel(List bl, ListModel dm) {
         ListModel lm;
         DefaultListModel ndm = dm;
-        for(int i = 0; i < bl.size() ; i++){
+        for (int i = 0; i < bl.size(); i++) {
             ndm.addElement(bl.get(i));
         }
         lm = ndm;
         return lm;
-        
+
     }
-    
-    
-    
-    
 
-
-    
-    
-    
-    
-    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -273,31 +261,41 @@ public class JFAddEvent extends javax.swing.JFrame {
     private void AjouterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AjouterActionPerformed
 
         Event evnt;
+        //on vérifie que les champs obligatoires sont saisis et CORRECTEMENT
+        if (!InputCheck.checkAlphaChar(jTextField1.getText()) || !InputCheck.checkNumbers(jTextField4.getText())) {
 
-        try {
-            evnt = new Event(0, jTextField1.getText(),
-                    Helpers.convertStringToDate(jTextField2.getText()),
-                    Helpers.convertStringToDate(jTextField3.getText()),
-                    Float.valueOf(jTextField4.getText()),
-                    jTextField5.getText());
+            JOptionPane JOp01 = new JOptionPane();
+            JOp01.showMessageDialog(null, "Veuillez remplir correctement les champs obligatoires", "Erreur", JOptionPane.ERROR_MESSAGE);
 
-            evnt.insertEvent();
+        } else {//on vérifie que si les dates sont saisies, elles sont saisies au bon format
+            if (!InputCheck.checkDateFormat_NotMandatory(jTextField2.getText())
+                    || !InputCheck.checkDateFormat_NotMandatory(jTextField3.getText())) {
+                JOptionPane JOp02 = new JOptionPane();
+                JOp02.showMessageDialog(null, "Veuillez respecter le format JJ/MM/AAAA ", "Erreur", JOptionPane.ERROR_MESSAGE);
+            } else {
 
-        } catch (ParseException ex) {
-            Logger.getLogger(JFAddEvent.class.getName()).log(Level.SEVERE, null, ex);
+                try {
+                    evnt = new Event(0, jTextField1.getText(),
+                            Helpers.convertStringToDate(jTextField2.getText()),
+                            Helpers.convertStringToDate(jTextField3.getText()),
+                            Float.valueOf(jTextField4.getText()),
+                            jTextField5.getText());
+
+                    evnt.insertEvent();
+
+                } catch (ParseException ex) {
+                    Logger.getLogger(JFAddEvent.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
         }
-
     }//GEN-LAST:event_AjouterActionPerformed
 
     private void AjouterLivreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AjouterLivreActionPerformed
-        
+
         //ajoute la selection de jlist1 dans jlist2
         List<Book> bkL = bookDatabase.getSelectedValuesList();
-        bookDatabase.setModel(modBookSelectionModel(bkL,bookDatabase.getModel()));
-        
-        
-        
-        
+        bookDatabase.setModel(modBookSelectionModel(bkL, bookDatabase.getModel()));
+
         //bookSelection.add(bookDatabaseModel.getSelectedItem());
         //supprime la selection de jlist1
     }//GEN-LAST:event_AjouterLivreActionPerformed

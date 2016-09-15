@@ -3,6 +3,7 @@ package swing;
 import classes.Book;
 import classes.ConnectSQLS;
 import classes.Helpers;
+import classes.InputCheck;
 import classes.Publisher;
 import classes.Status;
 import classes.Tax;
@@ -366,14 +367,20 @@ public class JFAddBook extends javax.swing.JFrame {
     private void AjouterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AjouterActionPerformed
 
         Book bk;
-
-        if (jTextField1.getText().equals("") || jTextField3.getText().equals("")
-                || jTextField5.getText().equals("") || jTextField9.getText().equals("")
-                || jTextField10.getText().equals("") || jTextField11.getText().equals("")
-                || jTextField14.getText().equals("")) {
+        //on vérifie que les champs obligatoires sont saisis et CORRECTEMENT
+        if (!InputCheck.checkBookISBN(jTextField1.getText()) 
+                ||! InputCheck.checkAlphaChar(jTextField3.getText())
+                ||! InputCheck.checkDateFormat(jTextField5.getText())
+                ||! InputCheck.checkNumbers(jTextField9.getText())
+                ||! InputCheck.checkNumbers(jTextField10.getText())
+                ||! InputCheck.checkNumbers(jTextField11.getText())
+                ||! InputCheck.checkNumbers(jTextField14.getText())) {
 
             JOptionPane JOp01 = new JOptionPane();
-            JOp01.showMessageDialog(null, "Veuillez remplir les champs obligatoires", "Erreur", JOptionPane.ERROR_MESSAGE);
+            JOp01.showMessageDialog(null, "Veuillez remplir correctement les champs obligatoires", "Erreur", JOptionPane.ERROR_MESSAGE);
+            
+      
+            
         } else {
             try {
                 bk = new Book(jTextField1.getText(),
