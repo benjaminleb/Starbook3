@@ -23,7 +23,6 @@ import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -646,6 +645,15 @@ public class JFMain extends javax.swing.JFrame {
         jTable1 = new javax.swing.JTable();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
+        jMenu3 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
+        jMenuItem3 = new javax.swing.JMenuItem();
+        jMenuItem6 = new javax.swing.JMenuItem();
+        jMenuItem4 = new javax.swing.JMenuItem();
+        jSeparator6 = new javax.swing.JPopupMenu.Separator();
+        jMenuItem5 = new javax.swing.JMenuItem();
+        jMenu4 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -990,7 +998,6 @@ public class JFMain extends javax.swing.JFrame {
         });
 
         jComboBox1.setFont(new java.awt.Font("Calibri", 0, 13)); // NOI18N
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jComboBox1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBox1ActionPerformed(evt);
@@ -1320,7 +1327,6 @@ public class JFMain extends javax.swing.JFrame {
         });
 
         jComboBox3.setFont(new java.awt.Font("Calibri", 0, 13)); // NOI18N
-        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jComboBox3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBox3ActionPerformed(evt);
@@ -1513,7 +1519,6 @@ public class JFMain extends javax.swing.JFrame {
         });
 
         jComboBox4.setFont(new java.awt.Font("Calibri", 0, 13)); // NOI18N
-        jComboBox4.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jComboBox4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBox4ActionPerformed(evt);
@@ -1608,8 +1613,6 @@ public class JFMain extends javax.swing.JFrame {
         jLabel64.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
         jLabel64.setText("Discount_rate");
 
-        jComboBox5.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
         jButton17.setFont(new java.awt.Font("Calibri", 0, 13)); // NOI18N
         jButton17.setText("Modifier");
         jButton17.addActionListener(new java.awt.event.ActionListener() {
@@ -1679,7 +1682,7 @@ public class JFMain extends javax.swing.JFrame {
         );
 
         jPanel11.add(jPanel13);
-        jPanel13.setBounds(0, 170, 690, 190);
+        jPanel13.setBounds(0, 170, 690, 210);
 
         jTabbedPane1.addTab("Evénement", jPanel11);
 
@@ -2036,12 +2039,77 @@ public class JFMain extends javax.swing.JFrame {
         jScrollPane2.setViewportView(jTable1);
 
         jPanel19.add(jScrollPane2);
-        jScrollPane2.setBounds(0, 170, 690, 230);
+        jScrollPane2.setBounds(0, 170, 690, 170);
 
         jTabbedPane1.addTab("Genre", jPanel19);
 
         jMenu1.setText("File");
         jMenu1.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
+
+        jMenu3.setText("Ajouter");
+        jMenu3.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
+
+        jMenuItem1.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
+        jMenuItem1.setText("Livre");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jMenuItem1);
+
+        jMenuItem2.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
+        jMenuItem2.setText("Auteur");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jMenuItem2);
+
+        jMenuItem3.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
+        jMenuItem3.setText("Editeur");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jMenuItem3);
+
+        jMenuItem6.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
+        jMenuItem6.setText("Genre");
+        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem6ActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jMenuItem6);
+
+        jMenuItem4.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
+        jMenuItem4.setText("Evénement");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jMenuItem4);
+        jMenu3.add(jSeparator6);
+
+        jMenuItem5.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
+        jMenuItem5.setText("Employé");
+        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem5ActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jMenuItem5);
+
+        jMenu1.add(jMenu3);
+
+        jMenu4.setText("Modifier");
+        jMenu4.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
+        jMenu1.add(jMenu4);
+
         jMenuBar1.add(jMenu1);
 
         jMenu2.setText("Edit");
@@ -2113,7 +2181,7 @@ public class JFMain extends javax.swing.JFrame {
         // TODO add your handling code here:
         if ((jRadioButton12.isSelected()
                 || jRadioButton13.isSelected())
-                && !InputCheck.checkStringIsNotBlank(jTextField5.getText())) {
+                && !InputCheck.checkAlphaChar(jTextField5.getText())) {
             JOptionPane.showMessageDialog(null, "Entrez un nom/prénom valide !", "Erreur", JOptionPane.ERROR_MESSAGE);
         } else {
             jComboBox6.setModel(initEmployeeSearch());
@@ -2153,7 +2221,7 @@ public class JFMain extends javax.swing.JFrame {
 
     private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
         // TODO add your handling code here:
-        if (jRadioButton8.isSelected() && !InputCheck.checkStringIsNotBlank(jTextField4.getText())) {
+        if (jRadioButton8.isSelected() && !InputCheck.checkAlphaChar(jTextField4.getText())) {
             JOptionPane.showMessageDialog(null, "Entrez un nom valide !", "Erreur", JOptionPane.ERROR_MESSAGE);
         } else {
             jComboBox4.setModel(initEventSearch());
@@ -2210,7 +2278,7 @@ public class JFMain extends javax.swing.JFrame {
 
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
         // TODO add your handling code here:
-        if ((jRadioButton7.isSelected() && !InputCheck.checkStringIsNotBlank(jTextField3.getText()))) {
+        if ((jRadioButton7.isSelected() && !InputCheck.checkAlphaChar(jTextField3.getText()))) {
             JOptionPane.showMessageDialog(null, "Entrez un nom valide !", "Erreur", JOptionPane.ERROR_MESSAGE);
         } else {
             if (jRadioButton9.isSelected() && !InputCheck.checkPublisherISBN(jTextField3.getText())) {
@@ -2248,7 +2316,7 @@ public class JFMain extends javax.swing.JFrame {
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         // TODO add your handling code here:
-        if (!InputCheck.checkStringIsNotBlank(jTextField2.getText())) {
+        if (!InputCheck.checkAlphaChar(jTextField2.getText())) {
             JOptionPane.showMessageDialog(null, "Entrez un champ valide !", "Erreur", JOptionPane.ERROR_MESSAGE);
         } else {
             jComboBox2.setModel(initAuthorSearch());
@@ -2268,7 +2336,7 @@ public class JFMain extends javax.swing.JFrame {
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
         // TODO add your handling code here:
-        setBounds(500, 100, 700, 450);
+        setSize(700, 450);
         Book bk = (Book) jComboBox1.getSelectedItem();
         jLabel3.setText(bk.getIsbn());
         jLabel4.setText(bk.getPublisher().getName());
@@ -2315,14 +2383,14 @@ public class JFMain extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        if ((jRadioButton1.isSelected() && !InputCheck.checkStringIsNotBlank(jTextField1.getText()))) {
+        if ((jRadioButton1.isSelected() && !InputCheck.checkAlphaChar(jTextField1.getText()))) {
             JOptionPane.showMessageDialog(null, "Entrez un nom valide !", "Erreur", JOptionPane.ERROR_MESSAGE);
         } else {
-            if (jRadioButton2.isSelected() && !InputCheck.checkStringIsNotBlank(jTextField1.getText())) {
+            if (jRadioButton2.isSelected() && !InputCheck.checkAlphaChar(jTextField1.getText())) {
                 JOptionPane.showMessageDialog(null, "Entrez un titre valide !", "Erreur", JOptionPane.ERROR_MESSAGE);
             } else {
                 if (jRadioButton3.isSelected() && !InputCheck.checkBookISBN(jTextField1.getText())) {
-                    JOptionPane.showMessageDialog(null, "Entrez un isbn valide !", "Erreur", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Entrez un ISBN valide !", "Erreur", JOptionPane.ERROR_MESSAGE);
                 } else {
                     jComboBox1.setModel(initBookSearch());
                 }
@@ -2338,7 +2406,7 @@ public class JFMain extends javax.swing.JFrame {
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
         jPanel2.setVisible(false);
-        setBounds(500, 100, 700, 450);
+        setSize(700, 450);
         jButton5.setVisible(false);
         jButton4.setVisible(true);
     }//GEN-LAST:event_jButton5ActionPerformed
@@ -2346,7 +2414,7 @@ public class JFMain extends javax.swing.JFrame {
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
         jPanel2.setVisible(true);
-        setBounds(500, 100, 700, 720);
+        setSize(700, 720);
         jButton5.setVisible(true);
         jButton4.setVisible(false);
     }//GEN-LAST:event_jButton4ActionPerformed
@@ -2360,7 +2428,7 @@ public class JFMain extends javax.swing.JFrame {
 
     private void jButton20ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton20ActionPerformed
         // TODO add your handling code here:
-        if (jRadioButton15.isSelected() && !InputCheck.checkStringIsNotBlank(jTextField7.getText())) {
+        if (jRadioButton15.isSelected() && !InputCheck.checkAlphaChar(jTextField7.getText())) {
             JOptionPane.showMessageDialog(null, "Entrez un genre valide !", "Erreur", JOptionPane.ERROR_MESSAGE);
         } else {
             jComboBox8.setModel(initGenreSearch());
@@ -2384,7 +2452,7 @@ public class JFMain extends javax.swing.JFrame {
 
     private void jTabbedPane1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabbedPane1MouseClicked
         // TODO add your handling code here:
-        setBounds(500, 100, 700, 450);
+        setSize(700, 450);
     }//GEN-LAST:event_jTabbedPane1MouseClicked
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -2429,6 +2497,41 @@ public class JFMain extends javax.swing.JFrame {
         co.closeConnectionDatabase();
 
     }//GEN-LAST:event_jButton19ActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        // TODO add your handling code here:
+        JFAddAuthor jaa = new JFAddAuthor();
+        jaa.setVisible(true);
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        // TODO add your handling code here:
+        JFAddBook jab = new JFAddBook();
+        jab.setVisible(true);
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        // TODO add your handling code here:
+        JFAddPublisher jap = new JFAddPublisher();
+        jap.setVisible(true);
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
+
+    private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
+        // TODO add your handling code here:
+        jButton19ActionPerformed(evt);
+    }//GEN-LAST:event_jMenuItem6ActionPerformed
+
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+        // TODO add your handling code here:
+        JFAddEvent jae = new JFAddEvent();
+        jae.setVisible(true);
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
+
+    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+        // TODO add your handling code here:
+        JFAddEmployee jaem = new JFAddEmployee();
+        jaem.setVisible(true);
+    }//GEN-LAST:event_jMenuItem5ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -2574,7 +2677,15 @@ public class JFMain extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenu jMenu3;
+    private javax.swing.JMenu jMenu4;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JMenuItem jMenuItem5;
+    private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
@@ -2616,6 +2727,7 @@ public class JFMain extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JSeparator jSeparator4;
     private javax.swing.JSeparator jSeparator5;
+    private javax.swing.JPopupMenu.Separator jSeparator6;
     private javax.swing.JSeparator jSeparator7;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTable1;
