@@ -15,6 +15,7 @@ import classes.Helpers;
 import classes.InputCheck;
 import classes.Publisher;
 import classes.Tax;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -119,8 +120,12 @@ public class JFMain extends javax.swing.JFrame {
 
     private DefaultTableModel initTableGenre() {
         Vector v = new Vector();
-        String s = "Livre";
-        v.add(s);
+        //String s = "Livre";
+        v.add("Titre");
+        v.add("ISBN");
+        v.add("Nom auteur");
+        v.add("Prénom auteur");
+        v.add("Genre");
         return new DefaultTableModel(initVectorTable(), v);
     }
 
@@ -129,15 +134,17 @@ public class JFMain extends javax.swing.JFrame {
         co.connectDatabase();
         Vector v = new Vector();
         Genre ge = (Genre) jComboBox8.getSelectedItem();
-        String query = "SELECT sb_book.*, sb_publisher.*,sb_tax.* "
-                + "FROM sb_book, sb_writer, sb_author, sb_publisher, sb_tax, sb_category, sb_genre "
-                + "WHERE sb_author.author_id = sb_writer.author_id "
-                + "AND sb_book.book_isbn = sb_writer.book_isbn "
-                + "AND sb_book.publisher_isbn = sb_publisher.publisher_isbn "
-                + "AND sb_category.book_isbn = sb_book.book_isbn "
-                + "AND sb_category.genre_name = sb_genre.genre_name "
-                + "AND sb_genre.genre_name LIKE '%"
-                + ge.getName() + "%'";
+//        String query = "SELECT sb_book.*, sb_publisher.*,sb_tax.* "
+//                + "FROM sb_book, sb_writer, sb_author, sb_publisher, sb_tax, sb_category, sb_genre "
+//                + "WHERE sb_author.author_id = sb_writer.author_id "
+//                + "AND sb_book.book_isbn = sb_writer.book_isbn "
+//                + "AND sb_book.publisher_isbn = sb_publisher.publisher_isbn "
+//                + "AND sb_category.book_isbn = sb_book.book_isbn "
+//                + "AND sb_category.genre_name = sb_genre.genre_name "
+//                + "AND sb_genre.genre_name LIKE '%"
+//                + ge.getName() + "%'";
+        String query = "SELECT * FROM vueWriters WHERE vueWriters.Genre = '"
+                + ge.getName() + "'";
 
         try {
 
@@ -145,23 +152,28 @@ public class JFMain extends javax.swing.JFrame {
             ResultSet rs = stmt.executeQuery(query);
             while (rs.next()) {
                 Vector v1 = new Vector();
-                v1.add(new Book(rs.getString("book_isbn"),
-                        new Publisher(rs.getString("publisher_isbn"),
-                                rs.getString("publisher_name")),
-                        rs.getString("book_title"),
-                        rs.getString("book_subtitle"),
-                        rs.getDate("book_date"),
-                        rs.getString("book_picture"),
-                        rs.getString("book_summary"),
-                        rs.getString("book_idiom"),
-                        rs.getFloat("book_price"),
-                        new Tax(rs.getInt("tax_id"),
-                                rs.getString("tax_name"),
-                                rs.getFloat("tax_rate")),
-                        rs.getInt("book_quantity"),
-                        rs.getString("book_pages"),
-                        rs.getString("book_print"),
-                        rs.getInt("book_weight")));
+//                v1.add(new Book(rs.getString("book_isbn"),
+//                        new Publisher(rs.getString("publisher_isbn"),
+//                                rs.getString("publisher_name")),
+//                        rs.getString("book_title"),
+//                        rs.getString("book_subtitle"),
+//                        rs.getDate("book_date"),
+//                        rs.getString("book_picture"),
+//                        rs.getString("book_summary"),
+//                        rs.getString("book_idiom"),
+//                        rs.getFloat("book_price"),
+//                        new Tax(rs.getInt("tax_id"),
+//                                rs.getString("tax_name"),
+//                                rs.getFloat("tax_rate")),
+//                        rs.getInt("book_quantity"),
+//                        rs.getString("book_pages"),
+//                        rs.getString("book_print"),
+//                        rs.getInt("book_weight")));
+                v1.add(rs.getString("Titre"));
+                v1.add(rs.getString("isbn"));
+                v1.add(rs.getString("NomAuteur"));
+                v1.add(rs.getString("PrénomAuteur"));
+                v1.add(rs.getString("Genre"));
                 v.add(v1);
             }
             rs.close();
@@ -482,7 +494,6 @@ public class JFMain extends javax.swing.JFrame {
         buttonGroup6 = new javax.swing.ButtonGroup();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
-        jButton3 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jLabel12 = new javax.swing.JLabel();
         jLabel15 = new javax.swing.JLabel();
@@ -498,6 +509,8 @@ public class JFMain extends javax.swing.JFrame {
         jLabel28 = new javax.swing.JLabel();
         jLabel67 = new javax.swing.JLabel();
         jLabel68 = new javax.swing.JLabel();
+        jButton3 = new javax.swing.JButton();
+        jButton18 = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
@@ -633,6 +646,15 @@ public class JFMain extends javax.swing.JFrame {
         jTable1 = new javax.swing.JTable();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
+        jMenu3 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
+        jMenuItem3 = new javax.swing.JMenuItem();
+        jMenuItem6 = new javax.swing.JMenuItem();
+        jMenuItem4 = new javax.swing.JMenuItem();
+        jSeparator6 = new javax.swing.JPopupMenu.Separator();
+        jMenuItem5 = new javax.swing.JMenuItem();
+        jMenu4 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -651,16 +673,6 @@ public class JFMain extends javax.swing.JFrame {
 
         jPanel1.setPreferredSize(new java.awt.Dimension(600, 700));
         jPanel1.setLayout(null);
-
-        jButton3.setFont(new java.awt.Font("Calibri", 0, 13)); // NOI18N
-        jButton3.setText("Modifier");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
-            }
-        });
-        jPanel1.add(jButton3);
-        jButton3.setBounds(230, 590, 160, 48);
 
         jLabel12.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
         jLabel12.setText("Tax");
@@ -703,6 +715,22 @@ public class JFMain extends javax.swing.JFrame {
         jLabel68.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
         jLabel68.setText("Status");
 
+        jButton3.setFont(new java.awt.Font("Calibri", 0, 13)); // NOI18N
+        jButton3.setText("Modifier");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
+        jButton18.setFont(new java.awt.Font("Calibri", 0, 13)); // NOI18N
+        jButton18.setText("Gestion des mots clés");
+        jButton18.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton18ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -725,13 +753,18 @@ public class JFMain extends javax.swing.JFrame {
                     .addComponent(jLabel14, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel68, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 454, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 454, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton18, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel15, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -747,16 +780,25 @@ public class JFMain extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jLabel27, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(jLabel12, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 127, Short.MAX_VALUE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jLabel28, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
-                            .addComponent(jLabel16, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(jLabel28, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel16, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel67, javax.swing.GroupLayout.DEFAULT_SIZE, 29, Short.MAX_VALUE)
                             .addComponent(jLabel68, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addComponent(jScrollPane1))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jButton18, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addContainerGap())
         );
 
@@ -977,7 +1019,6 @@ public class JFMain extends javax.swing.JFrame {
         });
 
         jComboBox1.setFont(new java.awt.Font("Calibri", 0, 13)); // NOI18N
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jComboBox1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBox1ActionPerformed(evt);
@@ -1307,7 +1348,6 @@ public class JFMain extends javax.swing.JFrame {
         });
 
         jComboBox3.setFont(new java.awt.Font("Calibri", 0, 13)); // NOI18N
-        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jComboBox3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBox3ActionPerformed(evt);
@@ -1500,7 +1540,6 @@ public class JFMain extends javax.swing.JFrame {
         });
 
         jComboBox4.setFont(new java.awt.Font("Calibri", 0, 13)); // NOI18N
-        jComboBox4.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         jComboBox4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBox4ActionPerformed(evt);
@@ -1595,8 +1634,6 @@ public class JFMain extends javax.swing.JFrame {
         jLabel64.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
         jLabel64.setText("Discount_rate");
 
-        jComboBox5.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
         jButton17.setFont(new java.awt.Font("Calibri", 0, 13)); // NOI18N
         jButton17.setText("Modifier");
         jButton17.addActionListener(new java.awt.event.ActionListener() {
@@ -1666,7 +1703,7 @@ public class JFMain extends javax.swing.JFrame {
         );
 
         jPanel11.add(jPanel13);
-        jPanel13.setBounds(0, 170, 690, 190);
+        jPanel13.setBounds(0, 170, 690, 210);
 
         jTabbedPane1.addTab("Evénement", jPanel11);
 
@@ -1909,6 +1946,11 @@ public class JFMain extends javax.swing.JFrame {
 
         jButton19.setFont(new java.awt.Font("Tahoma", 0, 48)); // NOI18N
         jButton19.setText("+");
+        jButton19.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton19ActionPerformed(evt);
+            }
+        });
 
         jButton20.setFont(new java.awt.Font("Calibri", 0, 13)); // NOI18N
         jButton20.setText("Ok");
@@ -2018,12 +2060,77 @@ public class JFMain extends javax.swing.JFrame {
         jScrollPane2.setViewportView(jTable1);
 
         jPanel19.add(jScrollPane2);
-        jScrollPane2.setBounds(0, 170, 370, 230);
+        jScrollPane2.setBounds(0, 170, 690, 170);
 
         jTabbedPane1.addTab("Genre", jPanel19);
 
         jMenu1.setText("File");
         jMenu1.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
+
+        jMenu3.setText("Ajouter");
+        jMenu3.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
+
+        jMenuItem1.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
+        jMenuItem1.setText("Livre");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jMenuItem1);
+
+        jMenuItem2.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
+        jMenuItem2.setText("Auteur");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jMenuItem2);
+
+        jMenuItem3.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
+        jMenuItem3.setText("Editeur");
+        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem3ActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jMenuItem3);
+
+        jMenuItem6.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
+        jMenuItem6.setText("Genre");
+        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem6ActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jMenuItem6);
+
+        jMenuItem4.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
+        jMenuItem4.setText("Evénement");
+        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem4ActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jMenuItem4);
+        jMenu3.add(jSeparator6);
+
+        jMenuItem5.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
+        jMenuItem5.setText("Employé");
+        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem5ActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jMenuItem5);
+
+        jMenu1.add(jMenu3);
+
+        jMenu4.setText("Modifier");
+        jMenu4.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
+        jMenu1.add(jMenu4);
+
         jMenuBar1.add(jMenu1);
 
         jMenu2.setText("Edit");
@@ -2050,7 +2157,7 @@ public class JFMain extends javax.swing.JFrame {
         // TODO add your handling code here:
         JF11ModifyEmployee jme = new JF11ModifyEmployee();
         jme.setVisible(true);
-        jme.fillEmployee((Employee)jComboBox6.getSelectedItem(), jLabel74.getText());
+        jme.fillEmployee((Employee) jComboBox6.getSelectedItem(), jLabel74.getText());
     }//GEN-LAST:event_jButton16ActionPerformed
 
     private void jComboBox6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox6ActionPerformed
@@ -2095,7 +2202,7 @@ public class JFMain extends javax.swing.JFrame {
         // TODO add your handling code here:
         if ((jRadioButton12.isSelected()
                 || jRadioButton13.isSelected())
-                && !InputCheck.checkStringIsNotBlank(jTextField5.getText())) {
+                && !InputCheck.checkAlphaChar(jTextField5.getText())) {
             JOptionPane.showMessageDialog(null, "Entrez un nom/prénom valide !", "Erreur", JOptionPane.ERROR_MESSAGE);
         } else {
             jComboBox6.setModel(initEmployeeSearch());
@@ -2135,7 +2242,7 @@ public class JFMain extends javax.swing.JFrame {
 
     private void jButton13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton13ActionPerformed
         // TODO add your handling code here:
-        if (jRadioButton8.isSelected() && !InputCheck.checkStringIsNotBlank(jTextField4.getText())) {
+        if (jRadioButton8.isSelected() && !InputCheck.checkAlphaChar(jTextField4.getText())) {
             JOptionPane.showMessageDialog(null, "Entrez un nom valide !", "Erreur", JOptionPane.ERROR_MESSAGE);
         } else {
             jComboBox4.setModel(initEventSearch());
@@ -2151,7 +2258,7 @@ public class JFMain extends javax.swing.JFrame {
         // TODO add your handling code here:
         JF13ModifyPublisher jmp = new JF13ModifyPublisher();
         jmp.setVisible(true);
-        jmp.fillPublisher((Publisher)jComboBox3.getSelectedItem(), jLabel72.getText());
+        jmp.fillPublisher((Publisher) jComboBox3.getSelectedItem(), jLabel72.getText());
     }//GEN-LAST:event_jButton11ActionPerformed
 
     private void jComboBox3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox3ActionPerformed
@@ -2192,7 +2299,7 @@ public class JFMain extends javax.swing.JFrame {
 
     private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
         // TODO add your handling code here:
-        if ((jRadioButton7.isSelected() && !InputCheck.checkStringIsNotBlank(jTextField3.getText()))) {
+        if ((jRadioButton7.isSelected() && !InputCheck.checkAlphaChar(jTextField3.getText()))) {
             JOptionPane.showMessageDialog(null, "Entrez un nom valide !", "Erreur", JOptionPane.ERROR_MESSAGE);
         } else {
             if (jRadioButton9.isSelected() && !InputCheck.checkPublisherISBN(jTextField3.getText())) {
@@ -2230,7 +2337,7 @@ public class JFMain extends javax.swing.JFrame {
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         // TODO add your handling code here:
-        if (!InputCheck.checkStringIsNotBlank(jTextField2.getText())) {
+        if (!InputCheck.checkAlphaChar(jTextField2.getText())) {
             JOptionPane.showMessageDialog(null, "Entrez un champ valide !", "Erreur", JOptionPane.ERROR_MESSAGE);
         } else {
             jComboBox2.setModel(initAuthorSearch());
@@ -2250,7 +2357,7 @@ public class JFMain extends javax.swing.JFrame {
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
         // TODO add your handling code here:
-        setBounds(500, 100, 700, 450);
+        setSize(700, 450);
         Book bk = (Book) jComboBox1.getSelectedItem();
         jLabel3.setText(bk.getIsbn());
         jLabel4.setText(bk.getPublisher().getName());
@@ -2297,14 +2404,14 @@ public class JFMain extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        if ((jRadioButton1.isSelected() && !InputCheck.checkStringIsNotBlank(jTextField1.getText()))) {
+        if ((jRadioButton1.isSelected() && !InputCheck.checkAlphaChar(jTextField1.getText()))) {
             JOptionPane.showMessageDialog(null, "Entrez un nom valide !", "Erreur", JOptionPane.ERROR_MESSAGE);
         } else {
-            if (jRadioButton2.isSelected() && !InputCheck.checkStringIsNotBlank(jTextField1.getText())) {
+            if (jRadioButton2.isSelected() && !InputCheck.checkAlphaChar(jTextField1.getText())) {
                 JOptionPane.showMessageDialog(null, "Entrez un titre valide !", "Erreur", JOptionPane.ERROR_MESSAGE);
             } else {
                 if (jRadioButton3.isSelected() && !InputCheck.checkBookISBN(jTextField1.getText())) {
-                    JOptionPane.showMessageDialog(null, "Entrez un isbn valide !", "Erreur", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Entrez un ISBN valide !", "Erreur", JOptionPane.ERROR_MESSAGE);
                 } else {
                     jComboBox1.setModel(initBookSearch());
                 }
@@ -2320,7 +2427,7 @@ public class JFMain extends javax.swing.JFrame {
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
         jPanel2.setVisible(false);
-        setBounds(500, 100, 700, 450);
+        setSize(700, 450);
         jButton5.setVisible(false);
         jButton4.setVisible(true);
     }//GEN-LAST:event_jButton5ActionPerformed
@@ -2328,7 +2435,7 @@ public class JFMain extends javax.swing.JFrame {
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
         jPanel2.setVisible(true);
-        setBounds(500, 100, 700, 720);
+        setSize(700, 720);
         jButton5.setVisible(true);
         jButton4.setVisible(false);
     }//GEN-LAST:event_jButton4ActionPerformed
@@ -2337,12 +2444,12 @@ public class JFMain extends javax.swing.JFrame {
         // TODO add your handling code here:
         JF07ModifyBook jmb = new JF07ModifyBook();
         jmb.setVisible(true);
-        jmb.fillBook((Book)jComboBox1.getSelectedItem(), jLabel68.getText());
+        jmb.fillBook((Book) jComboBox1.getSelectedItem(), jLabel68.getText());
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton20ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton20ActionPerformed
         // TODO add your handling code here:
-        if (jRadioButton15.isSelected() && !InputCheck.checkStringIsNotBlank(jTextField7.getText())) {
+        if (jRadioButton15.isSelected() && !InputCheck.checkAlphaChar(jTextField7.getText())) {
             JOptionPane.showMessageDialog(null, "Entrez un genre valide !", "Erreur", JOptionPane.ERROR_MESSAGE);
         } else {
             jComboBox8.setModel(initGenreSearch());
@@ -2366,7 +2473,7 @@ public class JFMain extends javax.swing.JFrame {
 
     private void jTabbedPane1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabbedPane1MouseClicked
         // TODO add your handling code here:
-        setBounds(500, 100, 700, 450);
+        setSize(700, 450);
     }//GEN-LAST:event_jTabbedPane1MouseClicked
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -2391,8 +2498,66 @@ public class JFMain extends javax.swing.JFrame {
         // TODO add your handling code here:
         JF09ModifyEvent jme = new JF09ModifyEvent();
         jme.setVisible(true);
-        jme.fillEvent((Event)jComboBox4.getSelectedItem());
+        jme.fillEvent((Event) jComboBox4.getSelectedItem());
     }//GEN-LAST:event_jButton17ActionPerformed
+
+    private void jButton19ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton19ActionPerformed
+        // TODO add your handling code here:
+        String s = JOptionPane.showInputDialog("Entrez le nouveau Genre:");
+        ConnectSQLS co = new ConnectSQLS();
+        co.connectDatabase();
+        String query = "INSERT INTO sb_genre VALUES (?)";
+        try {
+            PreparedStatement stmt = co.getConnexion().prepareStatement(query);
+            stmt.setString(1, s);
+            stmt.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(JFMain.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        co.closeConnectionDatabase();
+
+    }//GEN-LAST:event_jButton19ActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        // TODO add your handling code here:
+        JFAddAuthor jaa = new JFAddAuthor();
+        jaa.setVisible(true);
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        // TODO add your handling code here:
+        JFAddBook jab = new JFAddBook();
+        jab.setVisible(true);
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
+        // TODO add your handling code here:
+        JFAddPublisher jap = new JFAddPublisher();
+        jap.setVisible(true);
+    }//GEN-LAST:event_jMenuItem3ActionPerformed
+
+    private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
+        // TODO add your handling code here:
+        jButton19ActionPerformed(evt);
+    }//GEN-LAST:event_jMenuItem6ActionPerformed
+
+    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
+        // TODO add your handling code here:
+        JFAddEvent jae = new JFAddEvent();
+        jae.setVisible(true);
+    }//GEN-LAST:event_jMenuItem4ActionPerformed
+
+    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
+        // TODO add your handling code here:
+        JFAddEmployee jaem = new JFAddEmployee();
+        jaem.setVisible(true);
+    }//GEN-LAST:event_jMenuItem5ActionPerformed
+
+    private void jButton18ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton18ActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_jButton18ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -2445,6 +2610,7 @@ public class JFMain extends javax.swing.JFrame {
     private javax.swing.JButton jButton15;
     private javax.swing.JButton jButton16;
     private javax.swing.JButton jButton17;
+    private javax.swing.JButton jButton18;
     private javax.swing.JButton jButton19;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton20;
@@ -2538,7 +2704,15 @@ public class JFMain extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenu jMenu3;
+    private javax.swing.JMenu jMenu4;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItem3;
+    private javax.swing.JMenuItem jMenuItem4;
+    private javax.swing.JMenuItem jMenuItem5;
+    private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
@@ -2580,6 +2754,7 @@ public class JFMain extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator3;
     private javax.swing.JSeparator jSeparator4;
     private javax.swing.JSeparator jSeparator5;
+    private javax.swing.JPopupMenu.Separator jSeparator6;
     private javax.swing.JSeparator jSeparator7;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTable1;

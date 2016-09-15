@@ -1,6 +1,7 @@
 package swing;
 
 import classes.ConnectSQLS;
+import classes.InputCheck;
 import classes.Publisher;
 import classes.Status;
 import java.sql.ResultSet;
@@ -164,9 +165,11 @@ public class JFAddPublisher extends javax.swing.JFrame {
 
     private void AjouterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AjouterActionPerformed
 
-        if (jTextField1.getText().equals("") || jTextField2.getText().equals("")) {
+        //on vérifie que les champs obligatoires sont saisis et CORRECTEMENT
+        if (!InputCheck.checkPublisherISBN(jTextField1.getText()) || !InputCheck.checkAlphaChar(jTextField2.getText())) {
             JOptionPane JOp01 = new JOptionPane();
-            JOp01.showMessageDialog(null, "Veuillez remplir les champs obligatoires", "Erreur", JOptionPane.ERROR_MESSAGE);
+            JOp01.showMessageDialog(null, "Veuillez remplir correctement les champs obligatoires", "Erreur", JOptionPane.ERROR_MESSAGE);
+        
         } else {
 
             Publisher pb = new Publisher(jTextField1.getText(), jTextField2.getText());

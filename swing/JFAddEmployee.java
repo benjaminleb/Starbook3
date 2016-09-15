@@ -2,6 +2,7 @@ package swing;
 
 import classes.ConnectSQLS;
 import classes.Employee;
+import classes.InputCheck;
 import classes.Status;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -215,52 +216,60 @@ public class JFAddEmployee extends javax.swing.JFrame {
     private void AjouterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AjouterActionPerformed
 
         Employee emp;
-
-        if (jTextField1.getText().equals("") || jTextField2.getText().equals("")
-                || jTextField3.getText().equals("") || jTextField4.getText().equals("")) {
+        //on vérifie que les champs obligatoires sont saisis et CORRECTEMENT
+        if (!InputCheck.checkAlphaChar(jTextField1.getText())
+                || !InputCheck.checkAlphaChar(jTextField2.getText())
+                || !InputCheck.checkStringIsNotBlank(jTextField3.getText())
+                || !InputCheck.checkMail(jTextField4.getText())) {
             JOptionPane JOp01 = new JOptionPane();
-            JOp01.showMessageDialog(null, "Veuillez remplir les champs obligatoires", "Erreur", JOptionPane.ERROR_MESSAGE);
+            JOp01.showMessageDialog(null, "Veuillez remplir correctement les champs obligatoires", "Erreur", JOptionPane.ERROR_MESSAGE);
+
         } else {
+                //on vérifie que si le téléphone est saisi, il est saisi correctement
+            if (!InputCheck.checkPhone_NotMandatory(jTextField5.getText())) {
+                JOptionPane JOp02 = new JOptionPane();
+                JOp02.showMessageDialog(null, "Veuillez saisir correctement le téléphone", "Erreur", JOptionPane.ERROR_MESSAGE);
 
-            emp = new Employee(0, jTextField1.getText(),
-                    jTextField2.getText(),
-                    jTextField3.getText(),
-                    jTextField4.getText(),
-                    jTextField5.getText());
+            } else {
 
-            emp.insertEmployee();
+                emp = new Employee(0, jTextField1.getText(),
+                        jTextField2.getText(),
+                        jTextField3.getText(),
+                        jTextField4.getText(),
+                        jTextField5.getText());
 
-            // on recherche l'id d'employee avec une requête SQL 
-            ConnectSQLS co = new ConnectSQLS();
+                emp.insertEmployee();
 
-            co.connectDatabase();
+                // on recherche l'id d'employee avec une requête SQL 
+                ConnectSQLS co = new ConnectSQLS();
 
-            try {
-                String query = "SELECT sb_employee.employee_id FROM sb_employee WHERE employee_mail = '" + emp.getMail()+"'";
+                co.connectDatabase();
 
-                Statement stmt = co.getConnexion().createStatement();
-                ResultSet rs = stmt.executeQuery(query);
-                
-                
-                while (rs.next()){
-                emp.setId(rs.getInt("employee_id"));
+                try {
+                    String query = "SELECT sb_employee.employee_id FROM sb_employee WHERE employee_mail = '" + emp.getMail() + "'";
+
+                    Statement stmt = co.getConnexion().createStatement();
+                    ResultSet rs = stmt.executeQuery(query);
+
+                    while (rs.next()) {
+                        emp.setId(rs.getInt("employee_id"));
+                    }
+
+                    rs.close();
+                    stmt.close();
+
+                } catch (SQLException ex) {
+                    System.err.println("error: sql exception: " + ex.getMessage());
                 }
-                
-                rs.close();
-                stmt.close();
-                
 
-            } catch (SQLException ex) {
-                System.err.println("error: sql exception: " + ex.getMessage());
+                co.closeConnectionDatabase();
+
+                emp.insertEmployeeStatus(((Status) jComboBox1.getSelectedItem()));
             }
-
-            co.closeConnectionDatabase();
-
-            emp.insertEmployeeStatus(((Status) jComboBox1.getSelectedItem()));
-
-
+        }
     }//GEN-LAST:event_AjouterActionPerformed
-    }
+
+
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jComboBox1ActionPerformed
@@ -280,20 +289,32 @@ public class JFAddEmployee extends javax.swing.JFrame {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
 
-                }
+                
+
+}
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(JFAddEmployee.class
-                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(JFAddEmployee.class
-                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(JFAddEmployee.class
-                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(JFAddEmployee.class
-                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(JFAddEmployee.class  
+
+.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } 
+
+catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(JFAddEmployee.class  
+
+.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } 
+
+catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(JFAddEmployee.class  
+
+.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } 
+
+catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(JFAddEmployee.class  
+
+.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
 
