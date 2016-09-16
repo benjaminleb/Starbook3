@@ -68,6 +68,7 @@ public class Book {
         this.print = print;
         this.weight = weight;
     }
+    
 
     //g&s
     public String getIsbn() {
@@ -287,7 +288,28 @@ public class Book {
         co.closeConnectionDatabase();
         return statusList;
     }
+    
+    
+    public static void insertBookStatus(int status_number, String book_isbn) {
+        ConnectSQLS co = new ConnectSQLS();
+        co.connectDatabase();
 
+        try {
+            String query = "INSERT INTO sb_bookStatus VALUES ("
+                    + "?, ?, GETDATE())";
+
+            PreparedStatement pstmt = co.getConnexion().prepareStatement(query);
+            pstmt.setInt(1, status_number);
+            pstmt.setString(2, book_isbn);
+    
+            pstmt.close();
+        } catch (SQLException ex) {
+            System.err.println("error: sql exception: " + ex.getMessage());
+        }
+        co.closeConnectionDatabase();
+    }
+    
+    
     public void insertBookStatus(Status status) {
 
         ConnectSQLS co = new ConnectSQLS();

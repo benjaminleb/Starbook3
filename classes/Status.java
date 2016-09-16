@@ -40,7 +40,26 @@ public class Status {
     public void setName(String name) {
         this.name = name;
     }
-   
+    
+    public static int statusBookIndexCombo (String status_name) {
+        int index = -1;
+        if (status_name.equalsIgnoreCase("En stock")) {
+            index = 0;
+        }
+        else if (status_name.equalsIgnoreCase("Rupture de stock")) {
+            index = 1;
+        }
+        else if (status_name.equalsIgnoreCase("Discontinué")) {
+            index = 2;
+        }
+        else if (status_name.equalsIgnoreCase("Précommande")) {
+            index = 3;
+        }
+        return index;
+    }
+    
+    
+    
     @Override
     public String toString() {
         return name ;
