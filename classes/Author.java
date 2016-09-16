@@ -82,7 +82,7 @@ public class Author {
         co.connectDatabase();
         try {
 
-            String query = "UPDATE author SET VALUES(?, ?, ?, ?) WHERE ID = " + id;
+            String query = "UPDATE sb_author SET VALUES(?, ?, ?, ?) WHERE ID = " + id;
             PreparedStatement stmt = co.getConnexion().prepareStatement(query);
             stmt.setString(1, surname);
             stmt.setString(2, firstname);

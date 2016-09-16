@@ -22,6 +22,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.ListModel;
 import javax.swing.ListSelectionModel;
 
@@ -312,6 +313,8 @@ public class JF09ModifyEvent extends javax.swing.JFrame {
         } catch (ParseException ex) {
             Logger.getLogger(JF09ModifyEvent.class.getName()).log(Level.SEVERE, null, ex);
         }
+        // A tester
+        JOptionPane.showMessageDialog(null, "L'événement a bien été modifié", "Confirmation", JOptionPane.PLAIN_MESSAGE);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed

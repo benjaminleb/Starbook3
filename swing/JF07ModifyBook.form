@@ -204,7 +204,7 @@
                               <Component id="jLabel23" alignment="3" min="-2" pref="31" max="-2" attributes="0"/>
                               <Component id="jTextField8" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace max="32767" attributes="0"/>
+                          <EmptySpace pref="7" max="32767" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="jLabel1" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="jComboBox1" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -387,7 +387,7 @@
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                      <Component id="jLabel24" alignment="0" pref="71" max="32767" attributes="0"/>
+                      <Component id="jLabel24" alignment="0" max="32767" attributes="0"/>
                       <Component id="jLabel25" alignment="0" max="32767" attributes="0"/>
                       <Component id="jLabel26" alignment="0" max="32767" attributes="0"/>
                       <Component id="jLabel27" alignment="0" max="32767" attributes="0"/>
@@ -533,6 +533,9 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Sauvegarder"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
+      </Events>
     </Component>
   </SubComponents>
 </Form>

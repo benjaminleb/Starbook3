@@ -199,6 +199,33 @@ public class Book {
         return title;
     }
     
+    
+    public void updateBook(String isbn, String publisher_isbn, int tax_id, String title, String subtitle, Date publication_date, String picture, String summary, String idiom, Float price, int quantity, int pages, String print, int weight) {
+        ConnectSQLS co = new ConnectSQLS();
+        co.connectDatabase();
+        try {
+            String query = "UPDATE sb_book SET publisher_isbn = ?, tax_id = ?, book_title = ?, book_subtitle = ?, book_date = ?, book_picture = ?, book_summary = ?, book_idiom = ?, book_price = ?, book_quantity = ?, book_pages = ?, book_print = ?, book_weight = ? WHERE book_isbn = " + isbn;
+            PreparedStatement stmt = co.getConnexion().prepareStatement(query);
+            stmt.setString(1, publisher_isbn);
+            stmt.setInt(2, tax_id);
+            stmt.setString(3, title);
+            stmt.setString(4, subtitle);
+            stmt.setDate(5, (java.sql.Date) publication_date);
+            stmt.setString(6, picture);
+            stmt.setString(7, summary);
+            stmt.setString(8, idiom);
+            stmt.setFloat(9, price);
+            stmt.setInt(10, quantity);
+            stmt.setInt(11, pages);
+            stmt.setString(12, print);
+            stmt.setInt(13, weight);
+            stmt.close();
+        } catch (SQLException ex) {
+            System.err.println("Oops : SQL Connexion : " + ex.getMessage());
+            return;
+        }
+    }
+    
     public void insertBook() {
 
         ConnectSQLS co = new ConnectSQLS();

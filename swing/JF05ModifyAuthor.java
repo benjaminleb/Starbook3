@@ -10,6 +10,7 @@ import classes.Helpers;
 import java.text.ParseException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -169,6 +170,7 @@ public class JF05ModifyAuthor extends javax.swing.JFrame {
         catch (ParseException ex) {
             Logger.getLogger(JF05ModifyAuthor.class.getName()).log(Level.SEVERE, null, ex);
         }
+        JOptionPane.showMessageDialog(null, "L'auteur a bien été modifié", "Confirmation", JOptionPane.PLAIN_MESSAGE);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
