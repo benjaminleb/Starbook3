@@ -1,6 +1,9 @@
 
 package classes;
 
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
 /*
 Gab
    
@@ -97,8 +100,64 @@ public class Address {
         return info;
     }
 
+    public void add(){
+       
+        ConnectSQLS co = new ConnectSQLS();
+        co.connectDatabase();
+        try {
+            String query = "INSERT INTO sb_address VALUES "
+                    + "address_street = ?,"
+                    + "address_other = ?,"
+                    + "address_zipcode = ?,"
+                    + "address_city = ?,"
+                    + "address_country = ?,";
+            
+            PreparedStatement pstmt = co.getConnexion().prepareStatement(query);
+            pstmt.setString(1, "'"+street+"'");
+            pstmt.setString(2, "'"+other+"'");
+            pstmt.setString(3, "'"+zipcode+"'");
+            pstmt.setString(4, "'"+city+"'");
+            pstmt.setString(5, "'"+country+"'");
+
+            
+            pstmt.close();
+
+        } catch (SQLException ex) {
+            System.err.println("error: sql exception: " + ex.getMessage());
+        }
+
+        co.closeConnectionDatabase();
+    }
     
-    
+    public void update(){
+        ConnectSQLS co = new ConnectSQLS();
+        co.connectDatabase();
+        try {
+            String query = "UPDATE sb_customer SET"
+                    + "address_street = ?,"
+                    + "address_other = ?,"
+                    + "address_zipcode = ?,"
+                    + "address_city = ?,"
+                    + "address_country = ?"
+                    + " WHERE address_id = ?";
+
+            PreparedStatement pstmt = co.getConnexion().prepareStatement(query);
+            pstmt.setString(1, "'"+street+"'");
+            pstmt.setString(2, "'"+other+"'");
+            pstmt.setString(3, "'"+zipcode+"'");
+            pstmt.setString(4, "'"+city+"'");
+            pstmt.setString(5, "'"+country+"'");
+            pstmt.setInt(6, id);
+
+            
+            pstmt.close();
+
+        } catch (SQLException ex) {
+            System.err.println("error: sql exception: " + ex.getMessage());
+        }
+
+        co.closeConnectionDatabase();
+    }
     
     
 }
