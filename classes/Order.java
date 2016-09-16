@@ -154,5 +154,58 @@ public class Order {
         globalPrice = ((float) ((int) (globalPrice * 100))) / 100;
         return globalPrice;                
     }
+    
+    public Address getAddresses(boolean type) {
+        //type true -> billing address
+        //type false -> delivery address
+        Address a = new Address();
+        ConnectSQLS co = new ConnectSQLS();
+        co.connectDatabase();
+        String idAddress = "";
+        String addressType;
+        if (type) {
+            addressType = "orderBill";
+        } else {
+            addressType = "orderDelivery";
+        }
+
+        String query = "SELECT address_id FROM sb_" + addressType + " WHERE order_id LIKE '" + getId() + "'";
+        try {
+            Statement stmt = co.getConnexion().createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+
+            while (rs.next()) {
+                idAddress = rs.getString("address_id");
+            }
+            rs.close();
+            stmt.close();
+        } catch (SQLException ex) {
+            System.err.println("Oops:SQL:" + ex.getErrorCode() + ":" + ex.getMessage());
+
+        }
+
+        query = "SELECT * FROM sb_address WHERE address_id LIKE '" + idAddress + "'";
+        try {
+            Statement stmt = co.getConnexion().createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+
+            while (rs.next()) {
+               
+                a = new Address(rs.getInt("address_id"),
+                        rs.getString("address_street"),
+                        rs.getString("address_other"),
+                        rs.getString("address_zipcode"),
+                        rs.getString("address_city"),
+                        rs.getString("address_country"));
+            }
+            rs.close();
+            stmt.close();
+        } catch (SQLException ex) {
+            System.err.println("Oops:SQL:" + ex.getErrorCode() + ":" + ex.getMessage());
+
+        }
+        co.closeConnectionDatabase();
+        return a;
+    }
 
 }

@@ -90,7 +90,12 @@ public class Address {
         this.country = country;
     }
     
-    
+    //m
+    @Override
+    public String toString(){
+        String info = street + " - " + zipcode + " " + city + " ("+ country +")";
+        return info;
+    }
 
     
     
