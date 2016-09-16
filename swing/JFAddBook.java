@@ -160,7 +160,7 @@ public class JFAddBook extends javax.swing.JFrame {
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setSize(new java.awt.Dimension(650, 750));
 
         jLabel1.setFont(new java.awt.Font("Cambria", 0, 13)); // NOI18N

@@ -88,7 +88,7 @@ public class JFAddEvent extends javax.swing.JFrame {
         AjouterLivre = new javax.swing.JButton();
         SupprimerLivre = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
         setSize(new java.awt.Dimension(600, 550));
 
