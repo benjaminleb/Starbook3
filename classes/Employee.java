@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.Vector;
 
 /*
@@ -117,6 +118,24 @@ public class Employee {
         co.closeConnectionDatabase();
     }
     
+    
+    public void updateEmployee(String firstname, String surname, String email, String phone, int id) {
+        ConnectSQLS co = new ConnectSQLS();
+        co.connectDatabase();
+        try {
+            String query = "UPDATE sb_employee SET employee_firstname = ?, employee_surname = ?, employee_mail = ?, employee_phone = ? WHERE ID = " + id;
+            PreparedStatement stmt = co.getConnexion().prepareStatement(query);
+            stmt.setString(1, firstname);
+            stmt.setString(2, surname);
+            stmt.setString(3, email);
+            stmt.setString(4, phone);
+            stmt.close();
+        } catch (SQLException ex) {
+            System.err.println("Oops : SQL Connexion : " + ex.getMessage());
+            return;
+        }
+    }
+    
     public Vector getStatusList(){
         Vector<ItemStatus> statusList = new Vector<ItemStatus>();
         ConnectSQLS co = new ConnectSQLS();
@@ -170,6 +189,26 @@ public class Employee {
             System.err.println("error: sql exception: " + ex.getMessage());
         }
 
+        co.closeConnectionDatabase();
+    }
+    
+    
+    public static void insertEmployeeStatus(int status_number, int employee_id) {
+        ConnectSQLS co = new ConnectSQLS();
+        co.connectDatabase();
+
+        try {
+            String query = "INSERT INTO sb_employeeStatus VALUES ("
+                    + "?, ?, GETDATE())";
+
+            PreparedStatement pstmt = co.getConnexion().prepareStatement(query);
+            pstmt.setInt(1, status_number);
+            pstmt.setInt(2, employee_id);
+    
+            pstmt.close();
+        } catch (SQLException ex) {
+            System.err.println("error: sql exception: " + ex.getMessage());
+        }
         co.closeConnectionDatabase();
     }
 }
