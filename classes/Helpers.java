@@ -28,6 +28,16 @@ public class Helpers {
         }
         return dateString;
     }
+    
+    public static float troncateTwoDecs(float f){         
+        f = ((float) ((int) (f * 100))) / 100;
+        return f;    
+    }
+    
+    public static float troncateThreeDecs(float f){         
+        f = ((float) ((int) (f * 1000))) / 1000;
+        return f;    
+    }
 
     public static Date convertStringToDate(String dateString) throws ParseException {
         Date date = null;
