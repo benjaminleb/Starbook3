@@ -110,9 +110,6 @@ public class Author {
             pstmt.setString(2, firstname);
             pstmt.setDate(3, (java.sql.Date) dob);
             pstmt.setDate(4, (java.sql.Date) dod);
-
-            int result = pstmt.executeUpdate();
-            System.out.println("result:" + result);
             pstmt.close();
 
         } catch (SQLException ex) {

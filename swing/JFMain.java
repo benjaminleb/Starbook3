@@ -23,6 +23,8 @@ import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -2556,7 +2558,9 @@ public class JFMain extends javax.swing.JFrame {
 
     private void jButton18ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton18ActionPerformed
         // TODO add your handling code here:
-        
+        JFKeywords jfk = new JFKeywords();
+        jfk.setVisible(true);
+        jfk.initKeywords((Book)jComboBox1.getSelectedItem());
     }//GEN-LAST:event_jButton18ActionPerformed
 
     /**

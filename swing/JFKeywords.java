@@ -8,7 +8,12 @@ package swing;
 import classes.Book;
 import classes.ConnectSQLS;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.DefaultComboBoxModel;
 
 /**
  *
@@ -22,30 +27,38 @@ public class JFKeywords extends javax.swing.JFrame {
     public JFKeywords() {
         initComponents();
     }
+    
+    public DefaultComboBoxModel initVectorKeyword(Book bk){
+        return new DefaultComboBoxModel(initKeywords(bk));
+    }
 
-    public void initKeywords(Book bk) {
+    public Vector initKeywords(Book bk) {
         ConnectSQLS co = new ConnectSQLS();
         co.connectDatabase();
+        Vector v = new Vector();
         
-        
-        
-        
-
         String query = "SELECT sb_book.book_title AS 'Titre', "
                 + "sb_book.book_isbn AS 'ISBN', "
-                + "sb_subKeyword.subKeyword_name AS 'sous mot clé', "
-                + "sb_keyword.keyword_name AS 'mot clé' "
+                + "sb_subKeyword.subKeyword_name AS 'subkeyword', "
+                + "sb_keyword.keyword_name AS 'keyword' "
                 + "FROM sb_book, sb_keywordAssociation, sb_subKeyword, sb_keyword "
                 + "WHERE sb_book.book_isbn = sb_keywordAssociation.book_isbn "
                 + "AND sb_keywordAssociation.subKeyword_id = sb_subKeyword.subKeyword_id "
                 + "AND sb_keyword.keyword_name = sb_subKeyword.keyword_name "
-                + "AND sb_book.book_isbn = " + bk.getIsbn();
-        
-        Statement stmt = co.getConnexion().createStatement();
-        ResultSet rs = stmt.executeQuery(query);
-        while(rs.next()){
-            jLabel1.setText(rs.getString("ISBN")+ " - "+rs.getString("Titre")+ " - "+rs.getString(""));
+                + "AND sb_book.book_isbn = '" + bk.getIsbn() + "'";
+
+        try {
+
+            Statement stmt = co.getConnexion().createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            while (rs.next()) {
+                jLabel1.setText(rs.getString("ISBN") + " - " + rs.getString("Titre"));
+                v.add(rs.getString("keyword"));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(JFKeywords.class.getName()).log(Level.SEVERE, null, ex);
         }
+        return v;
     }
 
     /**

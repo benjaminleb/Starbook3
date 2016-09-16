@@ -69,11 +69,11 @@ public class InputCheck {
     }
     
     public static Boolean checkAlphaChar(String inputtxt){
-        return inputtxt.matches("^[A-Za-z]+$") && checkStringIsNotBlank(inputtxt);
+        return inputtxt.matches("^[ A-Za-z]+$") && checkStringIsNotBlank(inputtxt);
     }
     
     public static Boolean checkAlphaChar_NotMandatory(String inputtxt){
-        return inputtxt.matches("^[A-Za-z]+$")|| !checkStringIsNotBlank(inputtxt);
+        return inputtxt.matches("^[ A-Za-z]+$")|| !checkStringIsNotBlank(inputtxt);
     }
 
     public static Boolean checkStringIsNotBlank(String inputtxt) {

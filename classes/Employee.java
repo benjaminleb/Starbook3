@@ -108,10 +108,6 @@ public class Employee {
             pstmt.setString(5, Log.convertPassword(pwd));
             pstmt.setString(3, mail);
             pstmt.setString(4, phone);
-            
-
-            int result = pstmt.executeUpdate();
-            System.out.println("result:" + result);
             pstmt.close();
 
         } catch (SQLException ex) {

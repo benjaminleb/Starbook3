@@ -66,9 +66,6 @@ public class Publisher {
             PreparedStatement pstmt = co.getConnexion().prepareStatement(query);
             pstmt.setString(1, code);
             pstmt.setString(2, name);
-
-            int result = pstmt.executeUpdate();
-            System.out.println("result:" + result);
             pstmt.close();
 
        } catch (SQLException ex) {

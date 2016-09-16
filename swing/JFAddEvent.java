@@ -303,7 +303,10 @@ public class JFAddEvent extends javax.swing.JFrame {
                 co.closeConnectionDatabase();
                     
                 // on insère la sélection de livres  reliée à l'id de l'event recherché 
-                evnt.insertBookEvent((Book b) bookSelection.getSelectedValuesList().get(b) );
+                List<Book> bkL = bookDatabase.getSelectedValuesList();
+                    for (Book b : bkL) {
+                        evnt.insertBookEvent(b);
+                    }
                     
 
                 } catch (ParseException ex) {
