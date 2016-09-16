@@ -131,8 +131,8 @@ public class JF09ModifyEvent extends javax.swing.JFrame {
         jTextField2 = new javax.swing.JTextField();
         jTextField3 = new javax.swing.JTextField();
         jTextField4 = new javax.swing.JTextField();
-        jLabel1 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
         jTextField5 = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -166,6 +166,13 @@ public class JF09ModifyEvent extends javax.swing.JFrame {
             }
         });
 
+        jButton1.setText("Sauvegarder");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -184,6 +191,10 @@ public class JF09ModifyEvent extends javax.swing.JFrame {
                     .addComponent(jTextField3)
                     .addComponent(jTextField4, javax.swing.GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE))
                 .addContainerGap(263, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(220, Short.MAX_VALUE)
+                .addComponent(jButton1)
+                .addGap(212, 212, 212))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -204,26 +215,19 @@ public class JF09ModifyEvent extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(32, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jButton1)
+                .addContainerGap(21, Short.MAX_VALUE))
         );
 
         getContentPane().add(jPanel1);
-        jPanel1.setBounds(213, 24, 550, 240);
+        jPanel1.setBounds(213, 24, 550, 280);
         getContentPane().add(jLabel1);
         jLabel1.setBounds(207, 88, 0, 0);
 
-        jButton1.setText("Sauvegarder");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-        getContentPane().add(jButton1);
-        jButton1.setBounds(390, 510, 103, 32);
-
         jTextField5.setText("jTextField5");
         getContentPane().add(jTextField5);
-        jTextField5.setBounds(70, 330, 73, 24);
+        jTextField5.setBounds(70, 330, 84, 24);
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Ajouter / Supprimer des livres"));
 
@@ -280,11 +284,9 @@ public class JF09ModifyEvent extends javax.swing.JFrame {
         );
 
         getContentPane().add(jPanel2);
-        jPanel2.setBounds(210, 280, 550, 220);
-
-        jLabel6.setIcon(new javax.swing.ImageIcon("D:\\newsalon_paris.jpg")); // NOI18N
+        jPanel2.setBounds(210, 320, 550, 220);
         getContentPane().add(jLabel6);
-        jLabel6.setBounds(40, 60, 144, 201);
+        jLabel6.setBounds(40, 60, 0, 0);
 
         jMenu1.setText("File");
         jMenuBar1.add(jMenu1);
@@ -310,9 +312,6 @@ public class JF09ModifyEvent extends javax.swing.JFrame {
         } catch (ParseException ex) {
             Logger.getLogger(JF09ModifyEvent.class.getName()).log(Level.SEVERE, null, ex);
         }
-
-        // Update bookevent table?
-
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
@@ -324,6 +323,8 @@ public class JF09ModifyEvent extends javax.swing.JFrame {
         for(Object o : BookList.getSelectedValuesList()) {
             eventListModel.addElement(o);
             aSupprimer.add(o);
+            Book bk = (Book) o;
+            Event.insertBookEvent2(ev.getId(), bk.getIsbn());
         }
         DefaultListModel bookModel= (DefaultListModel) BookList.getModel();
         for (Object o : aSupprimer) {
@@ -339,13 +340,13 @@ public class JF09ModifyEvent extends javax.swing.JFrame {
         for(Object o : EventList.getSelectedValuesList()) {
             bookModel.addElement(o);
             aSupprimer.add(o);
+            Book bk = (Book) o;
+            Event.deleteBookEvent(ev.getId(), bk.getIsbn());
         }
         
         for (Object o : aSupprimer) {
             eventListModel.removeElement(o);
-        }
-        
-        
+        } 
     }//GEN-LAST:event_jButton5ActionPerformed
 
     /**

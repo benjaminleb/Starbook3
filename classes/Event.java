@@ -87,11 +87,10 @@ public class Event {
     }
 
     //m
-    public void updateEvent(String name, Date startdate, Date enddate, Float discountrate, int id) {
+    public static void updateEvent(String name, Date startdate, Date enddate, Float discountrate, int id) {
         ConnectSQLS co = new ConnectSQLS();
         co.connectDatabase();
         try {
-
             String query = "UPDATE event SET VALUES(?, ?, ?, ?) WHERE ID = " + id;
             PreparedStatement stmt = co.getConnexion().prepareStatement(query);
             stmt.setString(1, name);
@@ -103,8 +102,44 @@ public class Event {
             System.err.println("Oops : SQL Connexion : " + ex.getMessage());
             return;
         }
+        co.closeConnectionDatabase();
     }
-
+    
+    
+    public static void insertBookEvent2(int event_id, String book_isbn) {
+        ConnectSQLS co = new ConnectSQLS();
+        co.connectDatabase();
+        try {
+            String query = "INSERT INTO sb_bookEvent VALUES (?, ?)";
+            PreparedStatement pstmt = co.getConnexion().prepareStatement(query);
+            pstmt.setInt(1, event_id);
+            pstmt.setString(2, book_isbn);
+            int result = pstmt.executeUpdate();
+            System.out.println("result:" + result);
+            pstmt.close();
+        } catch (SQLException ex) {
+            System.err.println("error: sql exception: " + ex.getMessage());
+        }
+        co.closeConnectionDatabase();   
+    }
+    
+    public static void deleteBookEvent(int event_id, String book_isbn) {
+        ConnectSQLS co = new ConnectSQLS();
+        co.connectDatabase();
+        try {
+            String query = "DELETE FROM sb_bookEvent WHERE sb_bookEvent.event_id = ? AND sb_bookEvent.book_isbn = ?";
+            PreparedStatement pstmt = co.getConnexion().prepareStatement(query);
+            pstmt.setInt(1, event_id);
+            pstmt.setString(2, book_isbn);
+            int result = pstmt.executeUpdate();
+            System.out.println("result:" + result);
+            pstmt.close();
+        } catch (SQLException ex) {
+            System.err.println("error: sql exception: " + ex.getMessage());
+        }
+        co.closeConnectionDatabase();   
+    }
+    
     public void insertEvent() {
         ConnectSQLS co = new ConnectSQLS();
 
