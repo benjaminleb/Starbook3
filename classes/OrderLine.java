@@ -117,7 +117,7 @@ public class OrderLine {
     
     public float troncateDiscountRate(){
         float discount;
-        discount = ((float) ((int) (discountRate * 100))) / 100;
+        discount = ((float) ((int) (discountRate * 1000))) / 1000;
         return discount;
     }
     
