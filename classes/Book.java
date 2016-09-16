@@ -4,11 +4,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.time.LocalDateTime;
 import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import swing.JFAddAuthor;
+
 
 /*
  ben
@@ -324,10 +321,7 @@ public class Book {
             pstmt.setInt(1, status.getNumber());
             pstmt.setString(2, isbn);
               
-       
-
-            int result = pstmt.executeUpdate();
-            System.out.println("result:" + result);
+      
             pstmt.close();
 
         } catch (SQLException ex) {
@@ -337,6 +331,27 @@ public class Book {
         co.closeConnectionDatabase();
     }
     
-    
+     public void insertBookAuthor(Author aut) {
+
+        ConnectSQLS co = new ConnectSQLS();
+
+        co.connectDatabase();
+
+        try {
+            String query = "INSERT INTO sb_writer VALUES ("
+                    + "?,?)";
+
+            PreparedStatement pstmt = co.getConnexion().prepareStatement(query);
+            pstmt.setInt(1, aut.getId());
+            pstmt.setString(2, isbn);
+              
+            pstmt.close();
+
+        } catch (SQLException ex) {
+            System.err.println("error: sql exception: " + ex.getMessage());
+        }
+
+        co.closeConnectionDatabase();
+    }
     
 }

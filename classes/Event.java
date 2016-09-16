@@ -15,8 +15,8 @@ public class Event {
     //p
     private int id;
     private String name;
-    private Date start;
-    private Date end;
+    private String start;
+    private String end;
     private float discountRate;
     private String picture;
 
@@ -30,7 +30,7 @@ public class Event {
         this.discountRate = discountRate;
     }
 
-    public Event(int id, String name, Date start, Date end, float discountRate, String picture) {
+    public Event(int id, String name, String start, String end, float discountRate, String picture) {
         this(id, name, discountRate);
         this.start = start;
         this.end = end;
@@ -54,19 +54,19 @@ public class Event {
         this.name = name;
     }
 
-    public Date getStart() {
+    public String getStart() {
         return start;
     }
 
-    public void setStart(Date start) {
+    public void setStart(String start) {
         this.start = start;
     }
 
-    public Date getEnd() {
+    public String getEnd() {
         return end;
     }
 
-    public void setEnd(Date end) {
+    public void setEnd(String end) {
         this.end = end;
     }
 
@@ -129,8 +129,6 @@ public class Event {
             PreparedStatement pstmt = co.getConnexion().prepareStatement(query);
             pstmt.setInt(1, event_id);
             pstmt.setString(2, book_isbn);
-            int result = pstmt.executeUpdate();
-            System.out.println("result:" + result);
             pstmt.close();
         } catch (SQLException ex) {
             System.err.println("error: sql exception: " + ex.getMessage());
@@ -148,13 +146,11 @@ public class Event {
                     + "?,?,?,?,?)";
             PreparedStatement pstmt = co.getConnexion().prepareStatement(query);
             pstmt.setString(1, name);
-            pstmt.setDate(2, (java.sql.Date) start);
-            pstmt.setDate(3, (java.sql.Date) end);
+            pstmt.setString(2, start);
+            pstmt.setString(3, end);
             pstmt.setFloat(4, discountRate);
             pstmt.setString(5, picture);
 
-            int result = pstmt.executeUpdate();
-            System.out.println("result:" + result);
             pstmt.close();
 
         } catch (SQLException ex) {
@@ -176,9 +172,6 @@ public class Event {
             PreparedStatement pstmt = co.getConnexion().prepareStatement(query);
             pstmt.setInt(1, id);
             pstmt.setString(2, b.getIsbn());
-
-            int result = pstmt.executeUpdate();
-            System.out.println("result:" + result);
             pstmt.close();
 
         } catch (SQLException ex) {

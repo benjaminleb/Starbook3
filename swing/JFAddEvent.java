@@ -269,20 +269,19 @@ public class JFAddEvent extends javax.swing.JFrame {
                 JOp02.showMessageDialog(null, "Veuillez respecter le format JJ/MM/AAAA ", "Erreur", JOptionPane.ERROR_MESSAGE);
             } else {
 
-                try {
-                    evnt = new Event(0, jTextField1.getText(),
-                            Helpers.convertStringToDate(jTextField2.getText()),
-                            Helpers.convertStringToDate(jTextField3.getText()),
-                            Float.valueOf(jTextField4.getText()),
-                            jTextField5.getText());
-
-                    evnt.insertEvent();
-                    
-                // on recherche l'id de l'event avec une requête sql 
+                evnt = new Event(0, jTextField1.getText(),
+                        (jTextField2.getText()),
+                        (jTextField3.getText()),
+                        Float.valueOf(jTextField4.getText()),
+                        jTextField5.getText());
+                evnt.insertEvent();
+                
+                
+                
+                
+                //on récupère l'id de l'event
                 ConnectSQLS co = new ConnectSQLS();
-
                 co.connectDatabase();
-
                 try {
                     String query = "SELECT sb_event.event_id FROM sb_event WHERE event_name = '" + evnt.getName()+ "'";
 
@@ -291,6 +290,7 @@ public class JFAddEvent extends javax.swing.JFrame {
 
                     while (rs.next()) {
                         evnt.setId(rs.getInt("event_id"));
+                        System.out.println("Event ID = "+evnt.getId());
                     }
 
                     rs.close();
@@ -299,19 +299,15 @@ public class JFAddEvent extends javax.swing.JFrame {
                 } catch (SQLException ex) {
                     System.err.println("error: sql exception: " + ex.getMessage());
                 }
-
                 co.closeConnectionDatabase();
-                    
-                // on insère la sélection de livres  reliée à l'id de l'event recherché 
-                List<Book> bkL = bookDatabase.getSelectedValuesList();
-                    for (Book b : bkL) {
-                        evnt.insertBookEvent(b);
+                
+                //on insère les livres correspondant a l'id de l'event dans la table sb_bookEvent
+                List<Book> bkL = bookSelection.getSelectedValuesList();
+                System.out.println(bkL);
+                for (Book b : bkL) {
+                    evnt.insertBookEvent(b);
+                    System.out.println(b);
                     }
-                    
-
-                } catch (ParseException ex) {
-                    Logger.getLogger(JFAddEvent.class.getName()).log(Level.SEVERE, null, ex);
-                }
             }
         }
     }//GEN-LAST:event_AjouterActionPerformed
