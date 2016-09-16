@@ -115,6 +115,14 @@ public class OrderLine {
         return lPrice;
     }
     
+    public float troncateDiscountRate(){
+        float discount;
+        discount = ((float) ((int) (discountRate * 100))) / 100;
+        return discount;
+    }
+    
+    
+    
     public Vector getStatusList(){
         Vector<ItemStatus> statusList = new Vector<ItemStatus>();
         ConnectSQLS co = new ConnectSQLS();
