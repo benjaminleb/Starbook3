@@ -129,4 +129,24 @@ public class Publisher {
 
         co.closeConnectionDatabase();
     }
+    
+    public static void insertPublisherStatus(int status_number, String publisher_isbn) {
+        ConnectSQLS co = new ConnectSQLS();
+        co.connectDatabase();
+
+        try {
+            String query = "INSERT INTO sb_publisherStatus VALUES ("
+                    + "?, ?, GETDATE())";
+
+            PreparedStatement pstmt = co.getConnexion().prepareStatement(query);
+            pstmt.setInt(1, status_number);
+            pstmt.setString(2, publisher_isbn);
+    
+            pstmt.close();
+        } catch (SQLException ex) {
+            System.err.println("error: sql exception: " + ex.getMessage());
+        }
+        co.closeConnectionDatabase();
+    }
+    
 }
