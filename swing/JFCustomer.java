@@ -62,12 +62,14 @@ public class JFCustomer extends javax.swing.JFrame {
         orderList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         co.closeConnectionDatabase();
         return orders;
+        
     }
 
     //--------------- SearchC LIST ---------------
     private DefaultListModel empowerSearchC(Connection co) {
         DefaultListModel searchC = new DefaultListModel();
-        int oName;
+        int aIndex;
+        int zIndex;
         String fName;
         String sName;
         String query = new String();
@@ -78,15 +80,14 @@ public class JFCustomer extends javax.swing.JFrame {
             if (!jTFSearchC.getText().contains(" ")) {
                 query = "SELECT * FROM sb_customer WHERE customer_firstname LIKE '%" + jTFSearchC.getText() + "%'";
             } else {
-                oName = jTFSearchC.getText().lastIndexOf(" ");
-                fName = jTFSearchC.getText().substring(0, oName);
-                sName = jTFSearchC.getText().substring(oName + 1).trim();
-                System.out.println(fName);
-                System.out.println(sName);
+                aIndex = jTFSearchC.getText().indexOf(" ");
+                zIndex = jTFSearchC.getText().lastIndexOf(" ");
+                fName = jTFSearchC.getText().substring(0, aIndex);
+                sName = jTFSearchC.getText().substring(zIndex + 1).trim();
                 query = "SELECT * FROM sb_customer "
-                        + "WHERE (customer_firstname LIKE '" + fName + "%' "
+                        + "WHERE (customer_firstname LIKE '%" + fName + "%' "
                         + "AND customer_surname LIKE '%" + sName + "%') "
-                        + "OR (customer_firstname LIKE '" + sName + "%' "
+                        + "OR (customer_firstname LIKE '%" + sName + "%' "
                         + "AND customer_surname LIKE '%" + fName + "%')";
             }
 
