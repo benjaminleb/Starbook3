@@ -35,9 +35,8 @@ public class JF13ModifyPublisher extends javax.swing.JFrame {
         jTextField1.setText(pub.getName());
         jTextField2.setText(pub.getCode());
         //Fill ComboBox with pre-selected status name
-        //TODO
-        //Remplir la combo box avec le bon statut >>> A remplir
-        jComboBox1.setSelectedItem(status_name);  
+        int index = Status.statusPublisherIndexCombo(status_name);
+        jComboBox1.setSelectedIndex(index);  
     }
     /**
      * Creates new form JF13ModifyPublisher

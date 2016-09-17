@@ -59,6 +59,37 @@ public class Status {
     }
     
     
+    public static int statusPublisherIndexCombo (String status_name) {
+        int index = -1;
+        if (status_name.equalsIgnoreCase("Éditeur actif")) {
+            index = 0;
+        }
+        else if (status_name.equalsIgnoreCase("Editeur inactif")) {
+            index = 1;
+        }
+        else if (status_name.equalsIgnoreCase("Litige")) {
+            index = 2;
+        }
+        return index;
+    }
+    
+    
+     public static int statusEmployeeIndexCombo (String status_name) {
+        int index = -1;
+        if (status_name.equalsIgnoreCase("Utilisateur simple")) {
+            index = 0;
+        }
+        else if (status_name.equalsIgnoreCase("Utilisateur +")) {
+            index = 1;
+        }
+        else if (status_name.equalsIgnoreCase("Administrateur")) {
+            index = 2;
+        }
+        else if (status_name.equalsIgnoreCase("Master")) {
+            index = 3;
+        }
+        return index;
+    }
     
     @Override
     public String toString() {

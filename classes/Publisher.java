@@ -75,6 +75,8 @@ public class Publisher {
         co.closeConnectionDatabase();
 
     }
+    
+    
     public Vector getStatusList(){
         Vector<BookStatus> statusList = new Vector<BookStatus>();
         ConnectSQLS co = new ConnectSQLS();

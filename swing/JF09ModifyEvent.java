@@ -107,10 +107,8 @@ public class JF09ModifyEvent extends javax.swing.JFrame {
     public void fillEvent(Event ev) {
         this.ev = ev;
         jTextField1.setText(ev.getName());
-        String startdate = Helpers.convertDateToString(ev.getStart());
-        jTextField2.setText(startdate);
-        String enddate = Helpers.convertDateToString(ev.getEnd());
-        jTextField3.setText(enddate);
+        jTextField2.setText(ev.getStart());
+        jTextField3.setText(ev.getEnd());
         jTextField4.setText("" + ev.getDiscountRate());
     }
 

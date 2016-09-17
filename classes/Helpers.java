@@ -44,7 +44,6 @@ public class Helpers {
         DateFormat df = new SimpleDateFormat("dd/MM/yyyy");
         try {
             date = df.parse(dateString);
-              
         } catch (Exception ex) {
             System.out.println(ex);
         }
