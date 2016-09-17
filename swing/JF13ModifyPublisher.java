@@ -32,6 +32,7 @@ public class JF13ModifyPublisher extends javax.swing.JFrame {
 
    public void fillPublisher (Publisher pub, String status_name) {
         this.pub = pub;
+        jTextField2.setEditable(false);
         jTextField1.setText(pub.getName());
         jTextField2.setText(pub.getCode());
         //Fill ComboBox with pre-selected status name
@@ -135,13 +136,13 @@ public class JF13ModifyPublisher extends javax.swing.JFrame {
                     .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(202, 202, 202))
+                .addGap(15, 15, 15)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(205, 205, 205))
         );
 
         jButton1.setText("Sauvegarder");
@@ -186,9 +187,14 @@ public class JF13ModifyPublisher extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // Update Employee table
+        // Update Publisher table
+        Publisher pub = new Publisher();
+        pub.updatePublisher(jTextField2.getText(), jTextField1.getText());
 
-        // Add a row to EmployeeStatus
+        // Add a row to publisherStatus
+        Status current_status = (Status) jComboBox1.getSelectedItem();
+        int status_number = current_status.getNumber();
+        Publisher.insertPublisherStatus(status_number, jTextField1.getText());
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed

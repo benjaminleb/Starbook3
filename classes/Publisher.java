@@ -77,6 +77,20 @@ public class Publisher {
     }
     
     
+    public void updatePublisher(String publisher_isbn, String publisher_name) {
+        ConnectSQLS co = new ConnectSQLS();
+        co.connectDatabase();
+        try {
+            String query = "UPDATE sb_publisher SET publisher_name = ? WHERE publisher_isbn = " + publisher_isbn;
+            PreparedStatement stmt = co.getConnexion().prepareStatement(query);
+            stmt.setString(1, publisher_name);
+            stmt.close();
+        } catch (SQLException ex) {
+            System.err.println("Oops : SQL Connexion : " + ex.getMessage());
+            return;
+        }
+    }
+    
     public Vector getStatusList(){
         Vector<BookStatus> statusList = new Vector<BookStatus>();
         ConnectSQLS co = new ConnectSQLS();
