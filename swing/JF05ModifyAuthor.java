@@ -25,7 +25,7 @@ public class JF05ModifyAuthor extends javax.swing.JFrame {
      */
     public JF05ModifyAuthor() {
         initComponents();
-        //jTextField5.setVisible(false);
+        jTextField5.setVisible(false);
     }
 
     
@@ -60,6 +60,7 @@ public class JF05ModifyAuthor extends javax.swing.JFrame {
         jTextField2 = new javax.swing.JTextField();
         jTextField3 = new javax.swing.JTextField();
         jTextField4 = new javax.swing.JTextField();
+        jTextField5 = new javax.swing.JTextField();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu2 = new javax.swing.JMenu();
@@ -152,6 +153,10 @@ public class JF05ModifyAuthor extends javax.swing.JFrame {
         getContentPane().add(jPanel1);
         jPanel1.setBounds(48, 36, 443, 227);
 
+        jTextField5.setText("jTextField5");
+        getContentPane().add(jTextField5);
+        jTextField5.setBounds(40, 290, 73, 24);
+
         jMenu1.setText("File");
         jMenuBar1.add(jMenu1);
 
@@ -160,7 +165,8 @@ public class JF05ModifyAuthor extends javax.swing.JFrame {
 
         setJMenuBar(jMenuBar1);
 
-        pack();
+        setSize(new java.awt.Dimension(536, 386));
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -226,5 +232,6 @@ public class JF05ModifyAuthor extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
+    private javax.swing.JTextField jTextField5;
     // End of variables declaration//GEN-END:variables
 }

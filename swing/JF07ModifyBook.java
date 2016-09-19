@@ -108,6 +108,8 @@ public class JF07ModifyBook extends javax.swing.JFrame {
         jTextArea1.setText(bk.getSummary());
         jLabel8.setText(bk.getPicture());
         //Fill ComboBox with pre-selected status name
+        
+        System.out.println("Status name du publisher : "+ status_name);
         int index = Status.statusBookIndexCombo(status_name);
         jComboBox1.setSelectedIndex(index);
         //Fill ComboBox with pre-selected publisher
@@ -483,7 +485,8 @@ public class JF07ModifyBook extends javax.swing.JFrame {
         int pages = Integer.parseInt(jTextField10.getText());
         String idiom = jTextField11.getText();
         Integer weight = Integer.parseInt(jTextField13.getText());
-        String picture = jLabel8.getIcon().toString();
+        //String picture = jLabel8.getIcon().toString();
+        String picture = "";
         String summary = jTextArea1.getText();
         
         Publisher pb0 = (Publisher) jComboBox2.getSelectedItem();

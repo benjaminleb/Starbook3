@@ -208,7 +208,7 @@ public class Book {
             stmt.setInt(2, tax_id);
             stmt.setString(3, title);
             stmt.setString(4, subtitle);
-            stmt.setDate(5, (java.sql.Date) publication_date);
+            stmt.setDate(5, Helpers.convertUtiltoSQLDate(publication_date));
             stmt.setString(6, picture);
             stmt.setString(7, summary);
             stmt.setString(8, idiom);

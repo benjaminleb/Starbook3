@@ -36,7 +36,11 @@ public class JF13ModifyPublisher extends javax.swing.JFrame {
         jTextField1.setText(pub.getName());
         jTextField2.setText(pub.getCode());
         //Fill ComboBox with pre-selected status name
+        
+        System.out.println("Status name du publisher : "+ status_name);
         int index = Status.statusPublisherIndexCombo(status_name);
+        
+        System.out.println("index combobox = "+index);
         jComboBox1.setSelectedIndex(index);  
     }
     /**
@@ -188,7 +192,7 @@ public class JF13ModifyPublisher extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // Update Publisher table
-        Publisher pub = new Publisher();
+        //Publisher pub = new Publisher();
         pub.updatePublisher(jTextField2.getText(), jTextField1.getText());
 
         // Add a row to publisherStatus

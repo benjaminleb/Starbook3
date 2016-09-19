@@ -61,6 +61,7 @@ public class JF11ModifyEmployee extends javax.swing.JFrame {
     
     public void fillEmployee(Employee emp, String status_name) {
         //Remplir la combo box avec le bon statut >>> A remplir
+        //Enlever le +1
         int index = Status.statusEmployeeIndexCombo(status_name);
         jComboBox1.setSelectedIndex(index);
         

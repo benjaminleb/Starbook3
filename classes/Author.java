@@ -82,12 +82,13 @@ public class Author {
         co.connectDatabase();
         try {
 
-            String query = "UPDATE sb_author SET VALUES(?, ?, ?, ?) WHERE ID = " + id;
+            //String query = "UPDATE sb_author SET VALUES(?, ?, ?, ?) WHERE ID = " + id;
+            String query = "UPDATE sb_author SET author_surname = ?, author_surname = ?, author_dob = ?, author_dod = ? WHERE author_id = " + id;
             PreparedStatement stmt = co.getConnexion().prepareStatement(query);
             stmt.setString(1, surname);
             stmt.setString(2, firstname);
-            stmt.setDate(3, (java.sql.Date) dob);
-            stmt.setDate(4, (java.sql.Date) dod);
+            stmt.setDate(3, Helpers.convertUtiltoSQLDate(dob));
+            stmt.setDate(4, Helpers.convertUtiltoSQLDate(dob));
             stmt.close();
         } catch (SQLException ex) {
             System.err.println("Oops : SQL Connexion : " + ex.getMessage());
