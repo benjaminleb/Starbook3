@@ -109,6 +109,7 @@ public class Employee {
             pstmt.setString(5, Log.convertPassword(pwd));
             pstmt.setString(3, mail);
             pstmt.setString(4, phone);
+            pstmt.execute();
             pstmt.close();
 
         } catch (SQLException ex) {
@@ -180,7 +181,7 @@ public class Employee {
             PreparedStatement pstmt = co.getConnexion().prepareStatement(query);
             pstmt.setInt(1, status.getNumber());
             pstmt.setInt(2, id);
-            
+            pstmt.execute();
             
             
             pstmt.close();
@@ -204,7 +205,7 @@ public class Employee {
             PreparedStatement pstmt = co.getConnexion().prepareStatement(query);
             pstmt.setInt(1, status_number);
             pstmt.setInt(2, employee_id);
-    
+            pstmt.execute();
             pstmt.close();
         } catch (SQLException ex) {
             System.err.println("error: sql exception: " + ex.getMessage());

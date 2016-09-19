@@ -109,8 +109,10 @@ public class Author {
             PreparedStatement pstmt = co.getConnexion().prepareStatement(query);
             pstmt.setString(1, surname);
             pstmt.setString(2, firstname);
-            pstmt.setDate(3, (java.sql.Date) dob);
-            pstmt.setDate(4, (java.sql.Date) dod);
+            pstmt.setString(3,  dob.toString());
+            pstmt.setString(4, dod.toString());
+            pstmt.execute();
+                    
             pstmt.close();
 
         } catch (SQLException ex) {

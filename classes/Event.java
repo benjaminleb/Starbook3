@@ -114,6 +114,7 @@ public class Event {
             PreparedStatement pstmt = co.getConnexion().prepareStatement(query);
             pstmt.setInt(1, event_id);
             pstmt.setString(2, book_isbn);
+            pstmt.execute();
             pstmt.close();
         } catch (SQLException ex) {
             System.err.println("error: sql exception: " + ex.getMessage());
@@ -129,6 +130,7 @@ public class Event {
             PreparedStatement pstmt = co.getConnexion().prepareStatement(query);
             pstmt.setInt(1, event_id);
             pstmt.setString(2, book_isbn);
+            pstmt.execute();
             pstmt.close();
         } catch (SQLException ex) {
             System.err.println("error: sql exception: " + ex.getMessage());
@@ -150,7 +152,7 @@ public class Event {
             pstmt.setString(3, end);
             pstmt.setFloat(4, discountRate);
             pstmt.setString(5, picture);
-
+            pstmt.execute();
             pstmt.close();
 
         } catch (SQLException ex) {
@@ -172,6 +174,7 @@ public class Event {
             PreparedStatement pstmt = co.getConnexion().prepareStatement(query);
             pstmt.setInt(1, id);
             pstmt.setString(2, b.getIsbn());
+            pstmt.execute();
             pstmt.close();
 
         } catch (SQLException ex) {

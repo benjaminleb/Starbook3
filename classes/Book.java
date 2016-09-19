@@ -249,7 +249,7 @@ public class Book {
             pstmt.setString(12, pages);
             pstmt.setString(13, print);
             pstmt.setInt(14, weight);
-
+            pstmt.execute();
             
             pstmt.close();
 
@@ -298,7 +298,7 @@ public class Book {
             PreparedStatement pstmt = co.getConnexion().prepareStatement(query);
             pstmt.setInt(1, status_number);
             pstmt.setString(2, book_isbn);
-    
+            pstmt.execute();
             pstmt.close();
         } catch (SQLException ex) {
             System.err.println("error: sql exception: " + ex.getMessage());
@@ -320,7 +320,7 @@ public class Book {
             PreparedStatement pstmt = co.getConnexion().prepareStatement(query);
             pstmt.setInt(1, status.getNumber());
             pstmt.setString(2, isbn);
-              
+            pstmt.execute();
       
             pstmt.close();
 
@@ -344,7 +344,7 @@ public class Book {
             PreparedStatement pstmt = co.getConnexion().prepareStatement(query);
             pstmt.setInt(1, aut.getId());
             pstmt.setString(2, isbn);
-              
+            pstmt.execute();
             pstmt.close();
 
         } catch (SQLException ex) {

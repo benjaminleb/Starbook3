@@ -66,6 +66,7 @@ public class Publisher {
             PreparedStatement pstmt = co.getConnexion().prepareStatement(query);
             pstmt.setString(1, code);
             pstmt.setString(2, name);
+            pstmt.executeQuery();
             pstmt.close();
 
        } catch (SQLException ex) {
@@ -132,7 +133,7 @@ public class Publisher {
             PreparedStatement pstmt = co.getConnexion().prepareStatement(query);
             pstmt.setInt(1, status.getNumber());
             pstmt.setString(2, code);
-            
+            pstmt.execute();
            
             
             pstmt.close();
@@ -155,7 +156,7 @@ public class Publisher {
             PreparedStatement pstmt = co.getConnexion().prepareStatement(query);
             pstmt.setInt(1, status_number);
             pstmt.setString(2, publisher_isbn);
-    
+            pstmt.execute();
             pstmt.close();
         } catch (SQLException ex) {
             System.err.println("error: sql exception: " + ex.getMessage());
