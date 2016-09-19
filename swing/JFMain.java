@@ -335,8 +335,8 @@ public class JFMain extends javax.swing.JFrame {
             while (rs.next()) {
                 v.add(new Event(rs.getInt("event_id"),
                         rs.getString("event_name"),
-                        rs.getDate("event_start"),
-                        rs.getDate("event_end"),
+                        rs.getString("event_start"),
+                        rs.getString("event_end"),
                         rs.getFloat("event_discountRate"),
                         rs.getString("event_picture")));
             }
@@ -656,7 +656,7 @@ public class JFMain extends javax.swing.JFrame {
         jMenuItem4 = new javax.swing.JMenuItem();
         jSeparator6 = new javax.swing.JPopupMenu.Separator();
         jMenuItem5 = new javax.swing.JMenuItem();
-        jMenu4 = new javax.swing.JMenu();
+        jMenuItem7 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -2129,9 +2129,13 @@ public class JFMain extends javax.swing.JFrame {
 
         jMenu1.add(jMenu3);
 
-        jMenu4.setText("Modifier");
-        jMenu4.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
-        jMenu1.add(jMenu4);
+        jMenuItem7.setText("Gestion des commandes");
+        jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem7ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem7);
 
         jMenuBar1.add(jMenu1);
 
@@ -2226,8 +2230,8 @@ public class JFMain extends javax.swing.JFrame {
         // TODO add your handling code here:
         Event ev = (Event) jComboBox4.getSelectedItem();
         jLabel56.setText(ev.getName());
-        jLabel55.setText(Helpers.convertDateToString(ev.getStart()));
-        jLabel63.setText(Helpers.convertDateToString(ev.getEnd()));
+        jLabel55.setText(ev.getStart());
+        jLabel63.setText(ev.getEnd());
         jLabel64.setText(Float.toString(ev.getDiscountRate()));
         jLabel45.setText(ev.getPicture());
         jComboBox5.setModel(initEventBooks());
@@ -2260,6 +2264,7 @@ public class JFMain extends javax.swing.JFrame {
         // TODO add your handling code here:
         JF13ModifyPublisher jmp = new JF13ModifyPublisher();
         jmp.setVisible(true);
+        jmp.setLocation(500, 100);
         jmp.fillPublisher((Publisher) jComboBox3.getSelectedItem(), jLabel72.getText());
     }//GEN-LAST:event_jButton11ActionPerformed
 
@@ -2316,6 +2321,7 @@ public class JFMain extends javax.swing.JFrame {
         // TODO add your handling code here:
         JF05ModifyAuthor jma = new JF05ModifyAuthor();
         jma.setVisible(true);
+        jma.setBounds(500, 100, 550, 400);
         jma.fillAuthor((Author) jComboBox2.getSelectedItem());
     }//GEN-LAST:event_jButton8ActionPerformed
 
@@ -2563,6 +2569,12 @@ public class JFMain extends javax.swing.JFrame {
         jfk.initKeywords((Book)jComboBox1.getSelectedItem());
     }//GEN-LAST:event_jButton18ActionPerformed
 
+    private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
+        // TODO add your handling code here:
+        JFCustomer jfc = new JFCustomer();
+        jfc.setVisible(true);       
+    }//GEN-LAST:event_jMenuItem7ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -2709,7 +2721,6 @@ public class JFMain extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
-    private javax.swing.JMenu jMenu4;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
@@ -2717,6 +2728,7 @@ public class JFMain extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem4;
     private javax.swing.JMenuItem jMenuItem5;
     private javax.swing.JMenuItem jMenuItem6;
+    private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel10;
     private javax.swing.JPanel jPanel11;
