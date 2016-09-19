@@ -225,8 +225,8 @@ public class JF11ModifyEmployee extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // Update Employee table
         Employee emp = new Employee();
-        String firstName = jTextField1.getText();
-        String surname = jTextField2.getText();
+        String firstName = jTextField2.getText();
+        String surname = jTextField1.getText();
         String phone = jTextField3.getText();
         String email = jTextField5.getText();
         int id = Integer.parseInt(jTextField6.getText());

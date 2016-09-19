@@ -124,12 +124,14 @@ public class Employee {
         ConnectSQLS co = new ConnectSQLS();
         co.connectDatabase();
         try {
-            String query = "UPDATE sb_employee SET employee_firstname = ?, employee_surname = ?, employee_mail = ?, employee_phone = ? WHERE ID = " + id;
+            String query = "UPDATE sb_employee SET employee_firstname = ?, employee_surname = ?,"
+                    + " employee_mail = ?, employee_phone = ? WHERE employee_id = " + id;
             PreparedStatement stmt = co.getConnexion().prepareStatement(query);
             stmt.setString(1, firstname);
             stmt.setString(2, surname);
             stmt.setString(3, email);
             stmt.setString(4, phone);
+            stmt.execute();
             stmt.close();
         } catch (SQLException ex) {
             System.err.println("Oops : SQL Connexion : " + ex.getMessage());
