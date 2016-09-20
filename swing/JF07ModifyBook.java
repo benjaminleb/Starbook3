@@ -527,10 +527,11 @@ public class JF07ModifyBook extends javax.swing.JFrame {
         
         Publisher pb0 = (Publisher) jComboBox2.getSelectedItem();
         Book bk0 = new Book();
-        String publisher_isbn = pb0.getCode();
+        //String publisher_isbn = pb0.getCode();
         // Choisir le bon constructeur + insérer la bonne taxe
         int tax_id = Tax.getIdFromRate(Float.parseFloat(jTextField12.getText()));
-        bk0.updateBook(book_isbn, publisher_isbn, tax_id, title, subtitle, publication_date, picture, summary, idiom, price, quantity, pages, print, weight);
+        bk0.updateBook(book_isbn, pb0, tax_id, title, subtitle, 
+                publication_date, picture, summary, idiom, price, quantity, pages, print, weight);
         
         // Insérer le statut dans la table statut
         Status current_status = (Status) jComboBox1.getSelectedItem();
