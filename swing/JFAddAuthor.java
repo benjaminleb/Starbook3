@@ -31,7 +31,7 @@ public class JFAddAuthor extends javax.swing.JFrame {
         PRENOM = new javax.swing.JTextField();
         DATENAISSANCE = new javax.swing.JTextField();
         DATEDECES = new javax.swing.JTextField();
-        Ajouter = new javax.swing.JButton();
+        ajouter = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
@@ -54,11 +54,11 @@ public class JFAddAuthor extends javax.swing.JFrame {
         DateDécès.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
         DateDécès.setText("Date de Décès:");
 
-        Ajouter.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
-        Ajouter.setText("Ajouter");
-        Ajouter.addActionListener(new java.awt.event.ActionListener() {
+        ajouter.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
+        ajouter.setText("Ajouter");
+        ajouter.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                AjouterActionPerformed(evt);
+                ajouterActionPerformed(evt);
             }
         });
 
@@ -106,7 +106,7 @@ public class JFAddAuthor extends javax.swing.JFrame {
                 .addComponent(DATEDECES, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGroup(layout.createSequentialGroup()
                 .addGap(170, 170, 170)
-                .addComponent(Ajouter))
+                .addComponent(ajouter))
             .addGroup(layout.createSequentialGroup()
                 .addGap(24, 24, 24)
                 .addComponent(jLabel2))
@@ -141,7 +141,7 @@ public class JFAddAuthor extends javax.swing.JFrame {
                         .addComponent(DateDécès))
                     .addComponent(DATEDECES, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(55, 55, 55)
-                .addComponent(Ajouter)
+                .addComponent(ajouter)
                 .addGap(11, 11, 11)
                 .addComponent(jLabel2))
         );
@@ -149,7 +149,7 @@ public class JFAddAuthor extends javax.swing.JFrame {
         setBounds(0, 0, 416, 338);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void AjouterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AjouterActionPerformed
+    private void ajouterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ajouterActionPerformed
 
         try {
             Author at = new Author(0, NOM.getText(), PRENOM.getText(),
@@ -160,7 +160,7 @@ public class JFAddAuthor extends javax.swing.JFrame {
             Logger.getLogger(JFAddAuthor.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-    }//GEN-LAST:event_AjouterActionPerformed
+    }//GEN-LAST:event_ajouterActionPerformed
 
     /**
      * @param args the command line arguments
@@ -203,7 +203,6 @@ public class JFAddAuthor extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton Ajouter;
     private javax.swing.JTextField DATEDECES;
     private javax.swing.JTextField DATENAISSANCE;
     private javax.swing.JLabel DateDécès;
@@ -212,6 +211,7 @@ public class JFAddAuthor extends javax.swing.JFrame {
     private javax.swing.JLabel Nom;
     private javax.swing.JTextField PRENOM;
     private javax.swing.JLabel Prénom;
+    private javax.swing.JButton ajouter;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JMenu jMenu1;

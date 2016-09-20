@@ -54,7 +54,7 @@ public class JFAddPublisher extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
         jTextField2 = new javax.swing.JTextField();
-        Ajouter = new javax.swing.JButton();
+        ajouter = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jComboBox1 = new javax.swing.JComboBox();
@@ -75,11 +75,11 @@ public class JFAddPublisher extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
         jLabel3.setText("Nom:*");
 
-        Ajouter.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
-        Ajouter.setText("Ajouter");
-        Ajouter.addActionListener(new java.awt.event.ActionListener() {
+        ajouter.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
+        ajouter.setText("Ajouter");
+        ajouter.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                AjouterActionPerformed(evt);
+                ajouterActionPerformed(evt);
             }
         });
 
@@ -111,7 +111,7 @@ public class JFAddPublisher extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(Ajouter)
+                .addComponent(ajouter)
                 .addGap(181, 181, 181))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -154,7 +154,7 @@ public class JFAddPublisher extends javax.swing.JFrame {
                     .addComponent(jLabel5)
                     .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(40, 40, 40)
-                .addComponent(Ajouter)
+                .addComponent(ajouter)
                 .addGap(18, 18, 18)
                 .addComponent(jLabel4)
                 .addContainerGap(23, Short.MAX_VALUE))
@@ -163,7 +163,7 @@ public class JFAddPublisher extends javax.swing.JFrame {
         setBounds(0, 0, 460, 344);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void AjouterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AjouterActionPerformed
+    private void ajouterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ajouterActionPerformed
 
         //on vérifie que les champs obligatoires sont saisis et CORRECTEMENT
         if (!InputCheck.checkPublisherISBN(jTextField1.getText()) || !InputCheck.checkAlphaChar(jTextField2.getText())) {
@@ -175,7 +175,7 @@ public class JFAddPublisher extends javax.swing.JFrame {
             Publisher pb = new Publisher(jTextField1.getText(), jTextField2.getText());
             pb.insertPublisher();
             pb.insertPublisherStatus((Status) jComboBox1.getSelectedItem());
-    }//GEN-LAST:event_AjouterActionPerformed
+    }//GEN-LAST:event_ajouterActionPerformed
 }
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
         // TODO add your handling code here:
@@ -218,7 +218,7 @@ public class JFAddPublisher extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton Ajouter;
+    private javax.swing.JButton ajouter;
     private javax.swing.JComboBox jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

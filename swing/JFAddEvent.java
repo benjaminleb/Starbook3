@@ -78,15 +78,15 @@ public class JFAddEvent extends javax.swing.JFrame {
         jTextField4 = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         jTextField5 = new javax.swing.JTextField();
-        Ajouter = new javax.swing.JButton();
+        ajouter = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         bookDatabase = new javax.swing.JList();
         jScrollPane2 = new javax.swing.JScrollPane();
         bookSelection = new javax.swing.JList();
-        AjouterLivre = new javax.swing.JButton();
-        SupprimerLivre = new javax.swing.JButton();
+        ajouterLivre = new javax.swing.JButton();
+        supprimerLivre = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
@@ -120,11 +120,11 @@ public class JFAddEvent extends javax.swing.JFrame {
 
         jTextField5.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
 
-        Ajouter.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
-        Ajouter.setText("Ajouter");
-        Ajouter.addActionListener(new java.awt.event.ActionListener() {
+        ajouter.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
+        ajouter.setText("Ajouter");
+        ajouter.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                AjouterActionPerformed(evt);
+                ajouterActionPerformed(evt);
             }
         });
 
@@ -141,19 +141,19 @@ public class JFAddEvent extends javax.swing.JFrame {
         bookSelection.setModel(initBookSelection());
         jScrollPane2.setViewportView(bookSelection);
 
-        AjouterLivre.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
-        AjouterLivre.setText("Ajouter Livre  >>>");
-        AjouterLivre.addActionListener(new java.awt.event.ActionListener() {
+        ajouterLivre.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
+        ajouterLivre.setText("Ajouter Livre  >>>");
+        ajouterLivre.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                AjouterLivreActionPerformed(evt);
+                ajouterLivreActionPerformed(evt);
             }
         });
 
-        SupprimerLivre.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
-        SupprimerLivre.setText("Supprimer Livre <<<");
-        SupprimerLivre.addActionListener(new java.awt.event.ActionListener() {
+        supprimerLivre.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
+        supprimerLivre.setText("Supprimer Livre <<<");
+        supprimerLivre.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                SupprimerLivreActionPerformed(evt);
+                supprimerLivreActionPerformed(evt);
             }
         });
 
@@ -168,7 +168,7 @@ public class JFAddEvent extends javax.swing.JFrame {
                         .addComponent(jLabel1)
                         .addGap(308, 308, 308))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(Ajouter)
+                        .addComponent(ajouter)
                         .addGap(299, 299, 299))))
             .addGroup(layout.createSequentialGroup()
                 .addGap(50, 50, 50)
@@ -198,8 +198,8 @@ public class JFAddEvent extends javax.swing.JFrame {
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 265, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(SupprimerLivre)
-                            .addComponent(AjouterLivre, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(supprimerLivre)
+                            .addComponent(ajouterLivre, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 237, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(23, 23, 23))))
@@ -242,18 +242,18 @@ public class JFAddEvent extends javax.swing.JFrame {
                         .addGap(14, 14, 14))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(67, 67, 67)
-                        .addComponent(AjouterLivre)
+                        .addComponent(ajouterLivre)
                         .addGap(27, 27, 27)
-                        .addComponent(SupprimerLivre)
+                        .addComponent(supprimerLivre)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(Ajouter)
+                        .addComponent(ajouter)
                         .addGap(31, 31, 31))))
         );
 
         setBounds(0, 0, 754, 549);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void AjouterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AjouterActionPerformed
+    private void ajouterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ajouterActionPerformed
 
         Event evnt;
         //on vérifie que les champs obligatoires sont saisis et CORRECTEMENT
@@ -310,9 +310,9 @@ public class JFAddEvent extends javax.swing.JFrame {
                     }
             }
         }
-    }//GEN-LAST:event_AjouterActionPerformed
+    }//GEN-LAST:event_ajouterActionPerformed
 
-    private void AjouterLivreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AjouterLivreActionPerformed
+    private void ajouterLivreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ajouterLivreActionPerformed
 
         //ajoute la selection de jlist1 dans jlist2
         List<Book> bkL = bookDatabase.getSelectedValuesList();
@@ -323,9 +323,9 @@ public class JFAddEvent extends javax.swing.JFrame {
             dmBDD.removeElement(b);
         }
         
-    }//GEN-LAST:event_AjouterLivreActionPerformed
+    }//GEN-LAST:event_ajouterLivreActionPerformed
 
-    private void SupprimerLivreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SupprimerLivreActionPerformed
+    private void supprimerLivreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_supprimerLivreActionPerformed
         // déplace la sélection de jList2 à jList1
         List<Book> bkL = bookSelection.getSelectedValuesList();
         DefaultListModel dmBDD= (DefaultListModel) bookDatabase.getModel();
@@ -334,7 +334,7 @@ public class JFAddEvent extends javax.swing.JFrame {
             dmSelection.removeElement(b);
             dmBDD.addElement(b);
         } 
-    }//GEN-LAST:event_SupprimerLivreActionPerformed
+    }//GEN-LAST:event_supprimerLivreActionPerformed
 
     /**
      * @param args the command line arguments
@@ -377,9 +377,8 @@ public class JFAddEvent extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton Ajouter;
-    private javax.swing.JButton AjouterLivre;
-    private javax.swing.JButton SupprimerLivre;
+    private javax.swing.JButton ajouter;
+    private javax.swing.JButton ajouterLivre;
     private javax.swing.JList bookDatabase;
     private javax.swing.JList bookSelection;
     private javax.swing.JLabel jLabel1;
@@ -397,5 +396,6 @@ public class JFAddEvent extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField jTextField5;
+    private javax.swing.JButton supprimerLivre;
     // End of variables declaration//GEN-END:variables
 }

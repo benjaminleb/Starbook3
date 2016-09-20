@@ -62,7 +62,7 @@ public class JFAddEmployee extends javax.swing.JFrame {
         jTextField4 = new javax.swing.JTextField();
         jTextField5 = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
-        Ajouter = new javax.swing.JButton();
+        ajouter = new javax.swing.JButton();
         jComboBox1 = new javax.swing.JComboBox();
         jLabel8 = new javax.swing.JLabel();
         jMenuBar1 = new javax.swing.JMenuBar();
@@ -105,11 +105,11 @@ public class JFAddEmployee extends javax.swing.JFrame {
         jLabel7.setForeground(new java.awt.Color(102, 102, 102));
         jLabel7.setText("* Champs obligatoires");
 
-        Ajouter.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
-        Ajouter.setText("Ajouter");
-        Ajouter.addActionListener(new java.awt.event.ActionListener() {
+        ajouter.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
+        ajouter.setText("Ajouter");
+        ajouter.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                AjouterActionPerformed(evt);
+                ajouterActionPerformed(evt);
             }
         });
 
@@ -167,7 +167,7 @@ public class JFAddEmployee extends javax.swing.JFrame {
                         .addGap(96, 96, 96))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(64, 64, 64)
-                        .addComponent(Ajouter)
+                        .addComponent(ajouter)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
@@ -206,14 +206,14 @@ public class JFAddEmployee extends javax.swing.JFrame {
                             .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel8))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 15, Short.MAX_VALUE)
-                        .addComponent(Ajouter)
+                        .addComponent(ajouter)
                         .addGap(26, 26, 26))))
         );
 
         setBounds(0, 0, 472, 383);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void AjouterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AjouterActionPerformed
+    private void ajouterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ajouterActionPerformed
 
         Employee emp;
         //on vérifie que les champs obligatoires sont saisis et CORRECTEMENT
@@ -267,7 +267,7 @@ public class JFAddEmployee extends javax.swing.JFrame {
                 emp.insertEmployeeStatus(((Status) jComboBox1.getSelectedItem()));
             }
         }
-    }//GEN-LAST:event_AjouterActionPerformed
+    }//GEN-LAST:event_ajouterActionPerformed
 
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
@@ -327,7 +327,7 @@ catch (javax.swing.UnsupportedLookAndFeelException ex) {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton Ajouter;
+    private javax.swing.JButton ajouter;
     private javax.swing.JComboBox jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

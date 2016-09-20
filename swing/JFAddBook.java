@@ -143,10 +143,10 @@ public class JFAddBook extends javax.swing.JFrame {
         jTextField13 = new javax.swing.JTextField();
         jLabel15 = new javax.swing.JLabel();
         jTextField14 = new javax.swing.JTextField();
-        Ajouter = new javax.swing.JButton();
+        ajouter = new javax.swing.JButton();
         jLabel16 = new javax.swing.JLabel();
         jComboBox1 = new javax.swing.JComboBox();
-        AjouterEditeur = new javax.swing.JButton();
+        ajouterEditeur = new javax.swing.JButton();
         jLabel17 = new javax.swing.JLabel();
         jComboBox2 = new javax.swing.JComboBox();
         jLabel18 = new javax.swing.JLabel();
@@ -234,11 +234,11 @@ public class JFAddBook extends javax.swing.JFrame {
 
         jTextField14.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
 
-        Ajouter.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
-        Ajouter.setText("Ajouter");
-        Ajouter.addActionListener(new java.awt.event.ActionListener() {
+        ajouter.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
+        ajouter.setText("Ajouter");
+        ajouter.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                AjouterActionPerformed(evt);
+                ajouterActionPerformed(evt);
             }
         });
 
@@ -253,11 +253,11 @@ public class JFAddBook extends javax.swing.JFrame {
             }
         });
 
-        AjouterEditeur.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
-        AjouterEditeur.setText("Ajouter Editeur");
-        AjouterEditeur.addActionListener(new java.awt.event.ActionListener() {
+        ajouterEditeur.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
+        ajouterEditeur.setText("Ajouter Editeur");
+        ajouterEditeur.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                AjouterEditeurActionPerformed(evt);
+                ajouterEditeurActionPerformed(evt);
             }
         });
 
@@ -309,7 +309,7 @@ public class JFAddBook extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(Ajouter)
+                        .addComponent(ajouter)
                         .addGap(51, 51, 51)
                         .addComponent(jLabel16)
                         .addGap(83, 83, 83))
@@ -358,7 +358,7 @@ public class JFAddBook extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(AjouterEditeur, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(ajouterEditeur, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(jTextField1)
                             .addComponent(jComboBox2, 0, 399, Short.MAX_VALUE)
                             .addGroup(layout.createSequentialGroup()
@@ -383,7 +383,7 @@ public class JFAddBook extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(AjouterEditeur)
+                    .addComponent(ajouterEditeur)
                     .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -456,14 +456,14 @@ public class JFAddBook extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 74, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel16, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(Ajouter, javax.swing.GroupLayout.Alignment.TRAILING))
+                    .addComponent(ajouter, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addContainerGap())
         );
 
         setBounds(0, 0, 606, 738);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void AjouterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AjouterActionPerformed
+    private void ajouterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ajouterActionPerformed
 
         Book bk;
         //on vérifie que les champs obligatoires sont saisis et CORRECTEMENT
@@ -508,16 +508,16 @@ public class JFAddBook extends javax.swing.JFrame {
                 Logger.getLogger(JFAddBook.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-    }//GEN-LAST:event_AjouterActionPerformed
+    }//GEN-LAST:event_ajouterActionPerformed
 
     private void jComboBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jComboBox1ActionPerformed
 
-    private void AjouterEditeurActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AjouterEditeurActionPerformed
+    private void ajouterEditeurActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ajouterEditeurActionPerformed
         JFAddPublisher japb = new JFAddPublisher();
         japb.setVisible(true);
-    }//GEN-LAST:event_AjouterEditeurActionPerformed
+    }//GEN-LAST:event_ajouterEditeurActionPerformed
 
     private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
         // TODO add your handling code here:
@@ -586,8 +586,8 @@ public class JFAddBook extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton Ajouter;
-    private javax.swing.JButton AjouterEditeur;
+    private javax.swing.JButton ajouter;
+    private javax.swing.JButton ajouterEditeur;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JComboBox jComboBox1;

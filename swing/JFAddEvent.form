@@ -39,7 +39,7 @@
                       <EmptySpace min="-2" pref="308" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="1" attributes="0">
-                      <Component id="Ajouter" min="-2" max="-2" attributes="0"/>
+                      <Component id="ajouter" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="299" max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -78,8 +78,8 @@
                       <Component id="jScrollPane1" min="-2" pref="265" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="SupprimerLivre" min="-2" max="-2" attributes="0"/>
-                          <Component id="AjouterLivre" min="-2" pref="137" max="-2" attributes="0"/>
+                          <Component id="supprimerLivre" min="-2" max="-2" attributes="0"/>
+                          <Component id="ajouterLivre" min="-2" pref="137" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace pref="16" max="32767" attributes="0"/>
                       <Component id="jScrollPane2" min="-2" pref="237" max="-2" attributes="0"/>
@@ -134,11 +134,11 @@
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="67" max="-2" attributes="0"/>
-                      <Component id="AjouterLivre" min="-2" max="-2" attributes="0"/>
+                      <Component id="ajouterLivre" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
-                      <Component id="SupprimerLivre" min="-2" max="-2" attributes="0"/>
+                      <Component id="supprimerLivre" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
-                      <Component id="Ajouter" min="-2" max="-2" attributes="0"/>
+                      <Component id="ajouter" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
                   </Group>
               </Group>
@@ -230,7 +230,7 @@
         </Property>
       </Properties>
     </Component>
-    <Component class="javax.swing.JButton" name="Ajouter">
+    <Component class="javax.swing.JButton" name="ajouter">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Calibri" size="12" style="0"/>
@@ -238,7 +238,7 @@
         <Property name="text" type="java.lang.String" value="Ajouter"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="AjouterActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ajouterActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel7">
@@ -292,7 +292,7 @@
         </Component>
       </SubComponents>
     </Container>
-    <Component class="javax.swing.JButton" name="AjouterLivre">
+    <Component class="javax.swing.JButton" name="ajouterLivre">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Calibri" size="12" style="0"/>
@@ -300,10 +300,10 @@
         <Property name="text" type="java.lang.String" value="Ajouter Livre  &gt;&gt;&gt;"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="AjouterLivreActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ajouterLivreActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="SupprimerLivre">
+    <Component class="javax.swing.JButton" name="supprimerLivre">
       <Properties>
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Calibri" size="12" style="0"/>
@@ -311,7 +311,7 @@
         <Property name="text" type="java.lang.String" value="Supprimer Livre &lt;&lt;&lt;"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="SupprimerLivreActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="supprimerLivreActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>
