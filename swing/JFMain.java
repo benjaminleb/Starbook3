@@ -1636,6 +1636,12 @@ public class JFMain extends javax.swing.JFrame {
         jLabel64.setFont(new java.awt.Font("Calibri", 0, 12)); // NOI18N
         jLabel64.setText("Discount_rate");
 
+        jComboBox5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jComboBox5ActionPerformed(evt);
+            }
+        });
+
         jButton17.setFont(new java.awt.Font("Calibri", 0, 13)); // NOI18N
         jButton17.setText("Modifier");
         jButton17.addActionListener(new java.awt.event.ActionListener() {
@@ -2574,6 +2580,10 @@ public class JFMain extends javax.swing.JFrame {
         JFCustomer jfc = new JFCustomer();
         jfc.setVisible(true);       
     }//GEN-LAST:event_jMenuItem7ActionPerformed
+
+    private void jComboBox5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox5ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jComboBox5ActionPerformed
 
     /**
      * @param args the command line arguments

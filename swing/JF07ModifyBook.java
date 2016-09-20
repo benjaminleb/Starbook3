@@ -15,6 +15,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.ParseException;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.Vector;
 import java.util.logging.Level;
@@ -113,7 +115,43 @@ public class JF07ModifyBook extends javax.swing.JFrame {
         int index = Status.statusBookIndexCombo(status_name);
         jComboBox1.setSelectedIndex(index);
         //Fill ComboBox with pre-selected publisher
+        //jComboBox2.setModel(initPublisherComboBox());
+        //getIndex(bk.getPublisher());
         jComboBox2.setSelectedItem(bk.getPublisher());
+        jComboBox2.setSelectedIndex(getIndex(bk.getPublisher()));
+        System.out.println(jComboBox2.getSelectedIndex());
+        System.out.println(bk.getPublisher());
+    }
+    
+    public int getIndex(Publisher p){
+        int j = -1;
+        for (int i = 0; i < jComboBox2.getItemCount(); i++)
+        {
+            Publisher p1 = (Publisher)jComboBox2.getItemAt(i);
+            if (comparePublisher(p1, p))
+            {
+               j=i;
+            }
+        }
+        return j;
+    }
+    
+    public static class comparePublisher implements Comparator<Publisher> {
+
+        @Override
+        public int compare(Publisher p1, Publisher p2) {
+            return p1.getCode().compareTo(p2.getCode());
+        }
+    }
+    
+    public Boolean comparePublisher(Publisher p1, Publisher p2) {
+        comparePublisher cp = new comparePublisher();
+        
+        if (cp.compare(p1, p2)==0) {
+            return true;
+        }else{
+            return false;
+        }
     }
     
     /**
@@ -224,8 +262,6 @@ public class JF07ModifyBook extends javax.swing.JFrame {
 
         jLabel2.setText("Editeur :");
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
@@ -317,7 +353,7 @@ public class JF07ModifyBook extends javax.swing.JFrame {
                             .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel1)
                             .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 77, Short.MAX_VALUE))))
+                        .addGap(0, 72, Short.MAX_VALUE))))
         );
 
         jTextArea1.setEditable(false);

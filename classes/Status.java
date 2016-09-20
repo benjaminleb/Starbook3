@@ -61,7 +61,7 @@ public class Status {
     
     public static int statusPublisherIndexCombo (String status_name) {
         int index = -1;
-        if (status_name.equalsIgnoreCase("Éditeur actif")) {
+        if (status_name.equalsIgnoreCase("Editeur actif")) {
             index = 0;
         }
         else if (status_name.equalsIgnoreCase("Editeur inactif")) {
